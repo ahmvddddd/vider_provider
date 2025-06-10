@@ -135,7 +135,9 @@ class ProviderDashboardScreen extends ConsumerWidget {
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),
-            TSectionHeading(
+            dashboard.topEmployers.isEmpty
+            ? const SizedBox.shrink()
+            : TSectionHeading(
               title: 'Clients',
               showActionButton: true,
               onPressed: () {

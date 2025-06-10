@@ -89,7 +89,7 @@ class _PortfolioUploadScreenState extends ConsumerState<PortfolioUploadScreen> {
                   radius: Sizes.cardRadiusSm,
                   child: ClipRRect(
                               borderRadius: BorderRadius.circular(Sizes.md),
-                              child: Image.file(file, width: 80, height: 80, fit: BoxFit.cover)))).toList(),
+                              child: Image.file(file, width: 50, height: 50, fit: BoxFit.cover)))).toList(),
               ),
               
             const SizedBox(height: Sizes.spaceBtwItems),
@@ -100,7 +100,6 @@ class _PortfolioUploadScreenState extends ConsumerState<PortfolioUploadScreen> {
                       children: [
                         Text('Uploaded Successfully',
                         style: Theme.of(context).textTheme.labelMedium),
-                        ...urls.map((url) => Text(url)).toList(),
                       ],
                     )
                   : Row(

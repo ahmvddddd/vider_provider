@@ -89,9 +89,9 @@ dependencies:
   awesome_notifications: ^0.10.1
   flutter_launcher_icons: ^0.14.3
 
-flutter_icons:
+flutter_launcher_icons:
     android: true
-    ios: true
+    ios: false
     image_path: "assets/app_icon/vider_seller.png"
 
 dev_dependencies:

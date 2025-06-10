@@ -18,10 +18,9 @@ class NotificationBadgeService {
       await _handleIncomingMessage(message);
     });
 
+    // Use the top-level method instead of inline function
     AwesomeNotifications().setListeners(
-      onActionReceivedMethod: (receivedAction) async {
-        _handleNotificationTap(receivedAction.payload?['type']);
-      },
+      onActionReceivedMethod: onNotificationActionTap,
     );
   }
 
@@ -41,7 +40,6 @@ class NotificationBadgeService {
         container.read(unreadNotificationsProvider).toInt();
 
     await AwesomeNotifications().setGlobalBadgeCounter(totalUnread);
-
     await _showLocalNotification(message);
   }
 
@@ -58,23 +56,26 @@ class NotificationBadgeService {
     );
   }
 
-  void _handleNotificationTap(String? type) {
-    if (type == 'chat') {
-      navigatorKey.currentState?.push(
-        MaterialPageRoute(builder: (_) => ChatScreen()),
-      );
-    } else if (type == 'notification') {
-      navigatorKey.currentState?.push(
-        MaterialPageRoute(builder: (_) => NotificationsScreen()),
-      );
-    }
-  }
-
   Future<void> updateBadgeCount() async {
     final totalUnread =
         container.read(unreadMessageProvider).toInt() +
         container.read(unreadNotificationsProvider).toInt();
 
     await AwesomeNotifications().setGlobalBadgeCounter(totalUnread);
+  }
+}
+
+@pragma("vm:entry-point")
+Future<void> onNotificationActionTap(ReceivedAction receivedAction) async {
+  final type = receivedAction.payload?['type'];
+
+  if (type == 'chat') {
+    navigatorKey.currentState?.push(
+      MaterialPageRoute(builder: (_) => ChatScreen()),
+    );
+  } else if (type == 'notification') {
+    navigatorKey.currentState?.push(
+      MaterialPageRoute(builder: (_) => NotificationsScreen()),
+    );
   }
 }

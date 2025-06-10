@@ -30,14 +30,14 @@ class ButtonContainer extends StatelessWidget {
           child: GestureDetector(
             onTap: onPressed,
             child: RoundedContainer(
-                          height: screenHeight * 0.05,
+                          height: screenHeight * 0.06,
                           padding: const EdgeInsets.all(Sizes.sm),
                           backgroundColor: backgroundColor,
                           child: Center(
                               child: Text(text,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .labelMedium!
+                                      .labelSmall!
                                       .copyWith(color: Colors.white))),
                         ),
           ),

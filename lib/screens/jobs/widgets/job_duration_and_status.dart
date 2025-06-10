@@ -17,7 +17,7 @@ class JobDurationAndStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     double screenHeight = MediaQuery.of(context).size.height;
-    const double maxDuration = 12.0;
+    // const double maxDuration = 12.0;
     return Row(
       children: [
         Expanded(
@@ -37,17 +37,17 @@ class JobDurationAndStatus extends StatelessWidget {
             const SizedBox(height: Sizes.sm),
             Text(
               '${averageDuration.toStringAsFixed(1)} hrs',
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white)
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white)
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),
-            LinearProgressIndicator(
-              value: (averageDuration / maxDuration).clamp(0.0, 1.0),
-              minHeight: 4,
-              backgroundColor: Colors.grey.shade300,
-              color: CustomColors.success,
-              borderRadius: BorderRadius.circular(8),
-            ),
+            // LinearProgressIndicator(
+            //   value: (averageDuration / maxDuration).clamp(0.0, 1.0),
+            //   minHeight: 4,
+            //   backgroundColor: Colors.grey.shade300,
+            //   color: CustomColors.success,
+            //   borderRadius: BorderRadius.circular(8),
+            // ),
 
             const SizedBox(height: Sizes.sm),
             Row(

@@ -46,13 +46,22 @@ class ProfileImageController extends AsyncNotifier<void> {
 
   /// Initialize camera and update state
   Future<void> initializeCamera() async {
-    cameras = await availableCameras();
-    if (cameras != null && cameras!.isNotEmpty) {
-      cameraController = CameraController(cameras![0], ResolutionPreset.medium);
-      await cameraController!.initialize();
-      state = const AsyncData(null);
-    }
+  cameras = await availableCameras();
+  if (cameras != null && cameras!.isNotEmpty) {
+    // Find the front camera
+    final frontCamera = cameras!.firstWhere(
+      (camera) => camera.lensDirection == CameraLensDirection.front,
+      orElse: () => cameras!.first, // fallback to first if front not found
+    );
+
+    cameraController = CameraController(frontCamera, ResolutionPreset.medium);
+    await cameraController!.initialize();
+    state = const AsyncData(null);
   }
+}
+
+
+  
 
   /// Take a picture
   Future<void> captureImage() async {
@@ -100,7 +109,7 @@ class ProfileImageController extends AsyncNotifier<void> {
         CustomSnackbar.show(
           context: context,
           title: 'An error occurred',
-          message: 'Failed to upload image. Try again later',
+          message: 'Failed to upload image. ${response.statusCode}',
           icon: Icons.error_outline,
           backgroundColor: CustomColors.error,
         );

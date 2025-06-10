@@ -61,7 +61,7 @@ class VerifyIdController {
         CustomSnackbar.show(
           context: context,
           title: 'An error occured',
-          message: 'Failed to upload image. Try again later',
+          message: 'Failed to upload image. ${response.statusCode}',
           icon: Icons.error_outline,
           backgroundColor: CustomColors.error,
         );
