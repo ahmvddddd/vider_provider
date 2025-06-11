@@ -169,7 +169,7 @@ class SignupUserForm extends ConsumerWidget {
                 ? Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.blue,
+                      CustomColors.primary,
                     ), // color
                     strokeWidth: 6.0, // thickness of the line
                     backgroundColor:

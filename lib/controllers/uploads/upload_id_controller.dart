@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,19 @@ class VerifyIdController {
       dotenv.env['IDENTIFICATION_CARD_URL'] ?? 'https://defaulturl.com/api';
   static var logger = Logger();
 
+  static String? _parseErrorMessage(String responseBody) {
+  try {
+    final decoded = jsonDecode(responseBody);
+    if (decoded is Map<String, dynamic> && decoded['message'] != null) {
+      return decoded['message'];
+    }
+  } catch (_) {
+    // If parsing fails, just return null
+  }
+  return null;
+}
+
+
   static Future<void> uploadIdentificationCard({
     required BuildContext context,
     required File idImage,
@@ -23,6 +37,8 @@ class VerifyIdController {
   }) async {
     try {
       final token = await _secureStorage.read(key: 'token');
+
+      
 
       var request = http.MultipartRequest(
         'POST',
@@ -37,6 +53,7 @@ class VerifyIdController {
       request.headers['Authorization'] = 'Bearer $token';
 
       final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
 
       if (response.statusCode == 200) {
         CustomSnackbar.show(
@@ -61,7 +78,8 @@ class VerifyIdController {
         CustomSnackbar.show(
           context: context,
           title: 'An error occured',
-          message: 'Failed to upload image. ${response.statusCode}',
+          message:  _parseErrorMessage(responseBody) ??
+             'Failed to upload image. Code: ${response.statusCode}',
           icon: Icons.error_outline,
           backgroundColor: CustomColors.error,
         );
@@ -79,7 +97,7 @@ class VerifyIdController {
       CustomSnackbar.show(
         context: context,
         title: 'An error occurred',
-        message: 'Failed to upload image. Try again later',
+        message: 'Failed to upload image.${error.toString()}',
         icon: Icons.error_outline,
         backgroundColor: CustomColors.error,
       );

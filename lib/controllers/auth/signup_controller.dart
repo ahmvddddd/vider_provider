@@ -88,7 +88,7 @@ class SignupController extends StateNotifier<SignupState> {
                 ? 'Something went wrong on our side. Please try again later.'
                 : formatBackendError(rawError);
 
-        state = state.copyWith(isLoading: false, error: formattedError);
+        state = state.copyWith(isLoading: false, error: "An error occurred. Please try again later.");
         await FirebaseCrashlytics.instance.recordError(
           Exception("Signup failed: $formattedError"),
           null,
