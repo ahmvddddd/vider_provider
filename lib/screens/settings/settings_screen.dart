@@ -70,22 +70,6 @@ class SettingsScreen extends ConsumerWidget {
                             .labelSmall!
                             .copyWith(color: Colors.white))),
               ),
-    
-              const SizedBox(
-                height: Sizes.spaceBtwItems,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red[900]),
-                    child: Text('Deactivate Account',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: Colors.white))),
-              ),
             ],
           ),
         ),

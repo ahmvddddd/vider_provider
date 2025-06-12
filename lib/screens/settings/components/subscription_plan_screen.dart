@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common/widgets/appbar/appbar.dart';
-import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../controllers/user/subscription_plan_controller.dart';
 import '../../../controllers/user/wallet_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
@@ -150,12 +149,14 @@ class SubscriptionCard extends StatelessWidget {
     final dark = HelperFunction.isDarkMode(context);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    return RoundedContainer(
+    return Container(
       width: screenWidth * 0.90,
-      radius: Sizes.cardRadiusLg,
-      showBorder: true,
-      borderColor: borderColor,
-      backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.1),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(Sizes.cardRadiusLg),
+        border: Border.all(color: borderColor,
+        width: 5),
+        color: dark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.1),
+      ),
       child: Column(
         children: [
           Container(
@@ -166,9 +167,6 @@ class SubscriptionCard extends StatelessWidget {
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(Sizes.cardRadiusLg),
                 topRight: Radius.circular(Sizes.cardRadiusLg),
-              ),
-              border: Border.all(
-                color: dark ? CustomColors.darkGrey : CustomColors.darkerGrey
               ),
               color: dark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.1)
             ),

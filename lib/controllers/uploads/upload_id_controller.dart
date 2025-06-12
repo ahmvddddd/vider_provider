@@ -79,7 +79,7 @@ class VerifyIdController {
           context: context,
           title: 'An error occured',
           message:  _parseErrorMessage(responseBody) ??
-             'Failed to upload image. Code: ${response.statusCode}',
+             'Failed to upload image',
           icon: Icons.error_outline,
           backgroundColor: CustomColors.error,
         );
@@ -97,7 +97,7 @@ class VerifyIdController {
       CustomSnackbar.show(
         context: context,
         title: 'An error occurred',
-        message: 'Failed to upload image.${error.toString()}',
+        message: 'Failed to upload image.',
         icon: Icons.error_outline,
         backgroundColor: CustomColors.error,
       );

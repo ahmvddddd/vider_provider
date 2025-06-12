@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common/widgets/appbar/appbar.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/layouts/listvew.dart';
+import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../controllers/user/update_profile_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
@@ -137,11 +138,30 @@ class _UpdateSkillsState extends ConsumerState<UpdateSkills> {
                         editableSkills.isEmpty
                             ? null
                             : () async {
-                              await ref.read(
+                              final success = await ref.read(
                                 updateBioData({
                                   'skills': editableSkills,
                                 }).future,
                               );
+
+                              if (success) {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'Success',
+                            message: 'Skills updated successfully',
+                            icon: Icons.check_circle,
+                            backgroundColor: CustomColors.success,
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'An error occurred',
+                            message: 'Failed to update skills',
+                            icon: Icons.error_outline,
+                            backgroundColor: CustomColors.error,
+                          );
+                        }
                             },
                     child: Text(
                       'Update Skills',

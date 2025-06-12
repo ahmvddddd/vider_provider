@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
+import 'package:vider_provider/common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/layouts/grid_layout.dart';
 import '../../../common/widgets/layouts/listvew.dart';
 import '../../../common/widgets/products/products_cards/client_card.dart';
@@ -112,26 +113,30 @@ class ProviderDashboardScreen extends ConsumerWidget {
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),
-            HeatMap(
-              datasets: heatmapData,
-              colorMode: ColorMode.color,
-              size: 12,
-              fontSize: 10,
-              showText: false,
-              scrollable: true,
-              showColorTip: true,
-              defaultColor:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.1)
-                      : Colors.black.withValues(alpha: 0.1),
-              textColor: isDark ? Colors.white : Colors.black,
-              colorsets: {
-                1: CustomColors.primary.withValues(alpha: 0.25),
-                2: CustomColors.primary.withValues(alpha: 0.5),
-                3: CustomColors.primary.withValues(alpha: 0.75),
-                4: CustomColors.primary,
-              },
-              margin: const EdgeInsets.all(2),
+            RoundedContainer(
+              padding: const EdgeInsets.all(Sizes.xs),
+              backgroundColor: isDark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+              child: HeatMap(
+                datasets: heatmapData,
+                colorMode: ColorMode.color,
+                size: 12,
+                fontSize: 10,
+                showText: false,
+                scrollable: true,
+                showColorTip: true,
+                defaultColor:
+                    CustomColors.primary.withValues(alpha: 0.15),
+                textColor: isDark ? Colors.white : Colors.black,
+                colorsets: {
+                  1: CustomColors.primary.withValues(alpha: 0.25),
+                  2: CustomColors.primary.withValues(alpha: 0.5),
+                  3: CustomColors.primary.withValues(alpha: 0.75),
+                  4: CustomColors.primary,
+                },
+                margin: const EdgeInsets.all(2),
+              ),
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),

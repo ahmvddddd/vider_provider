@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../common/widgets/appbar/appbar.dart';
 import '../../../common/widgets/inputs/text_field_container.dart';
+import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../controllers/user/update_profile_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
@@ -18,6 +19,18 @@ class UpdateHourlyRate extends ConsumerStatefulWidget {
 class _UpdateHourlyRateState extends ConsumerState<UpdateHourlyRate> {
   final TextEditingController hourlyRateController = TextEditingController();
   String? errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      final user = ref
+          .read(userProvider)
+          .maybeWhen(data: (u) => u, orElse: () => null);
+      if (user != null) hourlyRateController.text = user.hourlyRate.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(userProvider);
@@ -31,7 +44,6 @@ class _UpdateHourlyRateState extends ConsumerState<UpdateHourlyRate> {
       ),
       body: userProfile.when(
         data: (user) {
-          hourlyRateController.text = user.hourlyRate.toString();
           return Padding(
             padding: const EdgeInsets.all(Sizes.spaceBtwItems),
             child: Column(
@@ -59,9 +71,28 @@ class _UpdateHourlyRateState extends ConsumerState<UpdateHourlyRate> {
                                 : null;
                       });
                       if (errorText == null) {
-                        await ref.read(
+                        final success = await ref.read(
                           updateBioData({'hourlyRate': rate}).future,
                         );
+
+                        if (success) {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'Success',
+                            message: 'Hourly rate updated successfully',
+                            icon: Icons.check_circle,
+                            backgroundColor: CustomColors.success,
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'An error occurred',
+                            message: 'Failed to update hourly rate',
+                            icon: Icons.error_outline,
+                            backgroundColor: CustomColors.error,
+                          );
+                        }
                       }
                     },
                     child: Text(

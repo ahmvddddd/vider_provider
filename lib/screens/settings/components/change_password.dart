@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../common/widgets/appbar/appbar.dart';
+import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../common/widgets/texts/title_and_description.dart';
 import '../../../controllers/auth/change_password_controller.dart';
@@ -87,33 +88,30 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                   : CustomColors.black.withValues(alpha: 0.1),
           child: SizedBox(
             width: double.infinity,
-            height: screenHeight * 0.05,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith<Color>((
-                  Set<WidgetState> states,
-                ) {
-                  return CustomColors.primary; // Always use primary color
-                }),
-                padding: WidgetStateProperty.all(
-                  const EdgeInsets.all(Sizes.spaceBtwItems),
-                ),
-              ),
-              onPressed: state.isLoading ? null : _handleChangePassword,
+            height: screenHeight * 0.06,
+            child:  GestureDetector(
+              onTap: state.isLoading ? null : _handleChangePassword,
               child:
-                  state.isLoading
-                      ? Text(
-                        '...',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(color: Colors.white),
-                      )
-                      : Text(
-                        'Change Password',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(color: Colors.white),
-                      ),
+                  RoundedContainer(
+                          height: screenHeight * 0.06,
+                          padding: const EdgeInsets.all(Sizes.sm),
+                          backgroundColor:CustomColors.primary,
+                    child: Center(
+                      child: state.isLoading
+                          ? Text(
+                            'Saving Password...',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelSmall!.copyWith(color: Colors.white),
+                          )
+                          : Text(
+                            'Change Password',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelSmall!.copyWith(color: Colors.white),
+                          ),
+                    ),
+                  ),
             ),
           ),
         ),

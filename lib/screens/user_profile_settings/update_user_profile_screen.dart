@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../controllers/user/save_location_controller.dart';
-import '../../repository/user/location_state_storage.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
@@ -19,10 +19,18 @@ class UpdateUserProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final dark = HelperFunction.isDarkMode(context);
+    final isOn = ref.watch(locationSwitchProvider);
+
     return Column(
       children: [
         const SizedBox(height: Sizes.spaceBtwItems),
-        ListTile(
+        RoundedContainer(
+          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.xs),
+          child: ListTile(
           leading: Icon(
             Icons.location_on,
             color: CustomColors.primary,
@@ -32,77 +40,107 @@ class UpdateUserProfilePage extends ConsumerWidget {
             'Location',
             style: Theme.of(context).textTheme.labelSmall,
           ),
-          trailing: Consumer(
-            builder: (context, ref, _) {
-              final isOn = ref.watch(locationSwitchStorage);
-              return Switch(
-                value: isOn,
-                onChanged: (value) async {
-                  await ref.read(locationSwitchStorage.notifier).setSwitch(value);
-                  if (value) {
-                    await ref.read(saveLocationProvider).getAndSaveLocation(context);
-                  }
-                },
-              );
+          trailing: Switch(
+            value: isOn,
+            onChanged: (value) async {
+              ref.read(locationSwitchProvider.notifier).setSwitch(value);
+              await ref.read(saveLocationProvider).getAndSaveLocation(context);
             },
           ),
         ),
+        ),
 
 
 
         const SizedBox(height: Sizes.spaceBtwItems),
-        SettingsMenuTile(
-          iconSize: Sizes.iconMd,
-          icon: Icons.change_circle,
-          title: ' ChangeSubscription Plan',
-          subTitle: '',
-          onTap:
-              () => HelperFunction.navigateScreen(context, SubscriptionPlanScreen()),
+        RoundedContainer(
+          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.xs),
+          child: SettingsMenuTile(
+            iconSize: Sizes.iconMd,
+            icon: Icons.change_circle,
+            title: ' ChangeSubscription Plan',
+            subTitle: '',
+            onTap:
+                () => HelperFunction.navigateScreen(context, SubscriptionPlanScreen()),
+          ),
         ),
         const SizedBox(height: Sizes.spaceBtwItems),
-        SettingsMenuTile(
-          iconSize: Sizes.iconMd,
-          icon: Icons.image,
-          title: 'Update Portfolio Images',
-          subTitle: '',
-          onTap:
-              () => HelperFunction.navigateScreen(context, UpdateProfileImagesPage())
-              ),
-        const SizedBox(height: Sizes.spaceBtwItems),
-        SettingsMenuTile(
-          iconSize: Sizes.iconMd,
-          icon: Iconsax.user,
-          title: 'Update Bio',
-          subTitle: '',
-          onTap:
-              () => HelperFunction.navigateScreen(context, UpdateBio()),
+        RoundedContainer(
+          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.xs),
+          child: SettingsMenuTile(
+            iconSize: Sizes.iconMd,
+            icon: Icons.image,
+            title: 'Update Portfolio Images',
+            subTitle: '',
+            onTap:
+                () => HelperFunction.navigateScreen(context, UpdateProfileImagesPage())
+                ),
         ),
         const SizedBox(height: Sizes.spaceBtwItems),
-        SettingsMenuTile(
-          iconSize: Sizes.iconMd,
-          icon: Icons.timelapse,
-          title: 'Update Hourly Rate',
-          subTitle: '',
-          onTap:
-              () => HelperFunction.navigateScreen(context, UpdateHourlyRate()),
+        RoundedContainer(
+          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.xs),
+          child: SettingsMenuTile(
+            iconSize: Sizes.iconMd,
+            icon: Iconsax.user,
+            title: 'Update Bio',
+            subTitle: '',
+            onTap:
+                () => HelperFunction.navigateScreen(context, UpdateBio()),
+          ),
         ),
         const SizedBox(height: Sizes.spaceBtwItems),
-        SettingsMenuTile(
-          iconSize: Sizes.iconMd,
-          icon: Icons.shape_line,
-          title: 'Update Skills',
-          subTitle: '',
-          onTap:
-              () => HelperFunction.navigateScreen(context, UpdateSkills()),
+        RoundedContainer(
+          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.xs),
+          child: SettingsMenuTile(
+            iconSize: Sizes.iconMd,
+            icon: Icons.timelapse,
+            title: 'Update Hourly Rate',
+            subTitle: '',
+            onTap:
+                () => HelperFunction.navigateScreen(context, UpdateHourlyRate()),
+          ),
         ),
         const SizedBox(height: Sizes.spaceBtwItems),
-        SettingsMenuTile(
-          iconSize: Sizes.iconM,
-          icon: Icons.list,
-          title: 'Update Category & Service',
-          subTitle: '',
-          onTap:
-              () => HelperFunction.navigateScreen(context, UpdateCategoryAndService()),
+        RoundedContainer(
+          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.xs),
+          child: SettingsMenuTile(
+            iconSize: Sizes.iconMd,
+            icon: Icons.shape_line,
+            title: 'Update Skills',
+            subTitle: '',
+            onTap:
+                () => HelperFunction.navigateScreen(context, UpdateSkills()),
+          ),
+        ),
+        const SizedBox(height: Sizes.spaceBtwItems),
+        RoundedContainer(
+          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
+          : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.xs),
+          child: SettingsMenuTile(
+            iconSize: Sizes.iconM,
+            icon: Icons.list,
+            title: 'Update Category & Service',
+            subTitle: '',
+            onTap:
+                () => HelperFunction.navigateScreen(context, UpdateCategoryAndService()),
+          ),
         ),
       ],
     );

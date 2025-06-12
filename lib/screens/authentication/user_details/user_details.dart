@@ -13,7 +13,7 @@ import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../../utils/helpers/token_secure_storage.dart';
-import '../verification/verify_profile_image.dart';
+import '../../uploads/upload_profile_image.dart';
 import 'components/profile_validator.dart';
 import 'components/skills_list.dart';
 
@@ -26,6 +26,7 @@ class UserDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
+  bool isLoading = false;
   DateTime? selectedDate; // nullable now
   bool _dobSelected = false;
   String? validationMessage;
@@ -87,7 +88,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
   }
 
   Future<void> _submitProfile() async {
-    
+    setState(() {
+      isLoading = true;
+    });
     await TokenSecureStorage.checkToken(context: context, ref: ref);
 
     final error = ProfileValidator.validate(
@@ -107,8 +110,11 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         title: 'Error',
         message: error,
         icon: Icons.error_outline,
-        backgroundColor: CustomColors.error
+        backgroundColor: CustomColors.error,
       );
+      setState(() {
+        isLoading = false;
+      });
       return;
     }
 
@@ -126,21 +132,27 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
 
     if (result == true && mounted) {
       CustomSnackbar.show(
-                          context: context,
-                          title: 'Success',
-                          message: 'Your details were uploaded successfully',
-                          icon: Icons.check_circle,
-                          backgroundColor: CustomColors.success,
-                        );
+        context: context,
+        title: 'Success',
+        message: 'Your details were uploaded successfully',
+        icon: Icons.check_circle,
+        backgroundColor: CustomColors.success,
+      );
+      setState(() {
+        isLoading = false;
+      });
       HelperFunction.navigateScreen(context, UploadProfileImagePage());
     } else {
+      setState(() {
+        isLoading = false;
+      });
       CustomSnackbar.show(
-                          context: context,
-                          title: 'An error occured',
-                          message: 'Could not upload your details. Please try again later',
-                          icon: Icons.error_outline,
-                          backgroundColor: CustomColors.error,
-                        );
+        context: context,
+        title: 'An error occured',
+        message: 'Could not upload your details. Please try again later',
+        icon: Icons.error_outline,
+        backgroundColor: CustomColors.error,
+      );
     }
   }
 
@@ -159,7 +171,19 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         ),
         showBackArrow: true,
       ),
-      bottomNavigationBar: ButtonContainer(
+      bottomNavigationBar: 
+      isLoading ?
+      CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.blue,
+                    ), // color
+                    strokeWidth: 4.0, // thickness of the line
+                    backgroundColor:
+                        dark
+                            ? Colors.white
+                            : Colors.black, //
+      )
+      : ButtonContainer(
         text: 'Submit',
         onPressed: _submitProfile,
       ),
@@ -289,18 +313,18 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                      backgroundColor: CustomColors.primary,
-                    ),
-                    onPressed: () => _pickDate(context),
-                    child: Text(
-                      'Select DOB',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.labelMedium!.copyWith(color: Colors.white),
-                    ),
-                  ),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                backgroundColor: CustomColors.primary,
+              ),
+              onPressed: () => _pickDate(context),
+              child: Text(
+                'Select DOB',
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium!.copyWith(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ],

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
-import '../../screens/authentication/verification/portfolio_images_upload.dart';
+import '../../screens/uploads/portfolio_images_upload.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/helpers/helper_function.dart';
 
@@ -22,6 +22,7 @@ String profileImageURL =
 class ProfileImageController extends AsyncNotifier<void> {
   CameraController? cameraController;
   List<CameraDescription>? cameras;
+  bool isLoading = false;
   XFile? _imageFile;
   final logger = Logger();
 
@@ -73,6 +74,8 @@ class ProfileImageController extends AsyncNotifier<void> {
 
   /// Upload picture to backend with auth
   Future<void> uploadImage(BuildContext context) async {
+    isLoading = true;
+    state = const AsyncValue.loading();
     try {
       final token = await secureStorage.read(key: 'token');
       if (_imageFile == null || token == null) {
@@ -131,6 +134,9 @@ class ProfileImageController extends AsyncNotifier<void> {
         icon: Icons.error_outline,
         backgroundColor: CustomColors.error,
       );
+    } finally {
+      isLoading = false;
+      state = const AsyncValue.data(null);
     }
   }
 }

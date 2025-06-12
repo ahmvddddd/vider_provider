@@ -8,11 +8,14 @@ import 'package:logger/logger.dart';
 
 /// Storage and API constants
 final _storage = FlutterSecureStorage();
-String updateProfileURL = dotenv.env['UPDATE_PROFILE_URL'] ?? 'https/defaulturl.com/api';
+String updateProfileURL =
+    dotenv.env['UPDATE_PROFILE_URL'] ?? 'https/defaulturl.com/api';
 
-final updateBioData =
-    FutureProvider.family<bool, Map<String, dynamic>>((ref, data) async {
-final logger = Logger();
+final updateBioData = FutureProvider.family<bool, Map<String, dynamic>>((
+  ref,
+  data,
+) async {
+  final logger = Logger();
 
   try {
     final token = await _storage.read(key: 'token');
@@ -33,8 +36,8 @@ final logger = Logger();
         await FirebaseCrashlytics.instance.recordError(
           Exception("Failed to update user bio details: ${response.body}"),
           null,
-          reason: 'Update user details API returned error ${response
-              .statusCode}',
+          reason:
+              'Update user details API returned error ${response.statusCode}',
         );
       } catch (e) {
         logger.i('Crashlytics update user bio API failed $e');

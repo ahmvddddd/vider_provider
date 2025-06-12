@@ -11,7 +11,7 @@ import 'package:logger/logger.dart';
 import 'package:mime/mime.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
-import '../../screens/authentication/user_details/verifiy_id.dart';
+import '../../screens/authentication/user_details/upload_id_screen.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/helpers/helper_function.dart';
 
@@ -112,51 +112,51 @@ class PortfolioUploadController
   }
 }
 
-final userPortfolioUpdateProvider = FutureProvider.family<
-  void,
-  Map<int, File>
->((ref, filesWithIndexes) async {
+final userPortfolioUpdateProvider = FutureProvider.family<void, Map<int, File>>((ref, filesWithIndexes) async {
   const storage = FlutterSecureStorage();
   final logger = Logger();
-  String updatePortfolioImagesURL =
-      dotenv.env['UPDATE_PORTFOLIO_IMAGES_URL'] ?? 'https://defaulturl.com/api';
+  String updatePortfolioImagesURL = dotenv.env['UPDATE_PORTFOLIO_IMAGES_URL'] ?? 'https://defaulturl.com/api';
 
   try {
     final token = await storage.read(key: 'token');
     if (token == null) throw Exception("An error occurred");
+
     final uri = Uri.parse(updatePortfolioImagesURL);
     final request = http.MultipartRequest('PUT', uri)
       ..headers['Authorization'] = 'Bearer $token';
 
-    filesWithIndexes.forEach((index, file) async {
+    for (final entry in filesWithIndexes.entries) {
+      final index = entry.key;
+      final file = entry.value;
+
       final mimeType = lookupMimeType(file.path) ?? 'image/jpeg';
       final multipartFile = await http.MultipartFile.fromPath(
-        'images',
+        'images', // should match the backend field name
         file.path,
         contentType: MediaType.parse(mimeType),
       );
+
       request.files.add(multipartFile);
-      request.fields['indexes'] =
-          index
-              .toString(); // Multiple same-named fields allowed in MultipartRequest
-    });
+
+      // Add each index as a separate field (if your backend supports it)
+      request.fields['indexes[$index]'] = index.toString();
+      // Or use this if backend supports repeated 'indexes' fields:
+      // request.fields['indexes'] = index.toString();
+    }
 
     final response = await request.send();
     if (response.statusCode != 200) {
-      final exception = 'Failed to update portfolio images';
+      final exception = 'Failed to update portfolio images ${response.statusCode}';
       try {
         await FirebaseCrashlytics.instance.recordError(
-          Exception(
-            "Failed to update portfolio images: ${response.statusCode}",
-          ),
+          Exception("Failed to update portfolio images: ${response.statusCode}"),
           null,
-          reason:
-              'Update portfolio images API returned error ${response.statusCode}',
+          reason: 'Update portfolio images API returned error ${response.statusCode}',
         );
       } catch (e) {
         logger.i('Crashlytics update portfolio images API response failed');
       }
-      throw exception;
+      throw Exception(exception);
     }
   } catch (error, stackTrace) {
     try {
@@ -168,6 +168,6 @@ final userPortfolioUpdateProvider = FutureProvider.family<
     } catch (e) {
       logger.i('Crashlytics update portfolio images controller failed $e');
     }
-    throw Exception('Failed to update portfolio images');
+    throw Exception('Failed to update portfolio images: ${error.toString()}');
   }
 });

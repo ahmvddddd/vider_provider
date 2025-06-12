@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common/widgets/appbar/appbar.dart';
 import '../../../common/widgets/inputs/text_field_container.dart';
+import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../controllers/user/update_profile_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
@@ -21,6 +22,17 @@ class _UpdateBioState extends ConsumerState<UpdateBio> {
   String? errorText;
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      final user = ref
+          .read(userProvider)
+          .maybeWhen(data: (u) => u, orElse: () => null);
+      if (user != null) bioController.text = user.bio;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(userProvider);
 
@@ -34,7 +46,6 @@ class _UpdateBioState extends ConsumerState<UpdateBio> {
       ),
       body: userProfile.when(
         data: (user) {
-          bioController.text = user.bio;
           return Padding(
             padding: const EdgeInsets.all(Sizes.spaceBtwItems),
             child: Column(
@@ -63,11 +74,30 @@ class _UpdateBioState extends ConsumerState<UpdateBio> {
                                 : null;
                       });
                       if (errorText == null) {
-                        await ref.read(
+                        final success = await ref.read(
                           updateBioData({
                             'bio': bioController.text.trim(),
                           }).future,
                         );
+
+                        if (success) {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'Success',
+                            message: 'Bio updated successfully',
+                            icon: Icons.check_circle,
+                            backgroundColor: CustomColors.success,
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'An error occurred',
+                            message: 'Failed to update bio',
+                            icon: Icons.error_outline,
+                            backgroundColor: CustomColors.error,
+                          );
+                        }
                       }
                     },
                     child: Text(
@@ -83,7 +113,9 @@ class _UpdateBioState extends ConsumerState<UpdateBio> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('Error loading profile: $err')),
+        error:
+            (err, _) =>
+                Center(child: Text('An error occurred. Try again later')),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../common/widgets/appbar/appbar.dart';
+import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../controllers/auth/user_bio_controller.dart';
 import '../../../controllers/user/update_profile_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
@@ -103,12 +104,31 @@ class _UpdateCategoryAndServiceState
                         (selectedCategory == null || selectedService == null)
                             ? null
                             : () async {
-                              await ref.read(
+                              final success = await ref.read(
                                 updateBioData({
                                   'category': selectedCategory,
                                   'service': selectedService,
                                 }).future,
                               );
+
+                              if (success) {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'Success',
+                            message: 'Category and service updated successfully',
+                            icon: Icons.check_circle,
+                            backgroundColor: CustomColors.success,
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'An error occurred',
+                            message: 'Failed to update category and service',
+                            icon: Icons.error_outline,
+                            backgroundColor: CustomColors.error,
+                          );
+                        }
                             },
                     child: Text(
                       'Update Category and Service',
