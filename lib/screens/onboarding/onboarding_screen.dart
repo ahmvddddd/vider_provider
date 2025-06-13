@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:vider_provider/screens/authentication/auth_screen.dart';
 import '../../utils/constants/custom_colors.dart';
+import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
 
@@ -97,6 +98,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       width: screenWidth,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
+    image: DecorationImage(
+      image: AssetImage(Images.material3), // or NetworkImage(...)
+      fit: BoxFit.cover, // BoxFit.cover, contain, fill, etc.
+    ),
                         color: CustomColors.primary.withValues(alpha: 0.05),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(Sizes.xl),
@@ -132,9 +137,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                   ),
                             ),
                     ),
-                    const SizedBox(height: Sizes.spaceBtwItems),
+                    const SizedBox(height: Sizes.spaceBtwSections),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Sizes.sm),
+                      padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceBtwItems),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

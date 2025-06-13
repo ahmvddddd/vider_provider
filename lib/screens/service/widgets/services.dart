@@ -13,15 +13,13 @@ class Services extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: dark 
-          ? CustomColors.white
-          :CustomColors.black,
+          color: CustomColors.primary
         ),
           borderRadius: BorderRadius.circular(Sizes.cardRadiusLg),
           color: dark 
           ? Colors.white.withValues(alpha: 0.1)
           :Colors.black.withValues(alpha: 0.1)),
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(Sizes.xs),
       child: Center(
         child: Text(
           service,

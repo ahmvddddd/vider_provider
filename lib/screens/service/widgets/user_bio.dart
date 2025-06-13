@@ -13,11 +13,11 @@ class UserBio extends StatelessWidget {
     return Column(
       children: [
         const TSectionHeading(
-              title: 'About',
+              title: 'About Me',
               showActionButton: false,
             ),
             const SizedBox(
-              height: Sizes.sm,
+              height: Sizes.spaceBtwItems,
             ),
             SizedBox(
               width: screenWidth * 0.90,

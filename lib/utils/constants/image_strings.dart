@@ -10,6 +10,9 @@ class Images {
 
 
   //services
+  static const String material = "assets/utility_images/material.jpg";
+  static const String material2 = "assets/utility_images/material_full_blur.jpg";
+  static const String material3 = "assets/utility_images/material_half_blur.jpg";
   static const String carpenter = "assets/utility_images/carpenter.jpg";
   static const String chef = "assets/utility_images/chef.jpg";
   static const String fashionDesigner = "assets/utility_images/fashion_designer.jpg";
