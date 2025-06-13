@@ -41,22 +41,21 @@ class _SigninFormState extends ConsumerState<SigninForm> {
     final loginState = ref.watch(loginControllerProvider);
     final loginController = ref.read(loginControllerProvider.notifier);
     final dark = HelperFunction.isDarkMode(context);
+    double screenHeight = MediaQuery.of(context).size.height;
 
-    return RoundedContainer(
-      padding: const EdgeInsets.all(Sizes.sm),
-      backgroundColor:
-          dark ? Colors.white.withAlpha(25) : Colors.black.withAlpha(25),
-      showBorder: true,
-      borderColor: CustomColors.primary,
-      radius: Sizes.cardRadiusMd,
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            const SizedBox(height: Sizes.spaceBtwItems),
+    return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          const SizedBox(height: Sizes.spaceBtwItems),
 
-            // Username field
-            BuildTextfield(
+          // Username field
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
+              color: dark ? CustomColors.dark : CustomColors.light,
+            ),
+            child: BuildTextfield(
               controller: usernameController,
               icon: Iconsax.user,
               hint: 'username',
@@ -65,68 +64,75 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                 return null;
               },
             ),
+          ),
 
-            const SizedBox(height: Sizes.spaceBtwItems),
+          const SizedBox(height: Sizes.spaceBtwItems),
 
-            // Password field
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
-                color: dark ? CustomColors.dark : CustomColors.light,
-              ),
-              child: ValueListenableBuilder<bool>(
-                valueListenable: hidePassword,
-                builder: (context, value, child) {
-                  return TextFormField(
-                    controller: passwordController,
-                    obscureText: value,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: const Icon(Iconsax.password_check),
-                      hintText: 'password',
-                      hintStyle: Theme.of(context).textTheme.labelSmall,
-                      suffixIcon: IconButton(
-                        onPressed: () => hidePassword.value = !value,
-                        icon: Icon(value ? Iconsax.eye_slash : Iconsax.eye),
-                      ),
-                    ),
-                    validator: (value) {
-                      Validator.validateTextField(value);
-                      return null;
-                    },
-                  );
-                },
-              ),
+          // Password field
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
+              color: dark ? CustomColors.dark : CustomColors.light,
             ),
+            child: ValueListenableBuilder<bool>(
+              valueListenable: hidePassword,
+              builder: (context, value, child) {
+                return TextFormField(
+                  controller: passwordController,
+                  obscureText: value,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    prefixIcon: const Icon(Iconsax.password_check),
+                    hintText: 'password',
+                    hintStyle: Theme.of(context).textTheme.labelSmall,
+                    suffixIcon: IconButton(
+                      onPressed: () => hidePassword.value = !value,
+                      icon: Icon(value ? Iconsax.eye_slash : Iconsax.eye),
+                    ),
+                  ),
+                  validator: (value) {
+                    Validator.validateTextField(value);
+                    return null;
+                  },
+                );
+              },
+            ),
+          ),
 
-            const SizedBox(height: Sizes.spaceBtwSections),
+          const SizedBox(height: Sizes.spaceBtwSections),
 
-            // Sign-in button
-            loginState.isLoading
-                ?  Center(child: CircularProgressIndicator(
-  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue), // color
-  strokeWidth: 6.0, // thickness of the line
-  backgroundColor: dark ? Colors.white : Colors.black, // background circle color
-)
-)
-                : Padding(
-                  padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: CustomColors.primary,
-                      ),
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          await loginController.login(
-                            context,
-                            usernameController.text.trim(),
-                            passwordController.text,
-                          );
-                        }
-                      },
+          // Sign-in button
+          loginState.isLoading
+              ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.blue,
+                  ), // color
+                  strokeWidth: 6.0, // thickness of the line
+                  backgroundColor:
+                      dark
+                          ? Colors.white
+                          : Colors.black, // background circle color
+                ),
+              )
+              : SizedBox(
+                width: double.infinity,
+                child: GestureDetector(
+                  onTap: () async {
+                    if (formKey.currentState!.validate()) {
+                      await loginController.login(
+                        context,
+                        usernameController.text.trim(),
+                        passwordController.text,
+                      );
+                    }
+                  },
 
+                  child: RoundedContainer(
+                    height: screenHeight * 0.06,
+                    padding: const EdgeInsets.all(Sizes.sm),
+                    backgroundColor: CustomColors.primary,
+                    child: Center(
                       child: Text(
                         'Sign in',
                         style: Theme.of(
@@ -136,22 +142,22 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                     ),
                   ),
                 ),
-
-            if (loginState.error != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text(
-                  loginState.error!,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelMedium!.copyWith(color: Colors.red[900]),
-                  textAlign: TextAlign.center,
-                ),
               ),
 
-            const SizedBox(height: Sizes.spaceBtwItems),
-          ],
-        ),
+          if (loginState.error != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text(
+                loginState.error!,
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium!.copyWith(color: Colors.red[900]),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+          const SizedBox(height: Sizes.spaceBtwItems),
+        ],
       ),
     );
   }

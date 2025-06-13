@@ -10,7 +10,6 @@ class Images {
 
 
   //services
-  static const String loginIcon = "assets/utility_images/login_icon.png";
   static const String carpenter = "assets/utility_images/carpenter.jpg";
   static const String chef = "assets/utility_images/chef.jpg";
   static const String fashionDesigner = "assets/utility_images/fashion_designer.jpg";

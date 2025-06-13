@@ -2,17 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../common/widgets/custom_shapes/divider/custom_divider.dart';
+import 'package:vider_provider/common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../common/widgets/image/full_screen_image_view.dart';
 import '../../common/widgets/layouts/listvew.dart';
-import '../../common/widgets/texts/section_heading.dart';
 import '../../controllers/user/user_controller.dart';
 import '../../models/user/user_profile_model.dart';
 import '../../repository/user/user_local_storage.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
 import 'components/service_profile_shimmer.dart';
-import 'widgets/certification_title.dart';
+// import 'widgets/certification_title.dart';
 import 'widgets/user_bio.dart';
 import 'widgets/user_info.dart';
 import 'widgets/cover_image.dart';
@@ -50,8 +49,8 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dark = HelperFunction.isDarkMode(context);
     final userProfile = ref.watch(userProvider);
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double horizontalCardHeight = screenHeight * 0.20;
 
@@ -79,90 +78,126 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: Sizes.spaceBtwSections * 2),
-                          UserInfo(
-                            fullname: '${user.firstname} ${user.lastname}',
-                            username: user.username,
-                            service: user.service,
-                            rating: 5.0,
-                            category: user.category,
-                            hourlyRate: user.hourlyRate,
-                          ),
-                          const CustomDivider(
-                              padding: EdgeInsets.all(Sizes.spaceBtwItems)),
-                          user.portfolioImages.isEmpty
-                              ? const SizedBox.shrink()
-                              : HomeListView(
-                            sizedBoxHeight: horizontalCardHeight * 0.50,
-                            scrollDirection: Axis.horizontal,
-                            seperatorBuilder: (context, index) =>
-                            const SizedBox(width: Sizes.sm),
-                            itemCount: user.portfolioImages.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () => HelperFunction.navigateScreen(
-                                  context,
-                                  FullScreenImageView(
-                                    images: user.portfolioImages,
-                                    initialIndex: index,
-                                  ),
+                          const SizedBox(height: Sizes.spaceBtwSections + 4),
+                          RoundedContainer(
+                            padding: const EdgeInsets.all(Sizes.sm),
+                            backgroundColor:
+                                dark
+                                    ? Colors.white.withValues(alpha: 0.1)
+                                    : Colors.black.withValues(alpha: 0.1),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                UserInfo(
+                                  fullname:
+                                      '${user.firstname} ${user.lastname}',
+                                  username: user.username,
+                                  service: user.service,
+                                  rating: 5.0,
+                                  category: user.category,
+                                  hourlyRate: user.hourlyRate,
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                      Sizes.borderRadiusLg),
-                                  child: Image.network(
-                                    user.portfolioImages[index],
-                                    width:
-                                    horizontalCardHeight * 0.50,
-                                    height:
-                                    horizontalCardHeight * 0.60,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          const CustomDivider(
-                              padding: EdgeInsets.all(Sizes.spaceBtwItems)),
-                          HomeListView(
-                            sizedBoxHeight: screenHeight * 0.06,
-                            scrollDirection: Axis.horizontal,
-                            seperatorBuilder: (context, index) =>
-                            const SizedBox(width: Sizes.sm),
-                            itemCount: user.skills.length,
-                            itemBuilder: (context, index) =>
-                                Services(service: user.skills[index]),
-                          ),
-                          const CustomDivider(
-                              padding: EdgeInsets.all(Sizes.spaceBtwItems)),
-                          UserBio(bio: user.bio),
-                          const CustomDivider(
-                              padding: EdgeInsets.all(Sizes.spaceBtwItems)),
-                          const TSectionHeading(
-                              title: 'Certifications',
-                              showActionButton: false),
-                          const SizedBox(height: Sizes.sm),
-                          const CertificationTitle(title: 'MCFE'),
-                          const SizedBox(height: Sizes.sm),
-                          SizedBox(
-                            width: screenWidth * 0.90,
-                            child: Text(
-                              'Lorem ipsum dolor sit amet...',
-                              style: Theme.of(context).textTheme.bodySmall,
+
+                                const SizedBox(height: Sizes.spaceBtwSections + 4),
+                                user.portfolioImages.isEmpty
+                                    ? const SizedBox.shrink()
+                                    : HomeListView(
+                                      sizedBoxHeight:
+                                          horizontalCardHeight * 0.50,
+                                      scrollDirection: Axis.horizontal,
+                                      seperatorBuilder:
+                                          (context, index) =>
+                                              const SizedBox(width: Sizes.sm),
+                                      itemCount: user.portfolioImages.length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap:
+                                              () =>
+                                                  HelperFunction.navigateScreen(
+                                                    context,
+                                                    FullScreenImageView(
+                                                      images:
+                                                          user.portfolioImages,
+                                                      initialIndex: index,
+                                                    ),
+                                                  ),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              Sizes.borderRadiusLg,
+                                            ),
+                                            child: Image.network(
+                                              user.portfolioImages[index],
+                                              width:
+                                                  horizontalCardHeight * 0.50,
+                                              height:
+                                                  horizontalCardHeight * 0.60,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+
+                                    const SizedBox(height: Sizes.spaceBtwItems,)
+                              ],
                             ),
                           ),
-                          const SizedBox(height: Sizes.sm),
-                          const CertificationTitle(title: 'CSFB'),
-                          const SizedBox(height: Sizes.sm),
-                          SizedBox(
-                            width: screenWidth * 0.90,
-                            child: Text(
-                              'Lorem ipsum dolor sit amet...',
-                              style: Theme.of(context).textTheme.bodySmall,
+
+                          const SizedBox(height: Sizes.spaceBtwItems),
+                          RoundedContainer(
+                            padding: const EdgeInsets.all(Sizes.sm),
+                            backgroundColor:
+                                dark
+                                    ? Colors.white.withValues(alpha: 0.1)
+                                    : Colors.black.withValues(alpha: 0.1),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                UserBio(bio: user.bio),
+
+                                const SizedBox(height: Sizes.spaceBtwSections),
+                                HomeListView(
+                                  sizedBoxHeight: screenHeight * 0.06,
+                                  scrollDirection: Axis.horizontal,
+                                  seperatorBuilder:
+                                      (context, index) =>
+                                          const SizedBox(width: Sizes.sm),
+                                  itemCount: user.skills.length,
+                                  itemBuilder:
+                                      (context, index) =>
+                                          Services(service: user.skills[index]),
+                                ),
+
+                                const SizedBox(height: Sizes.spaceBtwItems,)
+                              ],
                             ),
                           ),
+                          const SizedBox(height: Sizes.spaceBtwItems),
+                          // const TSectionHeading(
+                          //   title: 'Certifications',
+                          //   showActionButton: false,
+                          // ),
+                          // const SizedBox(height: Sizes.sm),
+                          // const CertificationTitle(title: 'MCFE'),
+                          // const SizedBox(height: Sizes.sm),
+                          // SizedBox(
+                          //   width: screenWidth * 0.90,
+                          //   child: Text(
+                          //     'Lorem ipsum dolor sit amet...',
+                          //     style: Theme.of(context).textTheme.bodySmall,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: Sizes.sm),
+                          // const CertificationTitle(title: 'CSFB'),
+                          // const SizedBox(height: Sizes.sm),
+                          // SizedBox(
+                          //   width: screenWidth * 0.90,
+                          //   child: Text(
+                          //     'Lorem ipsum dolor sit amet...',
+                          //     style: Theme.of(context).textTheme.bodySmall,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -172,13 +207,14 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
             );
           },
           loading: () => const Center(child: ServiceProfileShimmer()),
-          error: (err, _) => Center(
-            child: Text(
-              'Unable to load user details right now. Try again later',
-              style: Theme.of(context).textTheme.labelMedium,
-              softWrap: true,
-            ),
-          ),
+          error:
+              (err, _) => Center(
+                child: Text(
+                  'Unable to load user details right now. Try again later',
+                  style: Theme.of(context).textTheme.labelMedium,
+                  softWrap: true,
+                ),
+              ),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../utils/constants/custom_colors.dart';
-import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import 'widgets/form_divider.dart';
 import 'widgets/signin_form.dart';
@@ -20,14 +20,7 @@ class SigninScreen extends StatelessWidget {
             padding: const EdgeInsets.all(Sizes.spaceBtwItems),
             child: Column(
               children: [
-                SizedBox(height: Sizes.spaceBtwSections),
-                Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(Images.loginIcon,
-                  height: screenHeight * 0.10,),
-                ),
-
-                const SizedBox(height: Sizes.spaceBtwItems,),
+                SizedBox(height: screenHeight * 0.15),
                 Text(
                   'Welcome',
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
@@ -53,22 +46,18 @@ class SigninScreen extends StatelessWidget {
 
                 //signup button
                 const SizedBox(height: Sizes.spaceBtwItems),
-                Padding(
-                  padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: CustomColors.primary),
-                        borderRadius: BorderRadius.circular(
-                          Sizes.borderRadiusLg,
-                        ),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: toggleScreen,
+                SizedBox(
+                  width: double.infinity,
+                  child: GestureDetector(
+                    onTap: toggleScreen,
+                    child: RoundedContainer(
+                    height: screenHeight * 0.06,
+                    padding: const EdgeInsets.all(Sizes.sm),
+                    backgroundColor: CustomColors.primary,
+                      child: Center(
                         child: Text(
                           'Sign up',
-                          style: Theme.of(context).textTheme.labelSmall,
+                          style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white),
                         ),
                       ),
                     ),

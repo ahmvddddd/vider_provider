@@ -63,7 +63,7 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
         },
         backgroundColor: darkMode ? CustomColors.dark : CustomColors.light,
         selectedItemColor: CustomColors.primary,
-        unselectedItemColor: darkMode ? Colors.white : Colors.black,
+        unselectedItemColor: darkMode ? CustomColors.darkGrey : CustomColors.darkerGrey,
         items: [
           const BottomNavigationBarItem(
             icon: Icon(Iconsax.home, size: Sizes.iconM),

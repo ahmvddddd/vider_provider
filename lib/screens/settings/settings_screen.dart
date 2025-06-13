@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/widgets/appbar/appbar.dart';
-import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../common/widgets/texts/section_heading.dart';
 import '../../controllers/auth/sign_out_controller.dart';
 import '../../utils/constants/custom_colors.dart';
@@ -30,10 +29,7 @@ class SettingsScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(Sizes.spaceBtwItems),
           child: Column(
             children: [
-              RoundedContainer(
-                    padding: EdgeInsets.all(Sizes.sm),
-                    linearGradient: CustomColors.linearGradient,
-                    child: AccountInfo()),
+              AccountInfo(),
         
                     
               const SizedBox(height: Sizes.spaceBtwSections,),

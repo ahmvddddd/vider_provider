@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import 'widgets/form_divider.dart';
@@ -48,18 +49,17 @@ class SignupScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                   child: SizedBox(
                     width: double.infinity,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: CustomColors.primary),
-                        borderRadius: BorderRadius.circular(
-                          Sizes.borderRadiusLg,
-                        ),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: toggleScreen,
-                        child: Text(
-                          'Sign in',
-                          style: Theme.of(context).textTheme.labelSmall,
+                    child: GestureDetector(
+                      onTap: toggleScreen,
+                      child: RoundedContainer(
+                    height: screenHeight * 0.06,
+                    padding: const EdgeInsets.all(Sizes.sm),
+                    backgroundColor: CustomColors.primary,
+                        child: Center(
+                          child: Text(
+                            'Sign in',
+                            style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),

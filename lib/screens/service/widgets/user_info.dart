@@ -43,7 +43,7 @@ class UserInfo extends StatelessWidget {
                   children: [
                     Text(
                       fullname,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(
                       width: 2,
@@ -62,8 +62,8 @@ class UserInfo extends StatelessWidget {
             ),
 
             //hourly rate
-            Text('\$${NumberFormat('#,##0.00').format(hourlyRate)}/hour',
-            style: Theme.of(context).textTheme.bodyMedium,)
+            Text('\$${NumberFormat('#,##0.00').format(hourlyRate)}/hr',
+            style: Theme.of(context).textTheme.headlineSmall,)
           ],
         ),
         const SizedBox(

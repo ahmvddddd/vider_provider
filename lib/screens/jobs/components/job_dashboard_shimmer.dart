@@ -73,26 +73,10 @@ class JobsDashBoardShimmer extends StatelessWidget {
 
         //heatmap
         const SizedBox(height: Sizes.spaceBtwItems),
-        RoundedContainer(
+        ShimmerWidget(
             width: screenWidth * 0.90,
+            height: screenHeight * 0.15,
             radius: Sizes.cardRadiusSm,
-          backgroundColor:
-              dark
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : Colors.black.withValues(alpha: 0.1),
-            padding: const EdgeInsets.all(Sizes.sm),
-          child: GridLayout(
-          crossAxisCount: 12,
-          mainAxisExtent: screenWidth * 0.03,
-          itemCount: 48,
-          itemBuilder: (context, index) {
-          return ShimmerWidget(
-            width: screenWidth * 0.03,
-            height: screenWidth * 0.03,
-                  radius: 50,
-                );
-          }
-        ),
         ),
 
         //Clients      

@@ -8,8 +8,6 @@ import '../../controllers/notifications/unread_notifications_controller.dart';
 import '../../controllers/transactions/fetch_transactions_controller.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
-import '../authentication/user_details/upload_id_screen.dart';
-import '../authentication/verification/verify_email.dart';
 import '../jobs/components/job_dashboard_shimmer.dart';
 import '../jobs/components/jobs_dashboard.dart';
 import '../transactions/components/recent_transactions_shimmer.dart';
@@ -103,30 +101,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           RecentTransactionsShimmer(),
                         ],
                       ),
-                    SizedBox(height: Sizes.spaceBtwItems),
                     ProviderDashboardScreen(dashboardAsync: dashboardAsync),
 
-                    SizedBox(height: Sizes.spaceBtwItems),
-                    ElevatedButton(
-                      onPressed: () {
-                        HelperFunction.navigateScreen(
-                          context,
-                          const UploadIdScreen(),
-                        );
-                      },
-                      child: Text('uload Profile image'),
-                    ),
-
-                    SizedBox(height: Sizes.spaceBtwItems),
-                    ElevatedButton(
-                      onPressed: () {
-                        HelperFunction.navigateScreen(
-                          context,
-                          VerifyEmailScreen(),
-                        );
-                      },
-                      child: Text('email verification'),
-                    ),
 
                     SizedBox(height: Sizes.spaceBtwItems),
                     RecentTransactions(transactionsAsync: transactionsAsync),

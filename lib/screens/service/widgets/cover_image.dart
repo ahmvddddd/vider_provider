@@ -33,12 +33,11 @@ class CoverImage extends StatelessWidget {
 
         //Icon
         Positioned(
-          left: 0,
-          right: 0,
           bottom: -30,
+  left: (MediaQuery.of(context).size.width - horizontalCardHeight * 0.95) / 2,
+          child: Container(
           width: horizontalCardHeight * 0.95,
           height: horizontalCardHeight * 0.95,
-          child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: CustomColors.primary, width: 2),
               shape: BoxShape.circle,

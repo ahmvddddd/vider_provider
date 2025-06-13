@@ -22,7 +22,7 @@ class JobDurationAndStatus extends StatelessWidget {
       children: [
         Expanded(
           child: RoundedContainer(
-            height: screenHeight * 0.20,
+            height: screenHeight * 0.30,
             padding: const EdgeInsets.all(Sizes.xs),
             radius: Sizes.cardRadiusSm,
             backgroundColor: CustomColors.primary,
@@ -36,7 +36,7 @@ class JobDurationAndStatus extends StatelessWidget {
             ),
             const SizedBox(height: Sizes.sm),
             Container(
-              height: screenHeight * 0.13,
+              height: screenHeight * 0.15,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -60,7 +60,7 @@ class JobDurationAndStatus extends StatelessWidget {
         const SizedBox(width: Sizes.sm),
         Expanded(
           child: RoundedContainer(
-            height: screenHeight * 0.20,
+            height: screenHeight * 0.30,
             padding: const EdgeInsets.all(Sizes.xs),
             radius: Sizes.cardRadiusSm,
             backgroundColor:

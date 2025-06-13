@@ -24,9 +24,7 @@ class _RecentTransactionsState extends ConsumerState<RecentTransactions> {
     return widget.transactionsAsync.when(
       data: (transactions) {
         if (transactions.isEmpty) {
-          return Center(child: Text('You have not made any transaction',
-            style: Theme.of(context).textTheme.bodySmall,
-          ));
+          return SizedBox.shrink();
         }
         return Column(
           children: [
