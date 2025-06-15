@@ -70,7 +70,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
           showBackArrow: true,
         ),
         bottomNavigationBar: ButtonContainer(
-                text: verifyOtpState.isLoading ? 'Verifying' : 'Proceed',
+                text: 'Proceed',
                 onPressed: () async {
                   final code = _controllers.map((c) => c.text).join();
                   if (code.length < 6) {
@@ -93,14 +93,28 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                     error: (e, _) => CustomSnackbar.show(
                       context: context,
                       title: 'An error occured',
-                      message: e.toString(),
+                      message: 'Failed to verify OTP. Try agin later',
                       icon: Icons.error_outline,
                       backgroundColor: CustomColors.error,
                     ),
                   );
                 },
               ),
-        body: SingleChildScrollView(
+        body: 
+         verifyOtpState.isLoading ? 
+         Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.blue,
+                  ), // color
+                  strokeWidth: 4.0, // thickness of the line
+                  backgroundColor:
+                      dark
+                          ? Colors.white
+                          : Colors.black, // background circle color
+                ),
+              )
+         : SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(Sizes.spaceBtwItems),
             child: Column(

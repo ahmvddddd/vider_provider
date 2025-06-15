@@ -71,115 +71,119 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     final dark = HelperFunction.isDarkMode(context);
 
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'Identification Details',
-          style: Theme.of(context).textTheme.headlineSmall,
+    return SafeArea(
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text(
+            'Identification Details',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          showBackArrow: true,
         ),
-        showBackArrow: true,
-      ),
-      bottomNavigationBar: ButtonContainer(
-        onPressed: (idImage == null) ? null : _uploadImage,
-        text: 'Submit',
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const TitleAndDescription(
-              textAlign: TextAlign.left,
-              title: 'Id Type',
-              description:
-                  'Select the type of Identification Document you would like to upload',
-            ),
-            const SizedBox(height: Sizes.spaceBtwItems),
-            SizedBox(
-              width: screenWidth * 0.70,
-              child: Padding(
-                padding: const EdgeInsets.only(left: Sizes.sm),
-                child: DropdownButton(
-                  value: selectedOption,
-                  isExpanded: true,
-                  hint: Text(
-                    'Select Id type',
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                  items:
-                      idType.map((String option) {
-                        return DropdownMenuItem(
-                          value: option,
-                          child: Text(
-                            option,
-                            style: Theme.of(context).textTheme.labelMedium,
-                          ),
-                        );
-                      }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedOption = newValue!;
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: Sizes.spaceBtwSections),
-            const TitleAndDescription(
-              textAlign: TextAlign.left,
-              title: 'Id Image',
-              description:
-                  'Tap the button below to upload an image of your Identity card. Make sure your photo is clear and ensure your names match with no spelling error.',
-            ),
-
-            const SizedBox(height: Sizes.spaceBtwItems),
-            idImage == null
-                ? Text(
-                  'No Image Selected',
-                  style: Theme.of(context).textTheme.labelLarge,
-                )
-                : Container(
-                  height: screenHeight * 0.20,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Sizes.borderRadiusMd),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(Sizes.borderRadiusMd),
-                    child: Image.file(
-                      File(idImage!.path),
-                      height: screenHeight * 0.20,
-                    ),
-                  ),
-                ),
-            const SizedBox(height: Sizes.spaceBtwItems),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        bottomNavigationBar: ButtonContainer(
+          onPressed: (idImage == null) ? null : _uploadImage,
+          text: 'Submit',
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                isLoading
-                    ? CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.blue,
-                      ), // color
-                      strokeWidth: 4.0, // thickness of the line
-                      backgroundColor: dark ? Colors.white : Colors.black, //
-                    )
-                    : TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                        backgroundColor: CustomColors.primary,
+                const TitleAndDescription(
+                  textAlign: TextAlign.left,
+                  title: 'Id Type',
+                  description:
+                      'Select the type of Identification Document you would like to upload',
+                ),
+                const SizedBox(height: Sizes.spaceBtwItems),
+                SizedBox(
+                  width: screenWidth * 0.70,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: Sizes.sm),
+                    child: DropdownButton(
+                      value: selectedOption,
+                      isExpanded: true,
+                      hint: Text(
+                        'Select Id type',
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
-                      onPressed: getImage,
-                      child: Text(
-                        'Select Image',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                      items:
+                          idType.map((String option) {
+                            return DropdownMenuItem(
+                              value: option,
+                              child: Text(
+                                option,
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                            );
+                          }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedOption = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: Sizes.spaceBtwSections),
+                const TitleAndDescription(
+                  textAlign: TextAlign.left,
+                  title: 'Id Image',
+                  description:
+                      'Tap the button below to upload an image of your Identity card. Make sure your photo is clear and ensure your names match with no spelling error.',
+                ),
+          
+                const SizedBox(height: Sizes.spaceBtwItems),
+                idImage == null
+                    ? Text(
+                      'No Image Selected',
+                      style: Theme.of(context).textTheme.labelLarge,
+                    )
+                    : Container(
+                      height: screenHeight * 0.20,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Sizes.borderRadiusMd),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(Sizes.borderRadiusMd),
+                        child: Image.file(
+                          File(idImage!.path),
+                          height: screenHeight * 0.20,
+                        ),
                       ),
                     ),
+                const SizedBox(height: Sizes.spaceBtwItems),
+          
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    isLoading
+                        ? CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.blue,
+                          ), // color
+                          strokeWidth: 4.0, // thickness of the line
+                          backgroundColor: dark ? Colors.white : Colors.black, //
+                        )
+                        : TextButton(
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                            backgroundColor: CustomColors.primary,
+                          ),
+                          onPressed: getImage,
+                          child: Text(
+                            'Select Image',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                          ),
+                        ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

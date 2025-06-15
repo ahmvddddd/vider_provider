@@ -112,7 +112,7 @@ class ProfileImageController extends AsyncNotifier<void> {
         CustomSnackbar.show(
           context: context,
           title: 'An error occurred',
-          message: 'Failed to upload image. ${response.statusCode}',
+          message: 'Failed to upload image. Try again later',
           icon: Icons.error_outline,
           backgroundColor: CustomColors.error,
         );

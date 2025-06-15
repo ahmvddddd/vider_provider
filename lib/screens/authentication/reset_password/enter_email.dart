@@ -35,19 +35,20 @@ class EnterEmailScreen extends ConsumerWidget {
 
           text: 'Submit',
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(Sizes.spaceBtwItems),
-            child:
-                sendOtpState.isLoading
-                    ? CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.blue,
-                      ), // color
-                      strokeWidth: 6.0, // thickness of the line
-                      backgroundColor: dark ? Colors.white : Colors.black,
-                    )
-                    : Column(
+        body: sendOtpState.isLoading
+                ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.blue,
+                    ), // color
+                    strokeWidth: 4.0, // thickness of the line
+                    backgroundColor: dark ? Colors.white : Colors.black,
+                  ),
+                )
+                : SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(Sizes.spaceBtwItems),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleAndDescription(
@@ -72,8 +73,8 @@ class EnterEmailScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-          ),
-        ),
+                  ),
+                ),
       ),
     );
   }

@@ -67,15 +67,16 @@ class SignupController extends StateNotifier<SignupState> {
       if (response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
 
-        // Save the token in secure storage
-        await _secureStorage.write(key: 'token', value: responseData['token']);
+        await Future.wait([
+          // Save the token in secure storage
+          _secureStorage.write(key: 'token', value: responseData['token']),
+          // Save username to local storage
+          UsernameLocalStorage.saveUsername(username)
+        ]);
 
         FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
           saveFcmTokenToBackend();
         });
-
-        // Save username to local storage
-        await UsernameLocalStorage.saveUsername(username);
 
         // Navigate to the new page
         HelperFunction.navigateScreenReplacement(context, UserDetailsScreen());
@@ -88,7 +89,10 @@ class SignupController extends StateNotifier<SignupState> {
                 ? 'Something went wrong on our side. Please try again later.'
                 : formatBackendError(rawError);
 
-        state = state.copyWith(isLoading: false, error: "An error occurred. Please try again later.");
+        state = state.copyWith(
+          isLoading: false,
+          error: "An error occurred. Please try again later.",
+        );
         await FirebaseCrashlytics.instance.recordError(
           Exception("Signup failed: $formattedError"),
           null,

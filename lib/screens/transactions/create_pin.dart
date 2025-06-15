@@ -68,62 +68,66 @@ class _CreatePinScreenState extends ConsumerState<CreatePinScreen> {
   Widget build(BuildContext context) {
     final pin = ref.watch(pinStateProvider);
 
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'Create Transaction PIN',
-          style: Theme.of(context).textTheme.headlineSmall,
+    return SafeArea(
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text(
+            'Create Transaction PIN',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          showBackArrow: true,
         ),
-        showBackArrow: true,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            isConfirming ? "Confirm PIN" : "Enter a 4-digit PIN",
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-
-          const SizedBox(height: Sizes.spaceBtwItems),
-          Row(
+        body: SingleChildScrollView(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children:
-                pin.map((digit) {
-                  return Container(
-                    margin: const EdgeInsets.all(8),
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        digit.isEmpty ? "•" : "*",
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineLarge!.copyWith(fontSize: 30),
-                      ),
-                    ),
-                  );
-                }).toList(),
+            children: [
+              Text(
+                isConfirming ? "Confirm PIN" : "Enter a 4-digit PIN",
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+          
+              const SizedBox(height: Sizes.spaceBtwItems),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                    pin.map((digit) {
+                      return Container(
+                        margin: const EdgeInsets.all(8),
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: Text(
+                            digit.isEmpty ? "•" : "*",
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineLarge!.copyWith(fontSize: 30),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+              ),
+              if (error != null) ...[
+                const SizedBox(height: Sizes.spaceBtwItems),
+                Text(error!, style: const TextStyle(color: Colors.red)),
+              ],
+              const SizedBox(height: Sizes.spaceBtwItems),
+              CustomKeypad(
+                onDigitPressed: (digit) {
+                  ref.read(pinStateProvider.notifier).enterDigit(digit);
+                  if (ref.read(pinStateProvider).every((d) => d.isNotEmpty)) {
+                    onSubmitPin();
+                  }
+                },
+                onBackspace:
+                    () => ref.read(pinStateProvider.notifier).removeDigit(),
+              ),
+            ],
           ),
-          if (error != null) ...[
-            const SizedBox(height: Sizes.spaceBtwItems),
-            Text(error!, style: const TextStyle(color: Colors.red)),
-          ],
-          const SizedBox(height: Sizes.spaceBtwItems),
-          CustomKeypad(
-            onDigitPressed: (digit) {
-              ref.read(pinStateProvider.notifier).enterDigit(digit);
-              if (ref.read(pinStateProvider).every((d) => d.isNotEmpty)) {
-                onSubmitPin();
-              }
-            },
-            onBackspace:
-                () => ref.read(pinStateProvider.notifier).removeDigit(),
-          ),
-        ],
+        ),
       ),
     );
   }

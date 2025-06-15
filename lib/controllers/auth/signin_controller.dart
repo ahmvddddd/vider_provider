@@ -62,14 +62,10 @@ class LoginController extends StateNotifier<LoginState> {
           password: responseData['password'],
         );
 
-        // Save the token
-        await _secureStorage.write(key: 'token', value: responseData['token']);
-
-        // Save username
-        await UsernameLocalStorage.saveUsername(username);
-
-        // Fetch user profile via UserController
-        await ref.read(userProvider.notifier).fetchUserDetails();
+        await Future.wait([
+          _secureStorage.write(key: 'token', value: responseData['token']),
+          UsernameLocalStorage.saveUsername(username),
+        ]);
 
         // Optional: Register FCM
         FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
@@ -80,6 +76,9 @@ class LoginController extends StateNotifier<LoginState> {
 
         // Navigate to the main screen
         HelperFunction.navigateScreenReplacement(context, NavigationMenu());
+
+        // Fetch user profile via UserController
+        await ref.read(userProvider.notifier).fetchUserDetails();
       } else {
         final responseData = jsonDecode(response.body);
         final rawError = responseData['message'] ?? 'Signin failed';

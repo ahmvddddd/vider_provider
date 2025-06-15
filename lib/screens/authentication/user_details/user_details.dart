@@ -163,17 +163,23 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'User Details',
-          style: Theme.of(context).textTheme.headlineSmall,
+    return SafeArea(
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text(
+            'User Details',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          showBackArrow: true,
         ),
-        showBackArrow: true,
-      ),
-      bottomNavigationBar: 
-      isLoading ?
-      CircularProgressIndicator(
+        bottomNavigationBar: ButtonContainer(
+          text: 'Submit',
+          onPressed: _submitProfile,
+        ),
+        body:
+            isLoading
+                ? Center(
+                  child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
                       Colors.blue,
                     ), // color
@@ -181,112 +187,126 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                     backgroundColor:
                         dark
                             ? Colors.white
-                            : Colors.black, //
-      )
-      : ButtonContainer(
-        text: 'Submit',
-        onPressed: _submitProfile,
-      ),
-      body: occupationsAsync.when(
-        data:
-            (occupations) => SingleChildScrollView(
-              padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Date of Birth',
-                    description: 'Tap the select button to enter your DOB',
+                            : Colors.black, // background circle color
                   ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  _buildDOBSection(screenWidth, screenHeight),
-
-                  const SizedBox(height: Sizes.spaceBtwSections),
-                  const TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Bio',
-                    description:
-                        'A brief description about the services you provide',
-                  ),
-                  const SizedBox(height: Sizes.sm),
-                  TextFieldContainer(
-                    controller: bioController,
-                    maxLength: 200,
-                    maxLines: 3,
-                    keyboardType: TextInputType.text,
-                    hintText: 'Brief description',
-                  ),
-
-                  const SizedBox(height: Sizes.spaceBtwSections),
-                  const TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Service',
-                    description:
-                        'Select the category and service you would render',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(Sizes.sm),
-                    child: _buildServiceDropdowns(occupations),
-                  ),
-
-                  const SizedBox(height: Sizes.spaceBtwSections),
-                  const TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Skills',
-                    description:
-                        'Enter your professional skills and hit the enter key to submit. Click on the skill to remove skill',
-                  ),
-                  const SizedBox(height: Sizes.sm),
-                  TextFieldContainer(
-                    controller: skillsController,
-                    hintText: 'Skills',
-                    keyboardType: TextInputType.text,
-                    onSubmitted: (_) => _addSkill(),
-                  ),
-                  SkillsList(
-                    skills: skills,
-                    isDark: dark,
-                    onDelete: (index) {
-                      setState(() => skills.removeAt(index));
-                    },
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwSections),
-                  const TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Crypto Address',
-                    description:
-                        'Enter your wallet address to receive payments',
-                  ),
-                  const SizedBox(height: Sizes.sm),
-                  TextFieldContainer(
-                    controller: cryptoAddressController,
-                    hintText: 'Crypto Address',
-                    keyboardType: TextInputType.text,
-                  ),
-
-                  const SizedBox(height: Sizes.spaceBtwSections),
-                  const TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Hourly Rate',
-                    description:
-                        'Enter how much you charge per hour (minimum \$5)',
-                  ),
-                  const SizedBox(height: Sizes.sm),
-                  TextFieldContainer(
-                    controller: hourlyRateController,
-                    hintText: 'Hourly Rate (\$)',
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwSections),
-                ],
-              ),
-            ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error:
-            (err, _) => Center(child: Text('Error loading categories: $err')),
+                )
+                : occupationsAsync.when(
+                  data:
+                      (occupations) => SingleChildScrollView(
+                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const TitleAndDescription(
+                              textAlign: TextAlign.left,
+                              title: 'Date of Birth',
+                              description:
+                                  'Tap the select button to enter your DOB',
+                            ),
+                            const SizedBox(height: Sizes.spaceBtwItems),
+                            _buildDOBSection(screenWidth, screenHeight),
+      
+                            const SizedBox(height: Sizes.spaceBtwSections),
+                            const TitleAndDescription(
+                              textAlign: TextAlign.left,
+                              title: 'Bio',
+                              description:
+                                  'A brief description about the services you provide',
+                            ),
+                            const SizedBox(height: Sizes.sm),
+                            TextFieldContainer(
+                              controller: bioController,
+                              maxLength: 200,
+                              maxLines: 3,
+                              keyboardType: TextInputType.text,
+                              hintText: 'Brief description',
+                            ),
+      
+                            const SizedBox(height: Sizes.spaceBtwSections),
+                            const TitleAndDescription(
+                              textAlign: TextAlign.left,
+                              title: 'Service',
+                              description:
+                                  'Select the category and service you would render',
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(Sizes.sm),
+                              child: _buildServiceDropdowns(occupations),
+                            ),
+      
+                            const SizedBox(height: Sizes.spaceBtwSections),
+                            const TitleAndDescription(
+                              textAlign: TextAlign.left,
+                              title: 'Skills',
+                              description:
+                                  'Enter your professional skills and hit the enter key to submit. Click on the skill to remove skill',
+                            ),
+                            const SizedBox(height: Sizes.sm),
+                            TextFieldContainer(
+                              controller: skillsController,
+                              hintText: 'Skills',
+                              keyboardType: TextInputType.text,
+                              onSubmitted: (_) => _addSkill(),
+                            ),
+                            SkillsList(
+                              skills: skills,
+                              isDark: dark,
+                              onDelete: (index) {
+                                setState(() => skills.removeAt(index));
+                              },
+                            ),
+                            const SizedBox(height: Sizes.spaceBtwSections),
+                            const TitleAndDescription(
+                              textAlign: TextAlign.left,
+                              title: 'Crypto Address',
+                              description:
+                                  'Enter your wallet address to receive payments',
+                            ),
+                            const SizedBox(height: Sizes.sm),
+                            SizedBox(
+                              width: screenWidth * 0.90,
+                              child: Text(
+                                'Make sure to submit a valid crypto address. You address can not be changed after submission',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.labelMedium!.copyWith(
+                                  color: CustomColors.warning,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                softWrap: true,
+                                maxLines: 3,
+                              ),
+                            ),
+                            TextFieldContainer(
+                              controller: cryptoAddressController,
+                              hintText: 'Crypto Address',
+                              keyboardType: TextInputType.text,
+                            ),
+      
+                            const SizedBox(height: Sizes.spaceBtwSections),
+                            const TitleAndDescription(
+                              textAlign: TextAlign.left,
+                              title: 'Hourly Rate',
+                              description:
+                                  'Enter how much you charge per hour (minimum \$5)',
+                            ),
+                            const SizedBox(height: Sizes.sm),
+                            TextFieldContainer(
+                              controller: hourlyRateController,
+                              hintText: 'Hourly Rate (\$)',
+                              keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
+                            ),
+                            const SizedBox(height: Sizes.spaceBtwSections),
+                          ],
+                        ),
+                      ),
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error:
+                      (err, _) =>
+                          Center(child: Text('Error loading categories: $err')),
+                ),
       ),
     );
   }

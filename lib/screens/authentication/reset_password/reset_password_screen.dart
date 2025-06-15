@@ -92,22 +92,22 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
 
           text: 'Submit',
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-            child: Form(
-              key: _formKey,
-              child: resetState.isLoading
+        body: resetState.isLoading
               ?  Center(child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
                     Colors.blue,
                   ), // color
-                  strokeWidth: 6.0, // thickness of the line
+                  strokeWidth: 4.0, // thickness of the line
                   backgroundColor:
                       dark
                           ? Colors.white
                           : Colors.black, ))
-              : Column(
+              : SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Form(
+              key: _formKey,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: Sizes.spaceBtwItems),

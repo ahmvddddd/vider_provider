@@ -163,7 +163,7 @@ class SignupUserForm extends ConsumerWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(
                     Colors.blue,
                   ), // color
-                  strokeWidth: 6.0, // thickness of the line
+                  strokeWidth: 4.0, // thickness of the line
                   backgroundColor:
                       dark
                           ? Colors.white
