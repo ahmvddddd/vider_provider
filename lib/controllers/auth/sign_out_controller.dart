@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import '../../app.dart';
+import '../../screens/authentication/auth_screen.dart';
 import '../../utils/helpers/helper_function.dart';
 
 final signoutControllerProvider =
@@ -33,7 +33,7 @@ class SignoutController extends StateNotifier<SignoutState> {
       // Navigate to login screen (or any auth screen)
       HelperFunction.navigateScreenReplacement(
         context,
-        const App(),
+        const AuthScreen(),
       ); // Replace with your actual signin screen
     } catch (error, stackTrace) {
       state = state.copyWith(

@@ -7,7 +7,7 @@ import '../../controllers/user/save_location_controller.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
-import '../settings/components/subscription_plan_screen.dart';
+import '../transactions/validate_pin_screen.dart';
 import 'components/update_bio.dart';
 import 'components/update_category_and_service.dart';
 import 'components/update_hourly_rate.dart';
@@ -64,7 +64,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             title: ' ChangeSubscription Plan',
             subTitle: '',
             onTap:
-                () => HelperFunction.navigateScreen(context, SubscriptionPlanScreen()),
+                () => HelperFunction.navigateScreen(context, ValidatePinScreen()),
           ),
         ),
         const SizedBox(height: Sizes.spaceBtwItems),

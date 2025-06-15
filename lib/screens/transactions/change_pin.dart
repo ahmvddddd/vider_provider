@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/widgets/appbar/appbar.dart';
 import '../../common/widgets/inputs/custom_keypad.dart';
+import '../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../controllers/user/change_pin_controller.dart';
+import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 
 class ChangePinPage extends ConsumerStatefulWidget {
@@ -59,8 +61,12 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
 
     if (result == null) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('PIN changed successfully')),
+        CustomSnackbar.show(
+          context: context,
+          title: 'Success',
+          message: 'Your PIN has been changed successfully.',
+          icon: Icons.check_circle,
+          backgroundColor: CustomColors.success,
         );
         Navigator.pop(context);
       }
@@ -71,6 +77,13 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
         newPin = ['', '', '', ''];
         isEnteringNewPin = false;
       });
+        CustomSnackbar.show(
+          context: context,
+          title: 'Error',
+          message: result,
+          icon: Icons.error_outline,
+          backgroundColor: CustomColors.error,
+        );
     }
   }
 

@@ -12,9 +12,23 @@ final changePinControllerProvider = Provider((ref) => ChangePinController());
 class ChangePinController {
   final _storage = const FlutterSecureStorage();
   final logger = Logger();
-  String changePinURL = dotenv.env['CHANGE_PIN_URL'] ?? 'https//defaulturl.com/api';
+  String changePinURL =
+      dotenv.env['CHANGE_PIN_URL'] ?? 'https//defaulturl.com/api';
 
-  Future<String?> changePin({required String currentPin, required String newPin}) async {
+  String formatBackendError(String message) {
+    if (message.contains('Wallet not found')) {
+      return 'An  error occurred with your account. Could not change PIN';
+    } else if (message.contains('Current PIN is incorrect')) {
+      return 'Current PIN is incorrect';
+    } else {
+      return message;
+    }
+  }
+
+  Future<String?> changePin({
+    required String currentPin,
+    required String newPin,
+  }) async {
     try {
       final token = await _storage.read(key: 'token');
 
@@ -24,18 +38,22 @@ class ChangePinController {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode({
-          'currentPin': currentPin,
-          'newPin': newPin,
-        }),
+        body: jsonEncode({'currentPin': currentPin, 'newPin': newPin}),
       );
 
-      if (response.statusCode == 200) return null;
+      if (response.statusCode == 200) {
+        return null;
+      } else {
+        final responseData = jsonDecode(response.body);
+        final rawError = responseData['message'] ?? 'Failed to change transaction PIN';
 
-      final data = jsonDecode(response.body);
-      return data['message'] ?? 'Failed to change PIN';
+        final formattedError =
+            response.statusCode == 500
+                ? 'Something went wrong on our side. Please try again later.'
+                : formatBackendError(rawError);
+        return formattedError;
+      }
     } catch (error, stackTrace) {
-
       try {
         await FirebaseCrashlytics.instance.recordError(
           error,

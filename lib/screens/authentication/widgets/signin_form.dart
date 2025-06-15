@@ -8,6 +8,7 @@ import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../../controllers/auth/signin_controller.dart';
 import '../../../utils/validators/validation.dart';
+import '../reset_password/enter_email.dart';
 import 'build_textfield.dart';
 
 class SigninForm extends ConsumerStatefulWidget {
@@ -156,7 +157,17 @@ class _SigninFormState extends ConsumerState<SigninForm> {
               ),
             ),
 
-          const SizedBox(height: Sizes.spaceBtwItems),
+          const SizedBox(
+                  height: Sizes.sm,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {HelperFunction.navigateScreen(context, EnterEmailScreen());}, 
+                  child: Text('Forgot Password?',
+                  style: Theme.of(context).textTheme.labelMedium)),
+                )
+
         ],
       ),
     );
