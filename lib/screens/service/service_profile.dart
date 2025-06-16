@@ -174,30 +174,6 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                             ),
                           ),
                           const SizedBox(height: Sizes.spaceBtwItems),
-                          // const TSectionHeading(
-                          //   title: 'Certifications',
-                          //   showActionButton: false,
-                          // ),
-                          // const SizedBox(height: Sizes.sm),
-                          // const CertificationTitle(title: 'MCFE'),
-                          // const SizedBox(height: Sizes.sm),
-                          // SizedBox(
-                          //   width: screenWidth * 0.90,
-                          //   child: Text(
-                          //     'Lorem ipsum dolor sit amet...',
-                          //     style: Theme.of(context).textTheme.bodySmall,
-                          //   ),
-                          // ),
-                          // const SizedBox(height: Sizes.sm),
-                          // const CertificationTitle(title: 'CSFB'),
-                          // const SizedBox(height: Sizes.sm),
-                          // SizedBox(
-                          //   width: screenWidth * 0.90,
-                          //   child: Text(
-                          //     'Lorem ipsum dolor sit amet...',
-                          //     style: Theme.of(context).textTheme.bodySmall,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),

@@ -140,13 +140,11 @@ final userPortfolioUpdateProvider = FutureProvider.family<void, Map<int, File>>(
 
       // Add each index as a separate field (if your backend supports it)
       request.fields['indexes[$index]'] = index.toString();
-      // Or use this if backend supports repeated 'indexes' fields:
-      // request.fields['indexes'] = index.toString();
     }
 
     final response = await request.send();
     if (response.statusCode != 200) {
-      final exception = 'Failed to update portfolio images ${response.statusCode}';
+      final exception = 'Failed to update portfolio images';
       try {
         await FirebaseCrashlytics.instance.recordError(
           Exception("Failed to update portfolio images: ${response.statusCode}"),
@@ -168,6 +166,6 @@ final userPortfolioUpdateProvider = FutureProvider.family<void, Map<int, File>>(
     } catch (e) {
       logger.i('Crashlytics update portfolio images controller failed $e');
     }
-    throw Exception('Failed to update portfolio images: ${error.toString()}');
+    throw Exception('Failed to update portfolio images');
   }
 });

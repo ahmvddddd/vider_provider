@@ -50,7 +50,7 @@ class WalletController extends StateNotifier<AsyncValue<WalletModel>> {
         stackTrace,
         reason: 'Wallet balance controller failed',
       );
-      state = AsyncError(error, stackTrace);
+      state = AsyncError('Failed to fetch balance', stackTrace);
     }
   }
   }

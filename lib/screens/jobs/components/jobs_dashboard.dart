@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+// import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:vider_provider/common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/layouts/grid_layout.dart';
@@ -57,10 +57,10 @@ class ProviderDashboardScreen extends ConsumerWidget {
         }
 
         // Prepare status chart data
-        final statusData =
-            dashboard.statusBreakdown
-                .map((s) => _StatusData(s.status, s.count))
-                .toList();
+        // final statusData =
+        //     dashboard.statusBreakdown
+        //         .map((s) => _StatusData(s.status, s.count))
+        //         .toList();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,46 +70,56 @@ class ProviderDashboardScreen extends ConsumerWidget {
               starColor: starColor,
               star: star,
             ),
+            const SizedBox(height: Sizes.sm),
+            Text('Total amount of money you have earned on vider.',
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 10),
+            softWrap: true,
+            ),
             const SizedBox(height: Sizes.spaceBtwItems),
 
             JobDurationAndStatus(
               averageDuration: dashboard.averageDuration,
-              chart: 
-              statusData.isEmpty
-              ? Center(
-                child: Text('No Jobs Data Yet',
-                style: Theme.of(context).textTheme.labelMedium,
-                softWrap: true,
-                maxLines: 3,),
-              )
-              : SfCircularChart(
-                legend: Legend(
-                  isVisible: true,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                  position: LegendPosition.bottom,
-                  iconHeight: 12,
-                  iconWidth: 12,
-                ),
-                series: <CircularSeries<dynamic, String>>[
-                  PieSeries<_StatusData, String>(
-                    dataSource: statusData,
-                    xValueMapper: (e, _) => e.status,
-                    yValueMapper: (e, _) => e.count,
-                    radius: '55%',
-                    dataLabelMapper: (e, _) => '${e.status} (${e.count})',
-                    pointColorMapper: (e, _) {
-                      switch (e.status) {
-                        case 'Credited':
-                          return Colors.green[900];
-                        case 'Pending':
-                          return Colors.orange[900];
-                        default:
-                          return CustomColors.primary;
-                      }
-                    },
-                  ),
-                ],
-              ),
+              // chart: 
+              // statusData.isEmpty
+              // ? Center(
+              //   child: Text('No Jobs Data Yet',
+              //   style: Theme.of(context).textTheme.labelMedium,
+              //   softWrap: true,
+              //   maxLines: 3,),
+              // )
+              // : SfCircularChart(
+              //   legend: Legend(
+              //     isVisible: true,
+              //     overflowMode: LegendItemOverflowMode.wrap,
+              //     position: LegendPosition.bottom,
+              //     iconHeight: 12,
+              //     iconWidth: 12,
+              //   ),
+              //   series: <CircularSeries<dynamic, String>>[
+              //     PieSeries<_StatusData, String>(
+              //       dataSource: statusData,
+              //       xValueMapper: (e, _) => e.status,
+              //       yValueMapper: (e, _) => e.count,
+              //       radius: '55%',
+              //       dataLabelMapper: (e, _) => '${e.status} (${e.count})',
+              //       pointColorMapper: (e, _) {
+              //         switch (e.status) {
+              //           case 'Credited':
+              //             return Colors.green[900];
+              //           case 'Pending':
+              //             return Colors.orange[900];
+              //           default:
+              //             return CustomColors.primary;
+              //         }
+              //       },
+              //     ),
+              //   ],
+              // ),
+            ),
+            const SizedBox(height: Sizes.sm),
+            Text('Average number of hours you have worked on vider',
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 10),
+            softWrap: true,
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),
@@ -137,6 +147,11 @@ class ProviderDashboardScreen extends ConsumerWidget {
                 },
                 margin: const EdgeInsets.all(2),
               ),
+            ),
+            const SizedBox(height: Sizes.sm),
+            Text('Heatmap for jobs and completion dates.',
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 10),
+            softWrap: true,
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),
@@ -216,8 +231,8 @@ class ProviderDashboardScreen extends ConsumerWidget {
   }
 }
 
-class _StatusData {
-  final String status;
-  final int count;
-  _StatusData(this.status, this.count);
-}
+// class _StatusData {
+//   final String status;
+//   final int count;
+//   _StatusData(this.status, this.count);
+// }

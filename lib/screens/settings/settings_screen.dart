@@ -16,57 +16,59 @@ class SettingsScreen extends ConsumerWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     final signoutController = ref.read(signoutControllerProvider.notifier);
 
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'Settings',
-          style: Theme.of(context).textTheme.headlineSmall,
+    return SafeArea(
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text(
+            'Settings',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          showBackArrow: true,
         ),
-        showBackArrow: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-          child: Column(
-            children: [
-              AccountInfo(),
-        
-                    
-              const SizedBox(height: Sizes.spaceBtwSections,),
-              TSectionHeading(
-                title: 'User Profile Settings',
-                showActionButton: false,
-              ),
-              const SizedBox(height: Sizes.sm),
-              UpdateUserProfilePage(),
-        
-              const SizedBox(height: Sizes.spaceBtwSections,),
-              TSectionHeading(
-                title: 'General Settings',
-                showActionButton: false,
-              ),
-              const SizedBox(height: Sizes.sm),
-              AccountSettingsPage(),
-
-              const SizedBox(
-                height: Sizes.spaceBtwSections,
-              ),
-              SizedBox(
-                width: screenWidth * 0.90,
-                child: ElevatedButton(
-                    onPressed: () {
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Column(
+              children: [
+                AccountInfo(),
+          
                       
-    signoutController.signOut(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.primary),
-                    child: Text('Signout',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: Colors.white))),
-              ),
-            ],
+                const SizedBox(height: Sizes.spaceBtwSections,),
+                TSectionHeading(
+                  title: 'User Profile Settings',
+                  showActionButton: false,
+                ),
+                const SizedBox(height: Sizes.sm),
+                UpdateUserProfilePage(),
+          
+                const SizedBox(height: Sizes.spaceBtwSections,),
+                TSectionHeading(
+                  title: 'General Settings',
+                  showActionButton: false,
+                ),
+                const SizedBox(height: Sizes.sm),
+                AccountSettingsPage(),
+      
+                const SizedBox(
+                  height: Sizes.spaceBtwSections,
+                ),
+                SizedBox(
+                  width: screenWidth * 0.90,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        
+      signoutController.signOut(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomColors.primary),
+                      child: Text('Signout',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(color: Colors.white))),
+                ),
+              ],
+            ),
           ),
         ),
       ),

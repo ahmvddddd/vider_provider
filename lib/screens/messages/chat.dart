@@ -49,92 +49,94 @@ class _ChatState extends ConsumerState<ChatScreen> {
     final readChatController = ref.read(readChatsProvider.notifier);
     final chatController = ref.watch(chatsProvider);
     final userState = ref.watch(userProvider);
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'Messages',
-          style: Theme.of(context).textTheme.headlineSmall,
+    return SafeArea(
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text(
+            'Messages',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
         ),
-      ),
-      body: userState.when(
-        data:
-            (user) => RefreshIndicator(
-              onRefresh: () async {
-                setState(() => isRefreshing = true); // Start loading
-                await Future.wait([
-                  ref.read(chatsProvider.notifier).fetchChats(),
-                ]);
-                setState(() => isRefreshing = false);
-                await ref.read(chatsProvider.notifier).fetchChats();
-              },
-              child: Column(
-                children: [
-                  if (isRefreshing) ChatShimmer(),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  Center(
-                    child: Text(
-                      'Messages are end to end encrypted.',
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  chatController.isEmpty
-                      ? Center(
-                        child: Text(
-                          'No Messages',
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                      )
-                      : HomeListView(
-                        scrollDirection: Axis.vertical,
-                        seperatorBuilder:
-                            (context, index) =>
-                                const SizedBox(height: Sizes.sm),
-                        itemCount: chatController.length,
-                        itemBuilder: (context, index) {
-                          final chats = chatController[index];
-                          final backgroundColor = Color(int.parse(chats.color));
-
-                          String avatar = chats.senderImage;
-                          String sender = chats.senderName;
-
-                          if (chats.senderId == currentUserId) {
-                            avatar = chats.receiverImage;
-                            sender = chats.receiverName;
-                          } else if (chats.receiverId == currentUserId) {
-                            avatar = chats.senderImage;
-                            sender = chats.senderName;
-                          }
-
-                          return GestureDetector(
-                            onTap: () async {
-                              await readChatController.readChat(
-                                context,
-                                chats.senderId,
-                                chats.receiverId,
-                                currentUserId!,
-                                sender,
-                                avatar,
-                                chats.participants,
-                              );
-                            },
-                            child: MessagePreview(
-                              avatar: avatar,
-                              sender: sender,
-                              messageText: chats.lastMessage,
-                              backgroundColor:
-                                  chats.senderId != currentUserId
-                                      ? backgroundColor
-                                      : Colors.transparent,
-                            ),
-                          );
-                        },
+        body: userState.when(
+          data:
+              (user) => RefreshIndicator(
+                onRefresh: () async {
+                  setState(() => isRefreshing = true); // Start loading
+                  await Future.wait([
+                    ref.read(chatsProvider.notifier).fetchChats(),
+                  ]);
+                  setState(() => isRefreshing = false);
+                  await ref.read(chatsProvider.notifier).fetchChats();
+                },
+                child: Column(
+                  children: [
+                    if (isRefreshing) ChatShimmer(),
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    Center(
+                      child: Text(
+                        'Messages are end to end encrypted.',
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
-                ],
+                    ),
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    chatController.isEmpty
+                        ? Center(
+                          child: Text(
+                            'No Messages',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                        )
+                        : HomeListView(
+                          scrollDirection: Axis.vertical,
+                          seperatorBuilder:
+                              (context, index) =>
+                                  const SizedBox(height: Sizes.sm),
+                          itemCount: chatController.length,
+                          itemBuilder: (context, index) {
+                            final chats = chatController[index];
+                            final backgroundColor = Color(int.parse(chats.color));
+      
+                            String avatar = chats.senderImage;
+                            String sender = chats.senderName;
+      
+                            if (chats.senderId == currentUserId) {
+                              avatar = chats.receiverImage;
+                              sender = chats.receiverName;
+                            } else if (chats.receiverId == currentUserId) {
+                              avatar = chats.senderImage;
+                              sender = chats.senderName;
+                            }
+      
+                            return GestureDetector(
+                              onTap: () async {
+                                await readChatController.readChat(
+                                  context,
+                                  chats.senderId,
+                                  chats.receiverId,
+                                  currentUserId!,
+                                  sender,
+                                  avatar,
+                                  chats.participants,
+                                );
+                              },
+                              child: MessagePreview(
+                                avatar: avatar,
+                                sender: sender,
+                                messageText: chats.lastMessage,
+                                backgroundColor:
+                                    chats.senderId != currentUserId
+                                        ? backgroundColor
+                                        : Colors.transparent,
+                              ),
+                            );
+                          },
+                        ),
+                  ],
+                ),
               ),
-            ),
-        loading: () => const ChatShimmer(),
-        error: (e, _) => Center(child: Text('Error loading profile')),
+          loading: () => const ChatShimmer(),
+          error: (e, _) => Center(child: Text('Error loading profile')),
+        ),
       ),
     );
   }

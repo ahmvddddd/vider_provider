@@ -8,16 +8,16 @@ import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../../utils/validators/validation.dart';
 import 'build_textfield.dart';
+import 'terms_and_conditions.dart';
 
 class SignupUserForm extends ConsumerWidget {
   const SignupUserForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    final signinState = ref.watch(signupControllerProvider);
+    final signupState = ref.watch(signupControllerProvider);
     final signupController = ref.read(signupControllerProvider.notifier);
-    final dark = HelperFunction.isDarkMode(context);
+
     final formKey = GlobalKey<FormState>();
     final firstnameController = TextEditingController();
     final lastnameController = TextEditingController();
@@ -27,161 +27,144 @@ class SignupUserForm extends ConsumerWidget {
     final confirmPasswordController = TextEditingController();
     final hidePassword = ValueNotifier<bool>(true);
     final hideConfirmPassword = ValueNotifier<bool>(true);
+    final termsAccepted = ValueNotifier<bool>(false);
+
+    final isDark = HelperFunction.isDarkMode(context);
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Form(
       key: formKey,
       child: Column(
         children: [
-          // username field
           const SizedBox(height: Sizes.spaceBtwItems),
           BuildTextfield(
             controller: firstnameController,
             icon: Iconsax.user,
-            hint: 'firstname',
-            validator: (value) {
-              Validator.validateTextField(value);
-              return null;
-            },
+            hint: 'Firstname',
+            validator: (value) => Validator.validateTextField(value),
           ),
-    
-          //lastname
           const SizedBox(height: Sizes.spaceBtwItems),
           BuildTextfield(
             controller: lastnameController,
             icon: Iconsax.user,
-            hint: 'lastname',
-            validator: (value) {
-              Validator.validateTextField(value);
-              return null;
-            },
+            hint: 'Lastname',
+            validator: (value) => Validator.validateTextField(value),
           ),
-    
           const SizedBox(height: Sizes.spaceBtwItems),
-          // Username Field
           BuildTextfield(
             controller: usernameController,
             icon: Iconsax.user,
-            hint: 'username',
-            validator: (value) {
-              Validator.validateTextField(value);
-              return null;
-            },
+            hint: 'Username',
+            validator: (value) => Validator.validateTextField(value),
           ),
           const SizedBox(height: Sizes.spaceBtwItems),
-          // Email Field
           BuildTextfield(
             controller: emailController,
             icon: Iconsax.direct,
-            hint: 'email',
+            hint: 'Email',
             isEmail: true,
+            validator: (value) => Validator.validateEmail(value),
+          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
+
+          /// Password
+          _buildPasswordField(
+            context,
+            controller: passwordController,
+            hidePassword: hidePassword,
+            label: 'Password',
+            isDark: isDark,
+          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
+
+          /// Confirm Password
+          _buildPasswordField(
+            context,
+            controller: confirmPasswordController,
+            hidePassword: hideConfirmPassword,
+            label: 'Confirm Password',
+            isDark: isDark,
             validator: (value) {
-              Validator.validateEmail(value);
+              if (value != passwordController.text) {
+                return 'Passwords do not match';
+              }
               return null;
             },
           ),
-    
-          // Password field
+
           const SizedBox(height: Sizes.spaceBtwItems),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
-              color: dark ? CustomColors.dark : CustomColors.light,
-            ),
-            child: ValueListenableBuilder<bool>(
-              valueListenable: hidePassword,
-              builder: (context, value, child) {
-                return TextFormField(
-                  controller: passwordController,
-                  obscureText: value,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: const Icon(Iconsax.password_check),
-                    hintText: 'password',
-                    hintStyle: Theme.of(context).textTheme.labelSmall,
-                    suffixIcon: IconButton(
-                      onPressed: () => hidePassword.value = !value,
-                      icon: Icon(value ? Iconsax.eye_slash : Iconsax.eye),
-                    ),
+
+          /// Terms & Conditions Checkbox
+          ValueListenableBuilder<bool>(
+            valueListenable: termsAccepted,
+            builder: (context, value, _) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                        value: value,
+                        onChanged:
+                            (checked) => termsAccepted.value = checked ?? false,
+                      ),
+                      GestureDetector(
+                        onTap:
+                            () => showDialog(
+                              context: context,
+                              builder: (_) => const TermsAndConditionsDialog(),
+                            ),
+                        child: Text.rich(
+                          TextSpan(
+                            text: 'I accept the ',
+                            style: Theme.of(context).textTheme.labelSmall,
+                            children: [
+                              TextSpan(
+                                text: 'Terms and Conditions',
+                                style: Theme.of(context).textTheme.labelMedium!.copyWith(color: CustomColors.primary)
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
                   ),
-                  validator: (value) {
-                    Validator.validatePassword(value);
-                    return null;
-                  },
-                );
-              },
-            ),
+                ],
+              );
+            },
           ),
-    
-          // Confirm Password field
+
           const SizedBox(height: Sizes.spaceBtwItems),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
-              color: dark ? CustomColors.dark : CustomColors.light,
-            ),
-            child: ValueListenableBuilder<bool>(
-              valueListenable: hideConfirmPassword,
-              builder: (context, value, child) {
-                return TextFormField(
-                  controller: confirmPasswordController,
-                  obscureText: value,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: const Icon(Iconsax.password_check),
-                    hintText: 'password',
-                    hintStyle: Theme.of(context).textTheme.labelSmall,
-                    suffixIcon: IconButton(
-                      onPressed: () => hideConfirmPassword.value = !value,
-                      icon: Icon(value ? Iconsax.eye_slash : Iconsax.eye),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value != passwordController.text) {
-                      return 'passwords do not match';
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-          ),
-    
-          const SizedBox(height: Sizes.spaceBtwItems),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Terms And Conditions',
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ),
-    
-          // Sign-in button
-          const SizedBox(height: Sizes.spaceBtwItems),
-          signinState.isLoading
-              ? Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.blue,
-                  ), // color
-                  strokeWidth: 4.0, // thickness of the line
-                  backgroundColor:
-                      dark
-                          ? Colors.white
-                          : Colors.black, // background circle color
-                ),
-              )
+
+          /// Sign Up Button
+          signupState.isLoading
+              ? const CircularProgressIndicator()
               : SizedBox(
                 width: double.infinity,
                 child: GestureDetector(
                   onTap: () {
+                    if (!termsAccepted.value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'You must accept the Terms and Conditions.',
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
                     if (formKey.currentState!.validate()) {
                       signupController.signup(
                         context,
-                        firstnameController.text,
-                        lastnameController.text,
-                        usernameController.text,
-                        emailController.text,
-                        passwordController.text,
+                        firstnameController.text.trim(),
+                        lastnameController.text.trim(),
+                        usernameController.text.trim(),
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
                       );
                     }
                   },
@@ -191,7 +174,7 @@ class SignupUserForm extends ConsumerWidget {
                     backgroundColor: CustomColors.primary,
                     child: Center(
                       child: Text(
-                        'Sign up',
+                        'Sign Up',
                         style: Theme.of(
                           context,
                         ).textTheme.labelSmall!.copyWith(color: Colors.white),
@@ -200,20 +183,56 @@ class SignupUserForm extends ConsumerWidget {
                   ),
                 ),
               ),
-          if (signinState.error != null)
+
+          if (signupState.error != null)
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                signinState.error!,
+                signupState.error!,
                 style: Theme.of(
                   context,
                 ).textTheme.labelMedium!.copyWith(color: Colors.red[900]),
                 textAlign: TextAlign.center,
               ),
             ),
-    
-          const SizedBox(height: Sizes.spaceBtwItems),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPasswordField(
+    BuildContext context, {
+    required TextEditingController controller,
+    required ValueNotifier<bool> hidePassword,
+    required String label,
+    required bool isDark,
+    String? Function(String?)? validator,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
+        color: isDark ? CustomColors.dark : CustomColors.light,
+      ),
+      child: ValueListenableBuilder<bool>(
+        valueListenable: hidePassword,
+        builder: (context, hide, child) {
+          return TextFormField(
+            controller: controller,
+            obscureText: hide,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              prefixIcon: const Icon(Iconsax.password_check),
+              hintText: label,
+              hintStyle: Theme.of(context).textTheme.labelSmall,
+              suffixIcon: IconButton(
+                icon: Icon(hide ? Iconsax.eye_slash : Iconsax.eye),
+                onPressed: () => hidePassword.value = !hide,
+              ),
+            ),
+            validator:
+                validator ?? (value) => Validator.validatePassword(value),
+          );
+        },
       ),
     );
   }

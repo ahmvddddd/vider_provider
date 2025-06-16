@@ -30,10 +30,13 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
     final walletController = ref.watch(walletProvider);
     return walletController.when(
       data: (wallet) {
-        return WalletDetails(balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}', subscriptionPlan: wallet.subscriptionPlan);
+        return WalletDetails(
+          balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}',
+          cryptoAddress: wallet.cryptoAddress,
+          subscriptionPlan: wallet.subscriptionPlan,
+        );
       },
-      loading:
-          () => WalletDetails(balance: '\$0.00', subscriptionPlan: 'Free'),
+      loading: () => WalletDetails(balance: '\$0.00', cryptoAddress: '', subscriptionPlan: 'Free'),
       error: (err, _) => Center(child: Text('Error: Failed to fetch balance')),
     );
   }
@@ -41,10 +44,13 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
 
 class WalletDetails extends StatelessWidget {
   final String balance;
+  final String cryptoAddress;
   final String subscriptionPlan;
-  const WalletDetails({super.key,
-  required this.balance,
-  required this.subscriptionPlan
+  const WalletDetails({
+    super.key,
+    required this.balance,
+    required this.cryptoAddress,
+    required this.subscriptionPlan,
   });
 
   @override
@@ -67,10 +73,23 @@ class WalletDetails extends StatelessWidget {
           Text('Wallet balance', style: Theme.of(context).textTheme.labelSmall),
 
           const SizedBox(height: Sizes.sm),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.80,
+            child: Text(
+                  cryptoAddress,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+                  softWrap: true,
+                  maxLines: 2,
+                ),
+          ),
+
+          const SizedBox(height: Sizes.sm),    
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(width: 2,),
+              
               Text(
                 subscriptionPlan,
                 style: Theme.of(
