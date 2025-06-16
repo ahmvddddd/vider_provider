@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1054529684370",
+    "project_id": "vider-8cd24",
+    "storage_bucket": "vider-8cd24.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054529684370:android:2d080b44a7583d3359f74b",
+        "android_client_info": {
+          "package_name": "com.example.vider_provider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbn9IOF6RsiR2sWeOUtxOx18H-neizyy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054529684370:android:d3ac15c990401cae59f74b",
+        "android_client_info": {
+          "package_name": "com.example.vider_seller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbn9IOF6RsiR2sWeOUtxOx18H-neizyy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
