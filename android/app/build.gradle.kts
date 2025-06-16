@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = 'com.example.vider_provider'
+    namespace = "com.example.vider_provider"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
