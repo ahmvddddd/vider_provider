@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:vider_provider/screens/authentication/auth_screen.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/image_strings.dart';
@@ -37,15 +36,24 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   final List<Map<String, dynamic>> pageTexts = [
     {
-      'pageText': 'Clients can search for you on the map. Make sure to switch on your location in profile settings. Set up your profile so it is eye catching and attractive to clients'
+      'pageText':
+          'Clients can search for you on the map. Make sure to switch on your location in profile settings. Set up your profile so it is eye catching and attractive to clients',
     },
     {
-      'pageText': 'Clients can message you to get more information on services you provide. Check your messages reqularly so you do not miss potential clients'
+      'pageText':
+          'Clients can message you to get more information on services you provide. Check your messages reqularly so you do not miss potential clients',
     },
     {
-      'pageText': 'Your payments reflect in your wallet as soon as a job is completed. Withrawals are auto credited to your crypto wallet. Make sure to provide correct wallet address when submitting in your details'
-    }
-  ] ;
+      'pageText':
+          'Your payments reflect in your wallet as soon as a job is completed. Withrawals are auto credited to your crypto wallet. Make sure to provide correct wallet address when submitting in your details',
+    },
+  ];
+
+  final List<Map<String, dynamic>> images = [
+    {'image': Images.carpenter},
+    {'image': Images.chef},
+    {'image': Images.hairstylist},
+  ];
 
   void _nextPage() {
     final currentIndex = ref.read(currentIndexProvider);
@@ -82,13 +90,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: PageView.builder(
               controller: _pageController,
               itemCount: _pages.length,
-              onPageChanged: (index) =>
-                  ref.read(currentIndexProvider.notifier).state = index,
+              onPageChanged:
+                  (index) =>
+                      ref.read(currentIndexProvider.notifier).state = index,
               itemBuilder: (context, index) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,67 +108,41 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       width: screenWidth,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-    image: DecorationImage(
-      image: AssetImage(Images.material3), // or NetworkImage(...)
-      fit: BoxFit.cover, // BoxFit.cover, contain, fill, etc.
-    ),
+                        image: DecorationImage(
+                          image: AssetImage(
+                            images[index]['image'],
+                          ), // or NetworkImage(...)
+                          fit:
+                              BoxFit.cover, // BoxFit.cover, contain, fill, etc.
+                        ),
                         color: CustomColors.primary.withValues(alpha: 0.05),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(Sizes.xl),
                           bottomRight: Radius.circular(Sizes.xl),
                         ),
                       ),
-                      child: currentIndex == index
-                          ? AnimatedTextKit(
-                              animatedTexts: (_pages[index]['words'] as List<String>)
-                                  .map((word) => TyperAnimatedText(
-                                        word,
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(
-                                              color: CustomColors.primary,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        speed: const Duration(milliseconds: 120),
-                                      ))
-                                  .toList(),
-                              isRepeatingAnimation: true,
-                              repeatForever: true,
-                            )
-                          : Text(
-                              _pages[index]['words'][0],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineLarge!
-                                  .copyWith(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
+                      child: SizedBox.shrink(),
                     ),
                     const SizedBox(height: Sizes.spaceBtwSections),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceBtwItems),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.spaceBtwItems,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             _pages[index]['text'],
-                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                  color: CustomColors.primary,
-                                ),
+                            style: Theme.of(context).textTheme.headlineSmall!
+                                .copyWith(color: CustomColors.primary),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: Sizes.sm),
                           SizedBox(
                             width: screenWidth * 0.80,
                             child: Text(
-                             pageTexts[index]['pageText'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
+                              pageTexts[index]['pageText'],
+                              style: Theme.of(context).textTheme.bodySmall,
                               softWrap: true,
                               maxLines: 3,
                             ),
@@ -190,10 +174,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                   child: Text(
                     currentIndex == _pages.length - 1 ? 'Finish' : 'Next',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelMedium!
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelMedium!.copyWith(color: Colors.white),
                   ),
                 ),
               ],

@@ -13,10 +13,10 @@ class Images {
   static const String material = "assets/utility_images/material.jpg";
   static const String material2 = "assets/utility_images/material_full_blur.jpg";
   static const String material3 = "assets/utility_images/material_half_blur.jpg";
-  static const String carpenter = "assets/utility_images/carpenter.jpg";
+  static const String carpenter = "assets/utility_images/carpenter.png";
   static const String chef = "assets/utility_images/chef.jpg";
   static const String fashionDesigner = "assets/utility_images/fashion_designer.jpg";
-  static const String hairstylist = "assets/utility_images/hairstylist.jpg";
+  static const String hairstylist = "assets/utility_images/hairdresser.jpg";
   static const String mechanic = "assets/utility_images/mechanic.jpg";
   static const String plumber = "assets/utility_images/plumber.jpg";
 }

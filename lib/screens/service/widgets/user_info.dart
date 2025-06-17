@@ -43,7 +43,7 @@ class UserInfo extends StatelessWidget {
                   children: [
                     Text(
                       fullname,
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(
                       width: 2,
@@ -63,7 +63,7 @@ class UserInfo extends StatelessWidget {
 
             //hourly rate
             Text('\$${NumberFormat('#,##0.00').format(hourlyRate)}/hr',
-            style: Theme.of(context).textTheme.headlineSmall,)
+            style: Theme.of(context).textTheme.bodySmall,)
           ],
         ),
         const SizedBox(
@@ -83,7 +83,7 @@ class UserInfo extends StatelessWidget {
                     //service
                     Text(
                       service,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     const SizedBox(
                       width: Sizes.xs,
@@ -97,7 +97,7 @@ class UserInfo extends StatelessWidget {
                     //rating
                     Text(
                       '$rating',
-                      style: Theme.of(context).textTheme.labelMedium,
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],
                 ),

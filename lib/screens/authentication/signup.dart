@@ -45,21 +45,18 @@ class SignupScreen extends StatelessWidget {
 
                 //signup button
                 const SizedBox(height: Sizes.spaceBtwItems),
-                Padding(
-                  padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: GestureDetector(
-                      onTap: toggleScreen,
-                      child: RoundedContainer(
-                    height: screenHeight * 0.06,
-                    padding: const EdgeInsets.all(Sizes.sm),
-                    backgroundColor: CustomColors.primary,
-                        child: Center(
-                          child: Text(
-                            'Sign in',
-                            style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white),
-                          ),
+                SizedBox(
+                  width: double.infinity,
+                  child: GestureDetector(
+                    onTap: toggleScreen,
+                    child: RoundedContainer(
+                  height: screenHeight * 0.06,
+                  padding: const EdgeInsets.all(Sizes.sm),
+                  backgroundColor: CustomColors.primary,
+                      child: Center(
+                        child: Text(
+                          'Sign in',
+                          style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white),
                         ),
                       ),
                     ),

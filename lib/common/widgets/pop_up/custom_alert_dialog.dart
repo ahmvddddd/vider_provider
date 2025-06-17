@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/helpers/helper_function.dart';
+
 class CustomAlertDialog extends StatelessWidget {
   final String title;
   final String message;
@@ -7,7 +9,7 @@ class CustomAlertDialog extends StatelessWidget {
   final String cancelText;
   final VoidCallback onConfirm;
   final VoidCallback? onCancel;
-  
+
   const CustomAlertDialog({
     super.key,
     required this.title,
@@ -20,22 +22,30 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = HelperFunction.isDarkMode(context);
     return AlertDialog(
-      title: Text(title,
-          style: Theme.of(context).textTheme.labelLarge,),
-      content: Text(message,
-          style: Theme.of(context).textTheme.labelLarge,),
+      backgroundColor: dark ? Colors.black : Colors.white,
+      title: Text(title, style: Theme.of(context).textTheme.labelLarge),
+      content: Text(message, style: Theme.of(context).textTheme.labelLarge),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       actions: [
         TextButton(
           onPressed: onCancel,
-          child: Text(cancelText,
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.red),),
+          child: Text(
+            cancelText,
+            style: Theme.of(
+              context,
+            ).textTheme.labelLarge!.copyWith(color: Colors.red),
+          ),
         ),
         TextButton(
           onPressed: onConfirm,
-          child: Text(confirmText,
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.green),),
+          child: Text(
+            confirmText,
+            style: Theme.of(
+              context,
+            ).textTheme.labelLarge!.copyWith(color: Colors.green),
+          ),
         ),
       ],
     );
