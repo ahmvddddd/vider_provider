@@ -18,64 +18,62 @@ class EnterEmailScreen extends ConsumerWidget {
     final sendOtpState = ref.watch(sendOtpControllerProvider);
     final sendOtpController = ref.read(sendOtpControllerProvider.notifier);
     final dark = HelperFunction.isDarkMode(context);
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text(
-            'Enter Email',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          showBackArrow: true,
+    return Scaffold(
+      appBar: TAppBar(
+        title: Text(
+          'Enter Email',
+          style: Theme.of(context).textTheme.bodySmall,
         ),
-        bottomNavigationBar: ButtonContainer(
-          backgroundColor: CustomColors.primary,
-          onPressed: () {
-            sendOtpController.sendOtp(emailController.text.trim(), context);
-          },
-
-          text: 'Submit',
-        ),
-        body: sendOtpState.isLoading
-                ? Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.blue,
-                    ), // color
-                    strokeWidth: 4.0, // thickness of the line
-                    backgroundColor: dark ? Colors.white : Colors.black,
-                  ),
-                )
-                : SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(Sizes.spaceBtwItems),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleAndDescription(
-                          textAlign: TextAlign.left,
-                          title: 'Enter your email',
-                          description:
-                              'Enter your current email registered to this account to recieve OTP',
+        showBackArrow: true,
+      ),
+      bottomNavigationBar: ButtonContainer(
+        backgroundColor: CustomColors.primary,
+        onPressed: () {
+          sendOtpController.sendOtp(emailController.text.trim(), context);
+        },
+    
+        text: 'Submit',
+      ),
+      body: sendOtpState.isLoading
+              ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.blue,
+                  ), // color
+                  strokeWidth: 4.0, // thickness of the line
+                  backgroundColor: dark ? Colors.white : Colors.black,
+                ),
+              )
+              : SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(Sizes.spaceBtwItems),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleAndDescription(
+                        textAlign: TextAlign.left,
+                        title: 'Enter your email',
+                        description:
+                            'Enter your current email registered to this account to recieve OTP',
+                      ),
+                      const SizedBox(height: Sizes.spaceBtwItems),
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter email',
+                          hintStyle: Theme.of(context).textTheme.labelSmall,
+                          suffixIcon: Icon(Iconsax.direct),
                         ),
-                        const SizedBox(height: Sizes.spaceBtwItems),
-                        TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            hintText: 'Enter email',
-                            hintStyle: Theme.of(context).textTheme.labelSmall,
-                            suffixIcon: Icon(Iconsax.direct),
-                          ),
-                          validator:
-                              (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Enter current password'
-                                      : null,
-                        ),
-                      ],
-                    ),
+                        validator:
+                            (value) =>
+                                value == null || value.isEmpty
+                                    ? 'Enter current password'
+                                    : null,
+                      ),
+                    ],
                   ),
                 ),
-      ),
+              ),
     );
   }
 }

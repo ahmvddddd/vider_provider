@@ -96,115 +96,113 @@ class _UpdateProfileImagesPageState
     final screenHeight = MediaQuery.of(context).size.height;
     final dark = HelperFunction.isDarkMode(context);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text(
-            'Update Portfolio Images',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          showBackArrow: true,
+    return Scaffold(
+      appBar: TAppBar(
+        title: Text(
+          'Update Portfolio Images',
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        body: userAsync.when(
-          data: (user) {
-            existingImageUrls = List.from(user.portfolioImages);
-            return Padding(
-              padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-              child: Column(
-                children: [
-                  HomeListView(
-                    scrollDirection: Axis.horizontal,
-                    sizedBoxHeight: screenHeight * 0.12,
-                    itemCount: 4,
-                    seperatorBuilder:
-                        (context, index) => const SizedBox(width: Sizes.sm),
-                    itemBuilder: (context, index) {
-                      final imageFile = newImages[index];
-                      final imageUrl =
-                          existingImageUrls.length > index
-                              ? existingImageUrls[index]
-                              : null;
-              
-                      return Stack(
-                        children: [
-                          GestureDetector(
-                            onTap:
-                                () =>
-                                    imageFile == null ? _pickImage(index) : null,
-                            child: RoundedContainer(
-                              width: screenHeight * 0.12,
-                              height: screenHeight * 0.12,
-                              backgroundColor:
-                                  dark ? Colors.white12 : Colors.black12,
-                              padding: EdgeInsets.zero,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(Sizes.md),
-                                child:
-                                    imageFile != null
-                                        ? Image.file(imageFile, fit: BoxFit.cover)
-                                        : (imageUrl != null &&
-                                            imageUrl.isNotEmpty)
-                                        ? Image.network(
-                                          imageUrl,
-                                          fit: BoxFit.cover,
-                                        )
-                                        : const Icon(
-                                          Icons.add_photo_alternate,
-                                          size: 40,
-                                        ),
-                              ),
+        showBackArrow: true,
+      ),
+      body: userAsync.when(
+        data: (user) {
+          existingImageUrls = List.from(user.portfolioImages);
+          return Padding(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Column(
+              children: [
+                HomeListView(
+                  scrollDirection: Axis.horizontal,
+                  sizedBoxHeight: screenHeight * 0.12,
+                  itemCount: 4,
+                  seperatorBuilder:
+                      (context, index) => const SizedBox(width: Sizes.sm),
+                  itemBuilder: (context, index) {
+                    final imageFile = newImages[index];
+                    final imageUrl =
+                        existingImageUrls.length > index
+                            ? existingImageUrls[index]
+                            : null;
+            
+                    return Stack(
+                      children: [
+                        GestureDetector(
+                          onTap:
+                              () =>
+                                  imageFile == null ? _pickImage(index) : null,
+                          child: RoundedContainer(
+                            width: screenHeight * 0.12,
+                            height: screenHeight * 0.12,
+                            backgroundColor:
+                                dark ? Colors.white12 : Colors.black12,
+                            padding: EdgeInsets.zero,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(Sizes.md),
+                              child:
+                                  imageFile != null
+                                      ? Image.file(imageFile, fit: BoxFit.cover)
+                                      : (imageUrl != null &&
+                                          imageUrl.isNotEmpty)
+                                      ? Image.network(
+                                        imageUrl,
+                                        fit: BoxFit.cover,
+                                      )
+                                      : const Icon(
+                                        Icons.add_photo_alternate,
+                                        size: 40,
+                                      ),
                             ),
                           ),
-                          Positioned(
-                            top: 4,
-                            right: 4,
-                            child: IconButton(
-                              icon: const Icon(Icons.close, color: Colors.red),
-                              onPressed: () async {
-                                await _replaceImage(index);
-                              },
-                            ),
+                        ),
+                        Positioned(
+                          top: 4,
+                          right: 4,
+                          child: IconButton(
+                            icon: const Icon(Icons.close, color: Colors.red),
+                            onPressed: () async {
+                              await _replaceImage(index);
+                            },
                           ),
-                        ],
-                      );
-                    },
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                        backgroundColor: CustomColors.primary,
-                      ),
-                      onPressed: _saveImages,
-                      child: Text(
-                        'Update Portfolio Images',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(color: Colors.white),
-                      ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: Sizes.spaceBtwItems),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                      backgroundColor: CustomColors.primary,
+                    ),
+                    onPressed: _saveImages,
+                    child: Text(
+                      'Update Portfolio Images',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium!.copyWith(color: Colors.white),
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-          loading: () => Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Colors.blue,
-                ), // color
-                strokeWidth: 4.0, // thickness of the line
-                backgroundColor:
-                    dark
-                        ? Colors.white
-                        : Colors.black, // background circle color
-              ),
+                ),
+              ],
             ),
-          error: (err, _) => Center(child: Text('An error occured failed to update portfolio images',
-                style: Theme.of(context).textTheme.bodySmall,)),
-        ),
+          );
+        },
+        loading: () => Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.blue,
+              ), // color
+              strokeWidth: 4.0, // thickness of the line
+              backgroundColor:
+                  dark
+                      ? Colors.white
+                      : Colors.black, // background circle color
+            ),
+          ),
+        error: (err, _) => Center(child: Text('An error occured failed to update portfolio images',
+              style: Theme.of(context).textTheme.bodySmall,)),
       ),
     );
   }

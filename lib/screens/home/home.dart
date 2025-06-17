@@ -57,57 +57,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     final unreadCount = ref.watch(unreadNotificationsProvider);
     final dark = HelperFunction.isDarkMode(context);
-    return SafeArea(
-      child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (_, innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                pinned: true,
-                floating: true,
-                expandedHeight: screenHeight * 0.09,
-                backgroundColor: dark ? Colors.black : Colors.white,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.all(Sizes.sm),
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [HomeAppBar(unreadCount: unreadCount)],
-                  ),
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (_, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              pinned: true,
+              floating: true,
+              expandedHeight: screenHeight * 0.09,
+              backgroundColor: dark ? Colors.black : Colors.white,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.all(Sizes.sm),
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [HomeAppBar(unreadCount: unreadCount)],
                 ),
               ),
-            ];
+            ),
+          ];
+        },
+        body: RefreshIndicator(
+          onRefresh: () async {
+            setState(() => isRefreshing = true);
+            await Future.wait([
+              ref.refresh(providerDashboardProvider.future),
+              ref.refresh(transactionProvider(4).future),
+            ]);
+            setState(() => isRefreshing = false);
           },
-          body: RefreshIndicator(
-            onRefresh: () async {
-              setState(() => isRefreshing = true);
-              await Future.wait([
-                ref.refresh(providerDashboardProvider.future),
-                ref.refresh(transactionProvider(4).future),
-              ]);
-              setState(() => isRefreshing = false);
-            },
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(Sizes.spaceBtwItems),
-                child: Column(
-                  children: [
-                    if (isRefreshing)
-                      Column(
-                        children: [
-                          JobsDashBoardShimmer(),
-                          const SizedBox(height: Sizes.spaceBtwItems),
-                          RecentTransactionsShimmer(),
-                        ],
-                      ),
-                    ProviderDashboardScreen(dashboardAsync: dashboardAsync),
-
-
-                    SizedBox(height: Sizes.spaceBtwItems),
-                    RecentTransactions(transactionsAsync: transactionsAsync),
-                  ],
-                ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(Sizes.spaceBtwItems),
+              child: Column(
+                children: [
+                  if (isRefreshing)
+                    Column(
+                      children: [
+                        JobsDashBoardShimmer(),
+                        const SizedBox(height: Sizes.spaceBtwItems),
+                        RecentTransactionsShimmer(),
+                      ],
+                    ),
+                  ProviderDashboardScreen(dashboardAsync: dashboardAsync),
+    
+    
+                  SizedBox(height: Sizes.spaceBtwItems),
+                  RecentTransactions(transactionsAsync: transactionsAsync),
+                ],
               ),
             ),
           ),

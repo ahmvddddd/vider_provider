@@ -11,22 +11,20 @@ class AllClientsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text('All Clients',
-          style: Theme.of(context).textTheme.headlineSmall,),
-          showBackArrow: true,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-            child: Column(
-              children: [
-                childWidget
-              ],
-            )
-          ),
+    return  Scaffold(
+      appBar: TAppBar(
+        title: Text('All Clients',
+        style: Theme.of(context).textTheme.headlineSmall,),
+        showBackArrow: true,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+          child: Column(
+            children: [
+              childWidget
+            ],
+          )
         ),
       ),
     );

@@ -51,145 +51,143 @@ class _UpdateSkillsState extends ConsumerState<UpdateSkills> {
     final screenHeight = MediaQuery.of(context).size.height;
     final dark = HelperFunction.isDarkMode(context);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text(
-            'Update Skills',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          showBackArrow: true,
+    return Scaffold(
+      appBar: TAppBar(
+        title: Text(
+          'Update Skills',
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        body: userAsync.when(
-          data: (user) {
-            if (editableSkills.isEmpty) {
-              editableSkills = List.from(user.skills); // Initialize once
-            }
-            return Padding(
-              padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _skillController,
-                          decoration: const InputDecoration(
-                            labelText: 'Add Skill',
-                          ),
+        showBackArrow: true,
+      ),
+      body: userAsync.when(
+        data: (user) {
+          if (editableSkills.isEmpty) {
+            editableSkills = List.from(user.skills); // Initialize once
+          }
+          return Padding(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _skillController,
+                        decoration: const InputDecoration(
+                          labelText: 'Add Skill',
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: _addSkill,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  HomeListView(
-                    scrollDirection: Axis.horizontal,
-                    sizedBoxHeight: screenHeight * 0.1,
-                    itemCount: editableSkills.length,
-                    seperatorBuilder:
-                        (context, index) => const SizedBox(width: Sizes.sm),
-                    itemBuilder: (context, index) {
-                      final skill = editableSkills[index];
-                      return RoundedContainer(
-                        height: screenHeight * 0.08,
-                        backgroundColor:
-                            dark
-                                ? Colors.white.withValues(alpha: 0.1)
-                                : Colors.black.withValues(alpha: 0.1),
-                        padding: const EdgeInsets.all(Sizes.xs),
-                        child: Row(
-                          children: [
-                            Text(
-                              skill,
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                                size: 16,
-                              ),
-                              onPressed: () {
-                                setState(() => _deleteSkill(index));
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                        backgroundColor:
-                            editableSkills.isEmpty
-                                ? dark
-                                    ? Colors.white.withValues(alpha: 0.1)
-                                    : Colors.black.withValues(alpha: 0.1)
-                                : CustomColors.primary,
-                      ),
-                      onPressed:
-                          editableSkills.isEmpty
-                              ? null
-                              : () async {
-                                final success = await ref.read(
-                                  updateBioData({
-                                    'skills': editableSkills,
-                                  }).future,
-                                );
-      
-                                if (success) {
-                            CustomSnackbar.show(
-                              context: context,
-                              title: 'Success',
-                              message: 'Skills updated successfully',
-                              icon: Icons.check_circle,
-                              backgroundColor: CustomColors.success,
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            CustomSnackbar.show(
-                              context: context,
-                              title: 'An error occurred',
-                              message: 'Failed to update skills',
-                              icon: Icons.error_outline,
-                              backgroundColor: CustomColors.error,
-                            );
-                          }
-                              },
-                      child: Text(
-                        'Update Skills',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(color: Colors.white),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          loading: () => Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.blue,
-                  ), // color
-                  strokeWidth: 4.0, // thickness of the line
-                  backgroundColor:
-                      dark
-                          ? Colors.white
-                          : Colors.black, // background circle color
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: _addSkill,
+                    ),
+                  ],
                 ),
+                const SizedBox(height: Sizes.spaceBtwItems),
+                HomeListView(
+                  scrollDirection: Axis.horizontal,
+                  sizedBoxHeight: screenHeight * 0.1,
+                  itemCount: editableSkills.length,
+                  seperatorBuilder:
+                      (context, index) => const SizedBox(width: Sizes.sm),
+                  itemBuilder: (context, index) {
+                    final skill = editableSkills[index];
+                    return RoundedContainer(
+                      height: screenHeight * 0.08,
+                      backgroundColor:
+                          dark
+                              ? Colors.white.withValues(alpha: 0.1)
+                              : Colors.black.withValues(alpha: 0.1),
+                      padding: const EdgeInsets.all(Sizes.xs),
+                      child: Row(
+                        children: [
+                          Text(
+                            skill,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                              size: 16,
+                            ),
+                            onPressed: () {
+                              setState(() => _deleteSkill(index));
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: Sizes.spaceBtwItems),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                      backgroundColor:
+                          editableSkills.isEmpty
+                              ? dark
+                                  ? Colors.white.withValues(alpha: 0.1)
+                                  : Colors.black.withValues(alpha: 0.1)
+                              : CustomColors.primary,
+                    ),
+                    onPressed:
+                        editableSkills.isEmpty
+                            ? null
+                            : () async {
+                              final success = await ref.read(
+                                updateBioData({
+                                  'skills': editableSkills,
+                                }).future,
+                              );
+    
+                              if (success) {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'Success',
+                            message: 'Skills updated successfully',
+                            icon: Icons.check_circle,
+                            backgroundColor: CustomColors.success,
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'An error occurred',
+                            message: 'Failed to update skills',
+                            icon: Icons.error_outline,
+                            backgroundColor: CustomColors.error,
+                          );
+                        }
+                            },
+                    child: Text(
+                      'Update Skills',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        loading: () => Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.blue,
+                ), // color
+                strokeWidth: 4.0, // thickness of the line
+                backgroundColor:
+                    dark
+                        ? Colors.white
+                        : Colors.black, // background circle color
               ),
-          error: (err, _) => Center(child: Text('Error: $err')),
-        ),
+            ),
+        error: (err, _) => Center(child: Text('Error: $err')),
       ),
     );
   }

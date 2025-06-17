@@ -71,100 +71,98 @@ class _MessageViewScreenState extends State<MessageViewScreen> {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     double screenHeight = MediaQuery.of(context).size.height;
-    return SafeArea(
-      child: Scaffold(
-        body: NestedScrollView(
-            headerSliverBuilder: (_, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  pinned: true,
-                  floating: true,
-                  expandedHeight: screenHeight * 0.08,
-                  backgroundColor: dark ? CustomColors.dark : CustomColors.light,
-                  flexibleSpace: Padding(
-                    padding: const EdgeInsets.all(Sizes.sm),
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: const [
-                        MessageHeader(),
-                      ],
-                    ),
+    return Scaffold(
+      body: NestedScrollView(
+          headerSliverBuilder: (_, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                pinned: true,
+                floating: true,
+                expandedHeight: screenHeight * 0.08,
+                backgroundColor: dark ? CustomColors.dark : CustomColors.light,
+                flexibleSpace: Padding(
+                  padding: const EdgeInsets.all(Sizes.sm),
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: const [
+                      MessageHeader(),
+                    ],
                   ),
-                )
-              ];
-            },
-            body: Padding(
-                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                        child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(Sizes.xs),
-                          child: Container(
-                            padding: const EdgeInsets.all(Sizes.sm),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Sizes.cardRadiusLg),
-                              color: CustomColors.primary
-                            ),
-                            child: Text(messages[index],
-                                                style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white),
-                                                softWrap: true,
-                                                ),
-                          ),
-                        )
-                      ]
-                    );
-                  },
-                )
-              ),
-              Padding(
-                padding: const EdgeInsets.all(Sizes.xs),
-                child: Row(
-                  children: [
-                   Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
-                        child: TextField(
-                          focusNode: myFocusNode,
-                          controller: messageController,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: 'Type a message',
-                          hintStyle: Theme.of(context).textTheme.labelSmall,
-                          fillColor: dark ? CustomColors.dark : CustomColors.light,
-                          filled: true,
-                          ),
-                        ),
-                      ),
-                    ),
-                          
-                    //icon
-                    Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
-                        color: CustomColors.primary,
-                      ),
-                      child: IconButton(
-                          onPressed: sendMessage, icon: const Icon(Icons.send, color: Colors.white,)),
-                    )
-                  ],
                 ),
               )
-            ],
+            ];
+          },
+          body: Padding(
+                      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                      child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(Sizes.xs),
+                        child: Container(
+                          padding: const EdgeInsets.all(Sizes.sm),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(Sizes.cardRadiusLg),
+                            color: CustomColors.primary
+                          ),
+                          child: Text(messages[index],
+                                              style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white),
+                                              softWrap: true,
+                                              ),
                         ),
-                      )),
-      ),
+                      )
+                    ]
+                  );
+                },
+              )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(Sizes.xs),
+              child: Row(
+                children: [
+                 Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
+                      child: TextField(
+                        focusNode: myFocusNode,
+                        controller: messageController,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintText: 'Type a message',
+                        hintStyle: Theme.of(context).textTheme.labelSmall,
+                        fillColor: dark ? CustomColors.dark : CustomColors.light,
+                        filled: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                        
+                  //icon
+                  Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Sizes.borderRadiusLg),
+                      color: CustomColors.primary,
+                    ),
+                    child: IconButton(
+                        onPressed: sendMessage, icon: const Icon(Icons.send, color: Colors.white,)),
+                  )
+                ],
+              ),
+            )
+          ],
+                      ),
+                    )),
     );
   }
 }

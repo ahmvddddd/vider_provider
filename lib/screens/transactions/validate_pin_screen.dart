@@ -74,55 +74,53 @@ class _ValidatePinScreenState extends ConsumerState<ValidatePinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text(
-            'Transaction PIN',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          showBackArrow: true,
+    return Scaffold(
+      appBar: TAppBar(
+        title: Text(
+          'Transaction PIN',
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Enter Your Transaction PIN",
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              const SizedBox(height: Sizes.spaceBtwItems),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                    currentPin.map((digit) {
-                      return Container(
-                        margin: const EdgeInsets.all(8),
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(8),
+        showBackArrow: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Enter Your Transaction PIN",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: Sizes.spaceBtwItems),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:
+                  currentPin.map((digit) {
+                    return Container(
+                      margin: const EdgeInsets.all(8),
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          digit.isEmpty ? "•" : "*",
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineLarge!.copyWith(fontSize: 30),
                         ),
-                        child: Center(
-                          child: Text(
-                            digit.isEmpty ? "•" : "*",
-                            style: Theme.of(
-                              context,
-                            ).textTheme.headlineLarge!.copyWith(fontSize: 30),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-              ),
-              if (error != null) ...[
-                const SizedBox(height: Sizes.spaceBtwItems),
-                Text(error!, style: const TextStyle(color: Colors.red)),
-              ],
+                      ),
+                    );
+                  }).toList(),
+            ),
+            if (error != null) ...[
               const SizedBox(height: Sizes.spaceBtwItems),
-              CustomKeypad(onDigitPressed: _enterDigit, onBackspace: _removeDigit),
+              Text(error!, style: const TextStyle(color: Colors.red)),
             ],
-          ),
+            const SizedBox(height: Sizes.spaceBtwItems),
+            CustomKeypad(onDigitPressed: _enterDigit, onBackspace: _removeDigit),
+          ],
         ),
       ),
     );
