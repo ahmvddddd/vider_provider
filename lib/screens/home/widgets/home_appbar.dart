@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:iconsax/iconsax.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../utils/constants/sizes.dart';
@@ -103,7 +104,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                               ),
                             ),
                             child: Icon(
-                              Icons.notifications,
+                              Iconsax.notification,
                               size: Sizes.iconMd,
                               color: dark ? Colors.white : Colors.black,
                             ),
@@ -208,7 +209,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                           ? Colors.white.withValues(alpha: 0.1)
                           : Colors.black.withValues(alpha: 0.1),
                   child: const Icon(
-                    Icons.notifications,
+                    Iconsax.notification,
                     size: Sizes.iconMd,
                     color: Colors.white,
                   ),

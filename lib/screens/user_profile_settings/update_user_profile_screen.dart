@@ -42,10 +42,13 @@ class UpdateUserProfilePage extends ConsumerWidget {
           ),
           trailing: Switch(
             value: isOn,
-            onChanged: (value) async {
-              ref.read(locationSwitchProvider.notifier).setSwitch(value);
-              await ref.read(saveLocationProvider).getAndSaveLocation(context);
-            },
+            onChanged: (value) {
+  ref.read(locationSwitchProvider.notifier).setSwitch(value);
+  Future.microtask(() async {
+    await ref.read(saveLocationProvider).getAndSaveLocation(context);
+  });
+},
+
           ),
         ),
         ),

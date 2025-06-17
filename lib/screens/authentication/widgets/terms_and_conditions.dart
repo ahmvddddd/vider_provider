@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/helpers/helper_function.dart';
+
 class TermsAndConditionsDialog extends StatelessWidget {
   const TermsAndConditionsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final dark = HelperFunction.isDarkMode(context);
     return AlertDialog(
+      backgroundColor: dark ? Colors.black : Colors.white,
       title: const Text('Terms and Conditions'),
       content: SizedBox(
         height: 400,
         width: double.maxFinite,
         child: SingleChildScrollView(
-          child: Text(
-            '''
+          child: Text('''
 1. Eligibility
 You must be at least 18 years old and capable of entering into a binding contract.
 
@@ -45,16 +48,15 @@ We may update these terms anytime. Continued use = acceptance.
 Email: vider_support@gmail.com
 
 By signing up, you agree to these terms.
-''',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
+''', style: Theme.of(context).textTheme.bodySmall),
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Close'),
-        )
+          child:  Text('Close',
+          style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.red)),
+        ),
       ],
     );
   }
