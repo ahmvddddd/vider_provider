@@ -55,7 +55,7 @@ By signing up, you agree to these terms.
         TextButton(
           onPressed: () => Navigator.pop(context),
           child:  Text('Close',
-          style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.red)),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.red)),
         ),
       ],
     );

@@ -41,14 +41,14 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
               (context) => AlertDialog(
                 backgroundColor: dark ? Colors.black : Colors.white,
                 title: Text('Exit App',
-                style: Theme.of(context).textTheme.labelMedium,),
+                style: Theme.of(context).textTheme.headlineSmall,),
                 content: Text('Are you sure you want to exit the app?',
-                style: Theme.of(context).textTheme.labelSmall),
+                style: Theme.of(context).textTheme.bodySmall),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
                     child: Text('No',
-                style: Theme.of(context).textTheme.labelSmall),
+                style: Theme.of(context).textTheme.bodyMedium),
                   ),
                   TextButton(
                     onPressed: () {
@@ -59,7 +59,7 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
                       }
                     },
                     child: Text('Yes',
-                style: Theme.of(context).textTheme.labelSmall!.copyWith(color: CustomColors.error)),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: CustomColors.error)),
                   ),
                 ],
               ),
