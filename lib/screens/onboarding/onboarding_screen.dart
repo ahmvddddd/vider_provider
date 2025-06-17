@@ -22,7 +22,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final List<Map<String, dynamic>> _pages = [
     {
       'words': ['Appear', 'In Map', 'Search'],
-      'text': 'Get clients within your location',
+      'text': 'Welcome to Vider',
     },
     {
       'words': ['Accept', 'Jobs', 'Effortlessly '],
@@ -30,18 +30,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     },
     {
       'words': ['Execute Job', 'And', 'Get Paid'],
-      'text': 'Receive crypto payouts after job completion',
+      'text': 'Receive crypto payouts',
     },
   ];
 
   final List<Map<String, dynamic>> pageTexts = [
     {
       'pageText':
-          'Clients can search for you on the map. Make sure to switch on your location in profile settings. Set up your profile so it is eye catching and attractive to clients',
+          'Clients can search for you on the map. Make sure to switch on your location in profile settings. Set up your profile so it is attractive to clients',
     },
     {
       'pageText':
-          'Clients can message you to get more information on services you provide. Check your messages reqularly so you do not miss potential clients',
+          'Clients can message you to get more information on services you provide. Check your messages regularly so you do not miss potential clients',
     },
     {
       'pageText':
@@ -144,7 +144,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                               pageTexts[index]['pageText'],
                               style: Theme.of(context).textTheme.bodySmall,
                               softWrap: true,
-                              maxLines: 3,
                             ),
                           ),
                         ],
@@ -156,7 +155,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

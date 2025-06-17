@@ -32,11 +32,10 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
       data: (wallet) {
         return WalletDetails(
           balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}',
-          cryptoAddress: wallet.cryptoAddress,
           subscriptionPlan: wallet.subscriptionPlan,
         );
       },
-      loading: () => WalletDetails(balance: '\$0.00', cryptoAddress: '', subscriptionPlan: 'Free'),
+      loading: () => WalletDetails(balance: '\$0.00', subscriptionPlan: 'Free'),
       error: (err, _) => Center(child: Text('Error: Failed to fetch balance')),
     );
   }
@@ -44,12 +43,10 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
 
 class WalletDetails extends StatelessWidget {
   final String balance;
-  final String cryptoAddress;
   final String subscriptionPlan;
   const WalletDetails({
     super.key,
     required this.balance,
-    required this.cryptoAddress,
     required this.subscriptionPlan,
   });
 
@@ -62,30 +59,15 @@ class WalletDetails extends StatelessWidget {
           dark
               ? Colors.white.withValues(alpha: 0.1)
               : Colors.black.withValues(alpha: 0.1),
-      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-      showBorder: true,
-      borderColor: CustomColors.primary,
+      padding: const EdgeInsets.all(Sizes.sm),
       radius: Sizes.cardRadiusMd,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(balance, style: Theme.of(context).textTheme.headlineMedium),
-          Text('Wallet balance', style: Theme.of(context).textTheme.labelSmall),
+          Text('Balance', style: Theme.of(context).textTheme.labelSmall),
+          Text(balance, style: Theme.of(context).textTheme.headlineSmall),
 
-          const SizedBox(height: Sizes.sm),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.80,
-            child: Text(
-                  cryptoAddress,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
-                  softWrap: true,
-                  maxLines: 2,
-                ),
-          ),
-
-          const SizedBox(height: Sizes.sm),    
+          const SizedBox(height: Sizes.xs),   
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

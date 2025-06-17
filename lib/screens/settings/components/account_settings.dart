@@ -15,30 +15,28 @@ class AccountSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
 
-    return Column(
-      children: [
-        const SizedBox(height: Sizes.spaceBtwItems),
-        RoundedContainer(
-          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
-          : Colors.black.withValues(alpha: 0.1),
-          radius: Sizes.cardRadiusSm,
-          child: SettingsMenuTile(
+    return RoundedContainer(
+      backgroundColor:
+          dark
+              ? Colors.white.withValues(alpha: 0.1)
+              : Colors.black.withValues(alpha: 0.1),
+      radius: Sizes.cardRadiusSm,
+      child: Column(
+        children: [
+          SettingsMenuTile(
             iconSize: Sizes.iconMd,
             onTap:
-                () => HelperFunction.navigateScreen(context, ChangePasswordPage()),
+                () => HelperFunction.navigateScreen(
+                  context,
+                  ChangePasswordPage(),
+                ),
             icon: Iconsax.password_check,
             title: 'Password',
             subTitle: 'Change password.',
           ),
-        ),
 
-        const SizedBox(height: Sizes.spaceBtwItems),
-        RoundedContainer(
-          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
-          : Colors.black.withValues(alpha: 0.1),
-          radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
-          child: SettingsMenuTile(
+          const SizedBox(height: Sizes.sm),
+          SettingsMenuTile(
             iconSize: Sizes.iconM,
             onTap:
                 () => HelperFunction.navigateScreen(context, ChangePinPage()),
@@ -46,14 +44,9 @@ class AccountSettingsPage extends StatelessWidget {
             title: 'Change Pin',
             subTitle: 'Change your transaction pin',
           ),
-        ),
 
-        const SizedBox(height: Sizes.spaceBtwItems),
-        RoundedContainer(
-          backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
-          : Colors.black.withValues(alpha: 0.1),
-          radius: Sizes.cardRadiusSm,
-          child: SettingsMenuTile(
+          const SizedBox(height: Sizes.sm),
+          SettingsMenuTile(
             iconSize: Sizes.iconMd,
             onTap: () async {
               ReportIssueController.launchGmailCompose('Report An Issue');
@@ -62,8 +55,8 @@ class AccountSettingsPage extends StatelessWidget {
             title: 'Safety',
             subTitle: 'Report a failed transaction or a problem.',
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
