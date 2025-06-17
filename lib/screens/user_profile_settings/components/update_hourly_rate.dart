@@ -36,97 +36,95 @@ class _UpdateHourlyRateState extends ConsumerState<UpdateHourlyRate> {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     final userProfile = ref.watch(userProvider);
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text(
-            'Update Hourly Rate',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          showBackArrow: true,
+    return Scaffold(
+      appBar: TAppBar(
+        title: Text(
+          'Update Hourly Rate',
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        body: userProfile.when(
-          data: (user) {
-            return Padding(
-              padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-              child: Column(
-                children: [
-                  TextFieldContainer(
-                    controller: hourlyRateController,
-                    hintText: 'Enter your hourly rate (Min \$5)',
-                    keyboardType: TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    errorText: errorText,
+        showBackArrow: true,
+      ),
+      body: userProfile.when(
+        data: (user) {
+          return Padding(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Column(
+              children: [
+                TextFieldContainer(
+                  controller: hourlyRateController,
+                  hintText: 'Enter your hourly rate (Min \$5)',
+                  keyboardType: TextInputType.numberWithOptions(
+                    decimal: true,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: CustomColors.primary,
-                      ),
-                      onPressed: () async {
-                        final rate = double.tryParse(
-                          hourlyRateController.text.trim(),
-                        );
-                        setState(() {
-                          errorText =
-                              (rate == null || rate < 5)
-                                  ? 'Enter a valid hourly rate (min \$5)'
-                                  : null;
-                        });
-                        if (errorText == null) {
-                          final success = await ref.read(
-                            updateBioData({'hourlyRate': rate}).future,
-                          );
-
-                          if (success) {
-                            CustomSnackbar.show(
-                              context: context,
-                              title: 'Success',
-                              message: 'Hourly rate updated successfully',
-                              icon: Icons.check_circle,
-                              backgroundColor: CustomColors.success,
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            CustomSnackbar.show(
-                              context: context,
-                              title: 'An error occurred',
-                              message: 'Failed to update hourly rate',
-                              icon: Icons.error_outline,
-                              backgroundColor: CustomColors.error,
-                            );
-                          }
-                        }
-                      },
-                      child: Text(
-                        'Update Rate',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          loading:
-              () => Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.blue,
-                  ), // color
-                  strokeWidth: 4.0, // thickness of the line
-                  backgroundColor:
-                      dark
-                          ? Colors.white
-                          : Colors.black, // background circle color
+                  errorText: errorText,
                 ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: CustomColors.primary,
+                    ),
+                    onPressed: () async {
+                      final rate = double.tryParse(
+                        hourlyRateController.text.trim(),
+                      );
+                      setState(() {
+                        errorText =
+                            (rate == null || rate < 5)
+                                ? 'Enter a valid hourly rate (min \$5)'
+                                : null;
+                      });
+                      if (errorText == null) {
+                        final success = await ref.read(
+                          updateBioData({'hourlyRate': rate}).future,
+                        );
+    
+                        if (success) {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'Success',
+                            message: 'Hourly rate updated successfully',
+                            icon: Icons.check_circle,
+                            backgroundColor: CustomColors.success,
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          CustomSnackbar.show(
+                            context: context,
+                            title: 'An error occurred',
+                            message: 'Failed to update hourly rate',
+                            icon: Icons.error_outline,
+                            backgroundColor: CustomColors.error,
+                          );
+                        }
+                      }
+                    },
+                    child: Text(
+                      'Update Rate',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        loading:
+            () => Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.blue,
+                ), // color
+                strokeWidth: 4.0, // thickness of the line
+                backgroundColor:
+                    dark
+                        ? Colors.white
+                        : Colors.black, // background circle color
               ),
-          error: (err, _) => Center(child: Text('Error loading profile: $err')),
-        ),
+            ),
+        error: (err, _) => Center(child: Text('Error loading profile: $err')),
       ),
     );
   }

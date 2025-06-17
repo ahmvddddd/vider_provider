@@ -60,7 +60,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconMd,
             icon: Icons.change_circle,
@@ -75,7 +74,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconMd,
             icon: Icons.image,
@@ -90,7 +88,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconMd,
             icon: Iconsax.user,
@@ -105,7 +102,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconMd,
             icon: Icons.timelapse,
@@ -120,7 +116,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconMd,
             icon: Icons.shape_line,
@@ -135,7 +130,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconM,
             icon: Icons.list,

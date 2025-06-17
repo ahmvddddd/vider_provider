@@ -22,7 +22,6 @@ class AccountSettingsPage extends StatelessWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconMd,
             onTap:
@@ -54,7 +53,6 @@ class AccountSettingsPage extends StatelessWidget {
           backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) 
           : Colors.black.withValues(alpha: 0.1),
           radius: Sizes.cardRadiusSm,
-          padding: const EdgeInsets.all(Sizes.xs),
           child: SettingsMenuTile(
             iconSize: Sizes.iconMd,
             onTap: () async {

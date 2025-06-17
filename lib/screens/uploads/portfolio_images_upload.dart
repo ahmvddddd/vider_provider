@@ -47,136 +47,134 @@ class _PortfolioUploadScreenState extends ConsumerState<PortfolioUploadScreen> {
     final dark = HelperFunction.isDarkMode(context);
     final uploadState = ref.watch(portfolioUploadControllerProvider);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text(
-            'Upload Portfolio Images',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          showBackArrow: true,
+    return Scaffold(
+      appBar: TAppBar(
+        title: Text(
+          'Upload Portfolio Images',
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TitleAndDescription(
-                  textAlign: TextAlign.left,
-                  title: 'Upload Portfolio Images',
-                  description:
-                      'Upload 4 clear images that display the service you provide. Do not uploadother users images as this could lead to suspension of your account',
-                ),
-
-                const SizedBox(height: Sizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                        backgroundColor: CustomColors.primary,
-                      ),
-                      onPressed: _pickImages,
-                      child: Text(
-                        'Select 4 Images',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(color: Colors.white),
-                      ),
+        showBackArrow: true,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TitleAndDescription(
+                textAlign: TextAlign.left,
+                title: 'Upload Portfolio Images',
+                description:
+                    'Upload 4 clear images that display the service you provide. Do not uploadother users images as this could lead to suspension of your account',
+              ),
+    
+              const SizedBox(height: Sizes.spaceBtwItems),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                      backgroundColor: CustomColors.primary,
                     ),
-                  ],
-                ),
-
-                const SizedBox(height: Sizes.spaceBtwItems),
-                if (_selectedImages.isNotEmpty)
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children:
-                        _selectedImages
-                            .map(
-                              (file) => RoundedContainer(
-                                backgroundColor: Colors.transparent,
-                                radius: Sizes.cardRadiusSm,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(Sizes.md),
-                                  child: Image.file(
-                                    file,
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                  ),
+                    onPressed: _pickImages,
+                    child: Text(
+                      'Select 4 Images',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+    
+              const SizedBox(height: Sizes.spaceBtwItems),
+              if (_selectedImages.isNotEmpty)
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children:
+                      _selectedImages
+                          .map(
+                            (file) => RoundedContainer(
+                              backgroundColor: Colors.transparent,
+                              radius: Sizes.cardRadiusSm,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(Sizes.md),
+                                child: Image.file(
+                                  file,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            )
-                            .toList(),
-                  ),
-
-                const SizedBox(height: Sizes.spaceBtwItems),
-                uploadState.when(
-                  data:
-                      (urls) =>
-                          urls.isNotEmpty
-                              ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Uploaded Successfully',
-                                    style:
-                                        Theme.of(context).textTheme.labelMedium,
-                                  ),
-                                ],
-                              )
-                              : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  uploadState.isLoading
-                                      ? Center(
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                Colors.blue,
-                                              ), // color
-                                          strokeWidth:
-                                              4.0, // thickness of the line
-                                          backgroundColor:
-                                              dark
-                                                  ? Colors.white
-                                                  : Colors
-                                                      .black, // background circle color
-                                        ),
-                                      )
-                                      : TextButton(
-                                        style: TextButton.styleFrom(
-                                          padding: const EdgeInsets.all(
-                                            Sizes.spaceBtwItems,
-                                          ),
-                                          backgroundColor: CustomColors.primary,
-                                        ),
-                                        onPressed: _upload,
-                                        child: Text(
-                                          'Upload',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium!
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                      ),
-                                ],
-                              ),
-                  loading: () => const CircularProgressIndicator(),
-                  error:
-                      (e, _) => Center(
-                        child: Text(
-                          'An error occured failed to upload portfolio images',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
+                            ),
+                          )
+                          .toList(),
                 ),
-              ],
-            ),
+    
+              const SizedBox(height: Sizes.spaceBtwItems),
+              uploadState.when(
+                data:
+                    (urls) =>
+                        urls.isNotEmpty
+                            ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Uploaded Successfully',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium,
+                                ),
+                              ],
+                            )
+                            : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                uploadState.isLoading
+                                    ? Center(
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.blue,
+                                            ), // color
+                                        strokeWidth:
+                                            4.0, // thickness of the line
+                                        backgroundColor:
+                                            dark
+                                                ? Colors.white
+                                                : Colors
+                                                    .black, // background circle color
+                                      ),
+                                    )
+                                    : TextButton(
+                                      style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.all(
+                                          Sizes.spaceBtwItems,
+                                        ),
+                                        backgroundColor: CustomColors.primary,
+                                      ),
+                                      onPressed: _upload,
+                                      child: Text(
+                                        'Upload',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                              ],
+                            ),
+                loading: () => const CircularProgressIndicator(),
+                error:
+                    (e, _) => Center(
+                      child: Text(
+                        'An error occured failed to upload portfolio images',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+              ),
+            ],
           ),
         ),
       ),

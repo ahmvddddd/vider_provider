@@ -33,83 +33,81 @@ class _SubscriptionPlanScreenState extends ConsumerState<SubscriptionPlanScreen>
     final selectedPlan = ref.watch(selectedSubscriptionPlanProvider);
     final controller = ref.read(subscriptionControllerProvider.notifier);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-            title: Text("Choose a Subscription Plan",
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-        showBackArrow: true,),
-        body: Padding(
-            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-            child: walletController.when(
-              data: (wallet) {
-                final currentPlan = wallet.subscriptionPlan.toLowerCase();
-
-                return SingleChildScrollView(
-                  child: Column(
-                    children: ['Free', 'Basic', 'Standard', 'Premium'].map((plan) {
-                      final planLower = plan.toLowerCase();
-                      final isSelected = selectedPlan?.toLowerCase() == planLower;
-                      final isCurrent = currentPlan == planLower;
-
-                      final showPrimary = isSelected || (selectedPlan == null && isCurrent);
-
-                      String getPlanDescription(String plan) {
-                        switch (plan.toLowerCase()) {
-                          case 'free':
-                            return 'Basic profile visibility. No platform boost.';
-                          case 'basic':
-                            return 'Better visibility. In app promotion.';
-                          case 'standard':
-                            return 'High visibility. Priority on listings. External publicity';
-                          case 'premium':
-                            return 'Maximum visibility, featured profile placement. Physical publicity and marketing campaign';
-                          default:
-                            return '';
-                        }
+    return Scaffold(
+      appBar: TAppBar(
+          title: Text("Choose a Subscription Plan",
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+      showBackArrow: true,),
+      body: Padding(
+          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+          child: walletController.when(
+            data: (wallet) {
+              final currentPlan = wallet.subscriptionPlan.toLowerCase();
+    
+              return SingleChildScrollView(
+                child: Column(
+                  children: ['Free', 'Basic', 'Standard', 'Premium'].map((plan) {
+                    final planLower = plan.toLowerCase();
+                    final isSelected = selectedPlan?.toLowerCase() == planLower;
+                    final isCurrent = currentPlan == planLower;
+    
+                    final showPrimary = isSelected || (selectedPlan == null && isCurrent);
+    
+                    String getPlanDescription(String plan) {
+                      switch (plan.toLowerCase()) {
+                        case 'free':
+                          return 'Basic profile visibility. No platform boost.';
+                        case 'basic':
+                          return 'Better visibility. In app promotion.';
+                        case 'standard':
+                          return 'High visibility. Priority on listings. External publicity';
+                        case 'premium':
+                          return 'Maximum visibility, featured profile placement. Physical publicity and marketing campaign';
+                        default:
+                          return '';
                       }
-
-
-                      return Column(
-                        children: [
-                          SubscriptionCard(
-                            borderColor: showPrimary ? CustomColors.primary : Colors.transparent,
-                            subscriptionPlan: plan,
-                            percentage: getPercentage(plan),
-                            subscriptionButton: isCurrent && selectedPlan == null
-                                ? Align(
-                              alignment: Alignment.center,
-                                  child: Text('Current Plan',
-                                                              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: CustomColors.primary),),
-                                )
-                                : ElevatedButton(
-                              onPressed: () => controller.updateSubscriptionPlan(plan, context),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: showPrimary ? Colors.transparent : CustomColors.primary,
-                              ),
-                              child: Text('Choose Plan',
-                              style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white),),
+                    }
+    
+    
+                    return Column(
+                      children: [
+                        SubscriptionCard(
+                          borderColor: showPrimary ? CustomColors.primary : Colors.transparent,
+                          subscriptionPlan: plan,
+                          percentage: getPercentage(plan),
+                          subscriptionButton: isCurrent && selectedPlan == null
+                              ? Align(
+                            alignment: Alignment.center,
+                                child: Text('Current Plan',
+                                                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: CustomColors.primary),),
+                              )
+                              : ElevatedButton(
+                            onPressed: () => controller.updateSubscriptionPlan(plan, context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: showPrimary ? Colors.transparent : CustomColors.primary,
                             ),
-                              description: getPlanDescription(plan),
+                            child: Text('Choose Plan',
+                            style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white),),
                           ),
-                          const SizedBox(height: Sizes.spaceBtwItems),
-                        ],
-                      );
-                    }).toList(),
-                  ),
-                );
-              },
-              loading: () => const JobsScreenShimmer(),
-              error: (e, _) => Center(
-                child: Text(
-                  e.toString(),
-                  style: Theme.of(context).textTheme.bodySmall,
+                            description: getPlanDescription(plan),
+                        ),
+                        const SizedBox(height: Sizes.spaceBtwItems),
+                      ],
+                    );
+                  }).toList(),
                 ),
+              );
+            },
+            loading: () => const JobsScreenShimmer(),
+            error: (e, _) => Center(
+              child: Text(
+                e.toString(),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ),
-      ),
+        ),
     );
   }
 

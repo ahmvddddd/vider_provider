@@ -24,107 +24,105 @@ class UploadProfileImagePage extends ConsumerWidget {
     final isCameraReady = controller.isCameraInitialized;
     final camera = controller.cameraController;
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: TAppBar(
-          title: Text(
-            'Upload Profile Image',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          showBackArrow: true,
+    return Scaffold(
+      appBar: TAppBar(
+        title: Text(
+          'Upload Profile Image',
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        body: ref
-            .watch(profileImageControllerProvider)
-            .when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(child: Text('Error: $e')),
-              data:
-                  (_) => SingleChildScrollView(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          image == null
-                              ? isCameraReady
-                                  ? Padding(
-                                    padding: const EdgeInsets.all(
-                                      Sizes.spaceBtwItems,
+        showBackArrow: true,
+      ),
+      body: ref
+          .watch(profileImageControllerProvider)
+          .when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Error: $e')),
+            data:
+                (_) => SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        image == null
+                            ? isCameraReady
+                                ? Padding(
+                                  padding: const EdgeInsets.all(
+                                    Sizes.spaceBtwItems,
+                                  ),
+                                  child: RoundedContainer(
+                                    height: screenHeight * 0.50,
+                                    radius: Sizes.cardRadiusSm,
+                                    backgroundColor: Colors.transparent,
+                                    borderColor: CustomColors.primary,
+                                    child: AspectRatio(
+                                      aspectRatio: camera!.value.aspectRatio,
+                                      child: CameraPreview(camera),
                                     ),
-                                    child: RoundedContainer(
-                                      height: screenHeight * 0.50,
-                                      radius: Sizes.cardRadiusSm,
-                                      backgroundColor: Colors.transparent,
-                                      borderColor: CustomColors.primary,
-                                      child: AspectRatio(
-                                        aspectRatio: camera!.value.aspectRatio,
-                                        child: CameraPreview(camera),
+                                  ),
+                                )
+                                : const CircularProgressIndicator()
+                            : CircleAvatar(
+                              radius: 80,
+                              backgroundImage: FileImage(File(image.path)),
+                            ),
+                        const SizedBox(height: Sizes.spaceBtwSections),
+                        SizedBox(
+                          width: screenWidth * 0.40,
+                          child: ElevatedButton(
+                            onPressed: () => controller.captureImage(),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(Sizes.xs),
+                              backgroundColor: CustomColors.primary,
+                            ),
+                            child: Icon(Icons.camera, color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(height: Sizes.spaceBtwSections),
+                        SizedBox(
+                          width: screenWidth * 0.40,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(Sizes.xs),
+                              backgroundColor: CustomColors.primary,
+                            ),
+                            onPressed: () async {
+                              await TokenSecureStorage.checkToken(
+                                context: context,
+                                ref: ref,
+                              );
+                              await controller.uploadImage(context);
+                            },
+                            child:
+                                controller.isLoading
+                                    ? Center(
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.blue,
+                                        ), // color
+                                        strokeWidth: 4.0, // thickness of the line
+                                        backgroundColor:
+                                            dark
+                                                ? Colors.white
+                                                : Colors
+                                                    .black, // background circle color
                                       ),
+                                    )
+                                    : Text(
+                                      'Upload Picture',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall!
+                                          .copyWith(color: Colors.white),
                                     ),
-                                  )
-                                  : const CircularProgressIndicator()
-                              : CircleAvatar(
-                                radius: 80,
-                                backgroundImage: FileImage(File(image.path)),
-                              ),
-                          const SizedBox(height: Sizes.spaceBtwSections),
-                          SizedBox(
-                            width: screenWidth * 0.40,
-                            child: ElevatedButton(
-                              onPressed: () => controller.captureImage(),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(Sizes.xs),
-                                backgroundColor: CustomColors.primary,
-                              ),
-                              child: Icon(Icons.camera, color: Colors.white),
-                            ),
                           ),
-                          const SizedBox(height: Sizes.spaceBtwSections),
-                          SizedBox(
-                            width: screenWidth * 0.40,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(Sizes.xs),
-                                backgroundColor: CustomColors.primary,
-                              ),
-                              onPressed: () async {
-                                await TokenSecureStorage.checkToken(
-                                  context: context,
-                                  ref: ref,
-                                );
-                                await controller.uploadImage(context);
-                              },
-                              child:
-                                  controller.isLoading
-                                      ? Center(
-                                        child: CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation<Color>(
-                                            Colors.blue,
-                                          ), // color
-                                          strokeWidth: 4.0, // thickness of the line
-                                          backgroundColor:
-                                              dark
-                                                  ? Colors.white
-                                                  : Colors
-                                                      .black, // background circle color
-                                        ),
-                                      )
-                                      : Text(
-                                        'Upload Picture',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(color: Colors.white),
-                                      ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-            ),
-      ),
+                ),
+          ),
     );
   }
 }
