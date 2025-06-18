@@ -36,7 +36,25 @@ class UploadProfileImagePage extends ConsumerWidget {
           .watch(profileImageControllerProvider)
           .when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('Error: $e')),
+            error: (e, _) => Center(
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text('An error occured',
+        style: Theme.of(context).textTheme.bodySmall,),
+      const SizedBox(height: 10),
+      ElevatedButton(
+        onPressed: () {
+          // Force refresh the controller
+          ref.invalidate(profileImageControllerProvider);
+        },
+        child: Text('Retry',
+        style: Theme.of(context).textTheme.bodySmall,),
+      ),
+    ],
+  ),
+),
+
             data:
                 (_) => SingleChildScrollView(
                   child: Center(
