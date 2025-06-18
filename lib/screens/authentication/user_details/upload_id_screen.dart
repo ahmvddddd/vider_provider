@@ -39,9 +39,11 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
   }
 
   Future<void> _uploadImage() async {
-    setState(() {
-      isLoading = true;
-    });
+  setState(() {
+    isLoading = true;
+  });
+
+  try {
     if (idImage == null) {
       CustomSnackbar.show(
         context: context,
@@ -60,10 +62,21 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
       idImage: File(idImage!.path),
       idType: selectedOption,
     );
+  } catch (e) {
+    CustomSnackbar.show(
+      context: context,
+      title: 'Upload Failed',
+      message: e.toString(),
+      icon: Icons.error,
+      backgroundColor: CustomColors.error,
+    );
+  } finally {
     setState(() {
       isLoading = false;
     });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

@@ -67,7 +67,7 @@ class _PortfolioUploadScreenState extends ConsumerState<PortfolioUploadScreen> {
                 description:
                     'Upload 4 clear images that display the service you provide. Do not uploadother users images as this could lead to suspension of your account',
               ),
-    
+
               const SizedBox(height: Sizes.spaceBtwItems),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +87,7 @@ class _PortfolioUploadScreenState extends ConsumerState<PortfolioUploadScreen> {
                   ),
                 ],
               ),
-    
+
               const SizedBox(height: Sizes.spaceBtwItems),
               if (_selectedImages.isNotEmpty)
                 Wrap(
@@ -112,7 +112,7 @@ class _PortfolioUploadScreenState extends ConsumerState<PortfolioUploadScreen> {
                           )
                           .toList(),
                 ),
-    
+
               const SizedBox(height: Sizes.spaceBtwItems),
               uploadState.when(
                 data:
@@ -131,45 +131,41 @@ class _PortfolioUploadScreenState extends ConsumerState<PortfolioUploadScreen> {
                             : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                uploadState.isLoading
-                                    ? Center(
-                                      child: CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                              Colors.blue,
-                                            ), // color
-                                        strokeWidth:
-                                            4.0, // thickness of the line
-                                        backgroundColor:
-                                            dark
-                                                ? Colors.white
-                                                : Colors
-                                                    .black, // background circle color
-                                      ),
-                                    )
-                                    : TextButton(
-                                      style: TextButton.styleFrom(
-                                        padding: const EdgeInsets.all(
-                                          Sizes.spaceBtwItems,
-                                        ),
-                                        backgroundColor: CustomColors.primary,
-                                      ),
-                                      onPressed: _upload,
-                                      child: Text(
-                                        'Upload',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium!
-                                            .copyWith(color: Colors.white),
-                                      ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.all(
+                                      Sizes.spaceBtwItems,
                                     ),
+                                    backgroundColor: CustomColors.primary,
+                                  ),
+                                  onPressed: _upload,
+                                  child: Text(
+                                    'Upload',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                ),
                               ],
                             ),
-                loading: () => const CircularProgressIndicator(),
+                loading:
+                    () => Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.blue,
+                        ), // color
+                        strokeWidth: 4.0, // thickness of the line
+                        backgroundColor:
+                            dark
+                                ? Colors.white
+                                : Colors.black, // background circle color
+                      ),
+                    ),
                 error:
                     (e, _) => Center(
                       child: Text(
-                        'An error occured failed to upload portfolio images',
+                        'An error occurred: failed to upload portfolio images',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),

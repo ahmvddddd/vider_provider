@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
+import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../controllers/auth/signup_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
@@ -140,19 +141,29 @@ class SignupUserForm extends ConsumerWidget {
 
           /// Sign Up Button
           signupState.isLoading
-              ? const CircularProgressIndicator()
+              ?  Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.blue,
+                  ), // color
+                  strokeWidth: 4.0, // thickness of the line
+                  backgroundColor:
+                      isDark
+                          ? Colors.white
+                          : Colors.black, // background circle color
+                ),
+              )
               : SizedBox(
                 width: double.infinity,
                 child: GestureDetector(
                   onTap: () {
                     if (!termsAccepted.value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'You must accept the Terms and Conditions.',
-                          ),
-                          backgroundColor: Colors.red,
-                        ),
+                      CustomSnackbar.show(
+                        context: context,
+                        title: 'Accept Terms and conditions',
+                        message: 'Please accept the terms and conditions',
+                        backgroundColor: CustomColors.error,
+                        icon: Icons.error_outline
                       );
                       return;
                     }
