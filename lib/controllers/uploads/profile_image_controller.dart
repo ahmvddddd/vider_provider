@@ -47,6 +47,9 @@ class ProfileImageController extends AsyncNotifier<void> {
 
   /// Initialize camera and update state
   Future<void> initializeCamera() async {
+  // Dispose any existing controller before creating a new one
+  await cameraController?.dispose();
+
   cameras = await availableCameras();
   if (cameras != null && cameras!.isNotEmpty) {
     // Find the front camera
@@ -60,6 +63,7 @@ class ProfileImageController extends AsyncNotifier<void> {
     state = const AsyncData(null);
   }
 }
+
 
 
   
@@ -90,6 +94,7 @@ class ProfileImageController extends AsyncNotifier<void> {
       );
       final response = await request.send();
       if (response.statusCode == 200) {
+      await cameraController?.dispose(); 
         CustomSnackbar.show(
           context: context,
           title: 'Success',

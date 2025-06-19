@@ -11,6 +11,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 
 import '../../common/widgets/pop_up/custom_snackbar.dart';
+import '../../repository/user/location_state_storage.dart';
 import '../../utils/constants/custom_colors.dart';
 
 final storage = FlutterSecureStorage();
@@ -34,7 +35,7 @@ class SaveLocationController {
   SaveLocationController(this.ref);
 
   Future<void> getAndSaveLocation(BuildContext context) async {
-    final bool isLocationEnabled = ref.read(locationSwitchProvider);
+    final bool isLocationEnabled = ref.read(persistentLocationSwitchProvider);
     String saveLocationURL = dotenv.env['SAVE_LOCATION_URL'] ?? 'https/defaulturl.com/api';
 
     double latitude = 0.0;

@@ -11,8 +11,8 @@ import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
 import '../../utils/helpers/token_secure_storage.dart';
 
-class UploadProfileImagePage extends ConsumerWidget {
-  const UploadProfileImagePage({super.key});
+class UploadProfileImageScreen extends ConsumerWidget {
+  const UploadProfileImageScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,24 +36,29 @@ class UploadProfileImagePage extends ConsumerWidget {
           .watch(profileImageControllerProvider)
           .when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text('An error occured',
-        style: Theme.of(context).textTheme.bodySmall,),
-      const SizedBox(height: 10),
-      ElevatedButton(
-        onPressed: () {
-          // Force refresh the controller
-          ref.invalidate(profileImageControllerProvider);
-        },
-        child: Text('Retry',
-        style: Theme.of(context).textTheme.bodySmall,),
-      ),
-    ],
-  ),
-),
+            error:
+                (e, _) => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'An error occured',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Force refresh the controller
+                          ref.invalidate(profileImageControllerProvider);
+                        },
+                        child: Text(
+                          'Retry',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
             data:
                 (_) => SingleChildScrollView(
@@ -116,10 +121,12 @@ class UploadProfileImagePage extends ConsumerWidget {
                                 controller.isLoading
                                     ? Center(
                                       child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.blue,
-                                        ), // color
-                                        strokeWidth: 4.0, // thickness of the line
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.blue,
+                                            ), // color
+                                        strokeWidth:
+                                            4.0, // thickness of the line
                                         backgroundColor:
                                             dark
                                                 ? Colors.white
