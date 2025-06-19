@@ -59,11 +59,18 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     );
     if (picked != null) {
       final now = DateTime.now();
-      final age = now.year - picked.year - ((now.month < picked.month || (now.month == picked.month && now.day < picked.day)) ? 1 : 0);
+      final age =
+          now.year -
+          picked.year -
+          ((now.month < picked.month ||
+                  (now.month == picked.month && now.day < picked.day))
+              ? 1
+              : 0);
       setState(() {
         selectedDate = picked;
         _dobSelected = true;
-        validationMessage = age < 18 ? "You must be at least 18 years old" : null;
+        validationMessage =
+            age < 18 ? "You must be at least 18 years old" : null;
       });
     }
   }
@@ -126,7 +133,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         backgroundColor: CustomColors.success,
       );
       setState(() => isLoading = false);
-      HelperFunction.navigateScreen(context, UploadProfileImagePage());
+      HelperFunction.navigateScreen(context, UploadProfileImageScreen());
     } else {
       setState(() => isLoading = false);
       CustomSnackbar.show(
@@ -147,45 +154,63 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
 
     return Scaffold(
       appBar: TAppBar(
-        title: Text('User Details', style: Theme.of(context).textTheme.headlineSmall),
+        title: Text(
+          'User Details',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
         showBackArrow: true,
       ),
       bottomNavigationBar: ButtonContainer(
         text: 'Submit',
         onPressed: _submitProfile,
       ),
-      body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                strokeWidth: 4.0,
-                backgroundColor: dark ? Colors.white : Colors.black,
-              ),
-            )
-          : occupationsAsync.when(
-              data: (occupations) => SingleChildScrollView(
-                padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                child: _buildForm(context, occupations, dark, screenWidth),
-              ),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, _) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Failed to load categories. Please try again.'),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () => ref.refresh(occupationsProvider),
-                      child: const Text('Retry'),
-                    ),
-                  ],
+      body:
+          isLoading
+              ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                  strokeWidth: 4.0,
+                  backgroundColor: dark ? Colors.white : Colors.black,
                 ),
+              )
+              : occupationsAsync.when(
+                data:
+                    (occupations) => SingleChildScrollView(
+                      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                      child: _buildForm(
+                        context,
+                        occupations,
+                        dark,
+                        screenWidth,
+                      ),
+                    ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error:
+                    (err, _) => Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Failed to load categories. Please try again.',
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () => ref.refresh(occupationsProvider),
+                            child: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    ),
               ),
-            ),
     );
   }
 
-  Widget _buildForm(BuildContext context, List<dynamic> occupations, bool dark, double screenWidth) {
+  Widget _buildForm(
+    BuildContext context,
+    List<dynamic> occupations,
+    bool dark,
+    double screenWidth,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -224,7 +249,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         const TitleAndDescription(
           textAlign: TextAlign.left,
           title: 'Skills',
-          description: 'Enter your professional skills and hit enter. Tap to remove.',
+          description:
+              'Enter your professional skills and hit enter. Tap to remove.',
         ),
         const SizedBox(height: Sizes.sm),
         TextFieldContainer(
@@ -291,7 +317,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         if (validationMessage != null)
           Text(
             validationMessage!,
-            style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.red),
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium!.copyWith(color: Colors.red),
           ),
         const SizedBox(height: Sizes.spaceBtwItems),
         Row(
@@ -305,7 +333,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               onPressed: () => _pickDate(context),
               child: Text(
                 'Select DOB',
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium!.copyWith(color: Colors.white),
               ),
             ),
           ],
@@ -323,14 +353,21 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           width: screenWidth * 0.90,
           child: DropdownButton<String>(
             value: selectedCategory,
-            hint: Text('Select Category', style: Theme.of(context).textTheme.labelSmall),
+            hint: Text(
+              'Select Category',
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
             isExpanded: true,
-            items: occupations.map<DropdownMenuItem<String>>((occupation) {
-              return DropdownMenuItem(
-                value: occupation['category'],
-                child: Text(occupation['category'], style: Theme.of(context).textTheme.labelSmall),
-              );
-            }).toList(),
+            items:
+                occupations.map<DropdownMenuItem<String>>((occupation) {
+                  return DropdownMenuItem(
+                    value: occupation['category'],
+                    child: Text(
+                      occupation['category'],
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  );
+                }).toList(),
             onChanged: (value) {
               setState(() => selectedCategory = value);
               _updateServices(occupations, value);
@@ -342,14 +379,21 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           width: screenWidth * 0.90,
           child: DropdownButton<String>(
             value: selectedService,
-            hint: Text('Select Service', style: Theme.of(context).textTheme.labelSmall),
+            hint: Text(
+              'Select Service',
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
             isExpanded: true,
-            items: service.map((skill) {
-              return DropdownMenuItem(
-                value: skill,
-                child: Text(skill, style: Theme.of(context).textTheme.labelSmall),
-              );
-            }).toList(),
+            items:
+                service.map((skill) {
+                  return DropdownMenuItem(
+                    value: skill,
+                    child: Text(
+                      skill,
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  );
+                }).toList(),
             onChanged: (value) => setState(() => selectedService = value),
           ),
         ),

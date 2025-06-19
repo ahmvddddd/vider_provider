@@ -56,12 +56,6 @@ class ProviderDashboardScreen extends ConsumerWidget {
           star = 'Gold';
         }
 
-        // Prepare status chart data
-        // final statusData =
-        //     dashboard.statusBreakdown
-        //         .map((s) => _StatusData(s.status, s.count))
-        //         .toList();
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -79,42 +73,6 @@ class ProviderDashboardScreen extends ConsumerWidget {
 
             JobDurationAndStatus(
               averageDuration: dashboard.averageDuration,
-              // chart: 
-              // statusData.isEmpty
-              // ? Center(
-              //   child: Text('No Jobs Data Yet',
-              //   style: Theme.of(context).textTheme.labelMedium,
-              //   softWrap: true,
-              //   maxLines: 3,),
-              // )
-              // : SfCircularChart(
-              //   legend: Legend(
-              //     isVisible: true,
-              //     overflowMode: LegendItemOverflowMode.wrap,
-              //     position: LegendPosition.bottom,
-              //     iconHeight: 12,
-              //     iconWidth: 12,
-              //   ),
-              //   series: <CircularSeries<dynamic, String>>[
-              //     PieSeries<_StatusData, String>(
-              //       dataSource: statusData,
-              //       xValueMapper: (e, _) => e.status,
-              //       yValueMapper: (e, _) => e.count,
-              //       radius: '55%',
-              //       dataLabelMapper: (e, _) => '${e.status} (${e.count})',
-              //       pointColorMapper: (e, _) {
-              //         switch (e.status) {
-              //           case 'Credited':
-              //             return Colors.green[900];
-              //           case 'Pending':
-              //             return Colors.orange[900];
-              //           default:
-              //             return CustomColors.primary;
-              //         }
-              //       },
-              //     ),
-              //   ],
-              // ),
             ),
             const SizedBox(height: Sizes.sm),
             Text('Average number of hours you have worked on vider',
@@ -137,12 +95,12 @@ class ProviderDashboardScreen extends ConsumerWidget {
                 scrollable: true,
                 showColorTip: true,
                 defaultColor:
-                    CustomColors.primary.withValues(alpha: 0.15),
+                    CustomColors.primary.withValues(alpha: 0.25),
                 textColor: isDark ? Colors.white : Colors.black,
                 colorsets: {
-                  1: CustomColors.primary.withValues(alpha: 0.25),
-                  2: CustomColors.primary.withValues(alpha: 0.5),
-                  3: CustomColors.primary.withValues(alpha: 0.75),
+                  1: CustomColors.primary.withValues(alpha: 0.3),
+                  2: CustomColors.primary.withValues(alpha: 0.6),
+                  3: CustomColors.primary.withValues(alpha: 0.9),
                   4: CustomColors.primary,
                 },
                 margin: const EdgeInsets.all(2),
@@ -230,9 +188,3 @@ class ProviderDashboardScreen extends ConsumerWidget {
     );
   }
 }
-
-// class _StatusData {
-//   final String status;
-//   final int count;
-//   _StatusData(this.status, this.count);
-// }

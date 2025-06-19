@@ -101,8 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                   ProviderDashboardScreen(dashboardAsync: dashboardAsync),
-    
-    
+
                   SizedBox(height: Sizes.spaceBtwItems),
                   RecentTransactions(transactionsAsync: transactionsAsync),
                 ],

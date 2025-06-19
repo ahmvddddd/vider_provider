@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../controllers/user/save_location_controller.dart';
+import '../../repository/user/location_state_storage.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
@@ -20,7 +21,11 @@ class UpdateUserProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dark = HelperFunction.isDarkMode(context);
-    final isOn = ref.watch(locationSwitchProvider);
+    final isLocationEnabled = ref.watch(persistentLocationSwitchProvider);
+    final switchController = ref.read(
+      persistentLocationSwitchProvider.notifier,
+    );
+    final locationController = ref.read(saveLocationProvider);
 
     return RoundedContainer(
       backgroundColor:
@@ -30,7 +35,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
       radius: Sizes.cardRadiusSm,
       child: Column(
         children: [
-          const SizedBox(height: Sizes.xs,),
+          const SizedBox(height: Sizes.xs),
           ListTile(
             leading: Icon(
               Icons.location_on,
@@ -41,15 +46,27 @@ class UpdateUserProfilePage extends ConsumerWidget {
               'Location',
               style: Theme.of(context).textTheme.labelSmall,
             ),
-            trailing: Switch(
-              value: isOn,
-              onChanged: (value) {
-                ref.read(locationSwitchProvider.notifier).setSwitch(value);
+            trailing:
+            // Switch(
+            //   value: isOn,
+            //   onChanged: (value) {
+            //     ref.read(locationSwitchProvider.notifier).setSwitch(value);
+            //     Future.microtask(() async {
+            //       await ref
+            //           .read(saveLocationProvider)
+            //           .getAndSaveLocation(context);
+            //     });
+            //   },
+            // ),
+            Switch(
+              value: isLocationEnabled,
+              onChanged: (value) async {
+                await switchController.setSwitch(
+                  value,
+                ); // update state + save to shared prefs
                 Future.microtask(() async {
-                  await ref
-                      .read(saveLocationProvider)
-                      .getAndSaveLocation(context);
-                });
+                  await locationController.getAndSaveLocation(context);
+                }); // send to backend
               },
             ),
           ),
@@ -61,8 +78,10 @@ class UpdateUserProfilePage extends ConsumerWidget {
             title: ' ChangeSubscription Plan',
             subTitle: '',
             onTap:
-                () =>
-                    HelperFunction.navigateScreen(context, SubscriptionPlanScreen()),
+                () => HelperFunction.navigateScreen(
+                  context,
+                  SubscriptionPlanScreen(),
+                ),
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(

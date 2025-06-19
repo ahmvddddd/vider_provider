@@ -6,14 +6,15 @@ import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 
-class TAppBar extends StatelessWidget  implements PreferredSizeWidget {
-  const TAppBar({super.key, 
-  this.title,
-  this.showBackArrow = false,
-  this.leadingIcon, 
-  this.actions, 
-  this.leadingOnPressed,
-  }); 
+class TAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const TAppBar({
+    super.key,
+    this.title,
+    this.showBackArrow = false,
+    this.leadingIcon,
+    this.actions,
+    this.leadingOnPressed,
+  });
 
   final Widget? title;
   final bool showBackArrow;
@@ -24,22 +25,37 @@ class TAppBar extends StatelessWidget  implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
-    return  Padding(
-      padding: EdgeInsets.symmetric(horizontal: Sizes.sm),
-      child: AppBar(
-        automaticallyImplyLeading: false,
-        leading: showBackArrow
-        ? IconButton(onPressed: () => Navigator.pop(context), icon:  Icon(Iconsax.arrow_left, color: dark ? CustomColors.white : CustomColors.dark,))
-        : leadingIcon != null 
-        ? IconButton(onPressed: leadingOnPressed, icon:  Icon(leadingIcon))
-        : null,
-        title: title,
-        actions: actions,
+    return SafeArea( // ✅ Ensure it respects the status bar
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Sizes.sm),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          backgroundColor: Colors.transparent, // Optional: customize
+          leading: showBackArrow
+              ? IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Iconsax.arrow_left,
+                    color: dark ? CustomColors.white : CustomColors.dark,
+                  ),
+                )
+              : leadingIcon != null
+                  ? IconButton(
+                      onPressed: leadingOnPressed,
+                      icon: Icon(
+                        leadingIcon,
+                        color: dark ? CustomColors.white : CustomColors.dark,
+                      ),
+                    )
+                  : null,
+          title: title,
+          actions: actions,
+        ),
       ),
     );
   }
 
   @override
-  //Todo: implement preferred Size
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
