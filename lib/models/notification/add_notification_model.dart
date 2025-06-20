@@ -16,7 +16,6 @@
 //       };
 // }
 
-
 class JobDetails {
   final String employerId;
   final String providerId;
@@ -62,12 +61,14 @@ class AddNotificationModel {
   final String type;
   final String title;
   final String message;
+  final String recipientId;
   final JobDetails? jobDetails;
 
   AddNotificationModel({
     required this.type,
     required this.title,
     required this.message,
+    required this.recipientId,
     this.jobDetails,
   });
 
@@ -76,6 +77,7 @@ class AddNotificationModel {
       'type': type,
       'title': title,
       'message': message,
+      'recipientId': recipientId,
       if (jobDetails != null) 'job_details': jobDetails!.toJson(),
     };
   }

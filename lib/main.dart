@@ -28,13 +28,6 @@ void main() {
         DeviceOrientation.portraitDown,
       ]);
 
-      SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // Make status bar transparent
-      statusBarIconBrightness: Brightness.dark, // Dark icons for light backgrounds
-      statusBarBrightness: Brightness.light, // For iOS
-    ),
-  );
 
       runApp(const ProviderScope(child: App()));
     },
