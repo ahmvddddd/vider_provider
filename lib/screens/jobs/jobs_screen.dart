@@ -68,7 +68,7 @@ class _JobsPageState extends ConsumerState<JobsPage> {
     double xSAvatarHeight = screenHeight * 0.055;
     return Scaffold(
       appBar: TAppBar(
-        title: Text('Employer Jobs',
+        title: Text('Jobs',
       style: Theme.of(context).textTheme.headlineSmall),
       ),
       body: jobsAsyncValue.when(
@@ -84,139 +84,147 @@ class _JobsPageState extends ConsumerState<JobsPage> {
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-              child: HomeListView(
-                scrollDirection: Axis.vertical,
-                itemCount: jobs.length,
-                scrollPhysics: const NeverScrollableScrollPhysics(),
-                seperatorBuilder:
-                    (context, index) =>
-                        const SizedBox(height: Sizes.spaceBtwItems),
-                itemBuilder: (context, index) {
-                  var job = jobs[index];
-                  String date = DateFormat('dd/MM/yy HH:mm:ss').format(DateTime.parse(job['startTime']));
-    
-    
-                  return RoundedContainer(
-                    padding: const EdgeInsets.all(Sizes.sm),
-                    backgroundColor:
-                        dark
-                            ? CustomColors.white.withValues(alpha: 0.1)
-                            : CustomColors.black.withValues(alpha: 0.1),
-                    boxShadow: [TShadowStyle.horizontalProductShadow],
-                    width: screenWidth * 0.90,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+              child: Column(
+                children: [
+                  Text(jobs.length.toString(),
+                  style:Theme.of(context).textTheme.bodySmall),
+
+                  const SizedBox(height: Sizes.spaceBtwItems,),
+                  HomeListView(
+                    scrollDirection: Axis.vertical,
+                    itemCount: jobs.length,
+                    scrollPhysics: const NeverScrollableScrollPhysics(),
+                    seperatorBuilder:
+                        (context, index) =>
+                            const SizedBox(height: Sizes.spaceBtwItems),
+                    itemBuilder: (context, index) {
+                      var job = jobs[index];
+                      String date = DateFormat('dd/MM/yy HH:mm:ss').format(DateTime.parse(job['startTime']));
+                      
+                      
+                      return RoundedContainer(
+                        padding: const EdgeInsets.all(Sizes.sm),
+                        backgroundColor:
+                            dark
+                                ? CustomColors.white.withValues(alpha: 0.1)
+                                : CustomColors.black.withValues(alpha: 0.1),
+                        boxShadow: [TShadowStyle.horizontalProductShadow],
+                        width: screenWidth * 0.90,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              height: xSAvatarHeight * 0.80,
-                              width:
-                                  xSAvatarHeight * 0.80, // Ensure it's a square
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: dark ? CustomColors.black : CustomColors.white,
-                              ),
-                              child: ClipOval(
-                                child: Image.network(
-                                  job['employerImage'] ?? Images.avatarM1,
-                                  height: xSAvatarHeight * 0.80,
-                                  width: xSAvatarHeight * 0.80,
-                                  fit: BoxFit.cover, // fill the circle properly
-                                ),
-                              ),
-                            ),
-        
-                            const SizedBox(width: Sizes.sm),
                             Row(
                               children: [
-                                const SizedBox(width: Sizes.sm),
-                                Text(
-                                  job['employerName'] ?? 'no name',
-                                  style: Theme.of(context).textTheme.labelSmall,
-                                  softWrap: true,
+                                Container(
+                                  height: xSAvatarHeight * 0.80,
+                                  width:
+                                      xSAvatarHeight * 0.80, // Ensure it's a square
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: dark ? CustomColors.black : CustomColors.white,
+                                  ),
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      job['employerImage'] ?? Images.avatarM1,
+                                      height: xSAvatarHeight * 0.80,
+                                      width: xSAvatarHeight * 0.80,
+                                      fit: BoxFit.cover, // fill the circle properly
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(width: Sizes.xs),
-                                const Icon(
-                                  Iconsax.verify,
-                                  size: Sizes.iconSm,
-                                  color: Colors.amber,
+                          
+                                const SizedBox(width: Sizes.sm),
+                                Row(
+                                  children: [
+                                    const SizedBox(width: Sizes.sm),
+                                    Text(
+                                      job['employerName'] ?? 'no name',
+                                      style: Theme.of(context).textTheme.labelSmall,
+                                      softWrap: true,
+                                    ),
+                                    const SizedBox(width: Sizes.xs),
+                                    const Icon(
+                                      Iconsax.verify,
+                                      size: Sizes.iconSm,
+                                      color: Colors.amber,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
+                      
+                            //description
+                            const Padding(
+                              padding: EdgeInsets.all(Sizes.xs),
+                              child: Divider(color: CustomColors.primary),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Duration',
+                                  style: Theme.of(context).textTheme.labelMedium,
+                                ),
+                                Text(
+                                  '${job['duration']} hrs',
+                                  style: Theme.of(context).textTheme.labelMedium!
+                                      .copyWith(color: CustomColors.success),
+                                ),
+                              ],
+                            ),
+                      
+                            const SizedBox(height: Sizes.xs),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Status',
+                                  style: Theme.of(context).textTheme.labelMedium,
+                                ),
+                                Text(
+                                  getJobStatus(job),
+                                  style: TextStyle(
+                                    color:
+                                        getJobStatus(job) == "Executed"
+                                            ? CustomColors.success
+                                            : CustomColors.error,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                      
+                            const SizedBox(height: Sizes.xs),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  job['jobTitle'],
+                                  style: Theme.of(context).textTheme.labelMedium,
+                                ),
+                                Text(
+                                  '\$${NumberFormat('#,##0.00').format(job['pay'])}',
+                                  style: Theme.of(context).textTheme.labelMedium!
+                                      .copyWith(fontFamily: 'JosefinSans'),
+                                ),
+                              ],
+                            ),
+                      
+                            const SizedBox(height: Sizes.sm),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children:[
+                            Text(date,
+                            style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold))
+                            ]
+                            )
                           ],
                         ),
-    
-                        //description
-                        const Padding(
-                          padding: EdgeInsets.all(Sizes.xs),
-                          child: Divider(color: CustomColors.primary),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Duration',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                            Text(
-                              '${job['duration']} hrs',
-                              style: Theme.of(context).textTheme.labelMedium!
-                                  .copyWith(color: CustomColors.success),
-                            ),
-                          ],
-                        ),
-    
-                        const SizedBox(height: Sizes.xs),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Status',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                            Text(
-                              getJobStatus(job),
-                              style: TextStyle(
-                                color:
-                                    getJobStatus(job) == "Executed"
-                                        ? CustomColors.success
-                                        : CustomColors.error,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-    
-                        const SizedBox(height: Sizes.xs),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              job['jobTitle'],
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                            Text(
-                              '\$${NumberFormat('#,##0.00').format(job['pay'])}',
-                              style: Theme.of(context).textTheme.labelMedium!
-                                  .copyWith(fontFamily: 'JosefinSans'),
-                            ),
-                          ],
-                        ),
-    
-                        const SizedBox(height: Sizes.sm),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children:[
-                        Text(date,
-                        style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold))
-                        ]
-                        )
-                      ],
-                    ),
-                  );
-                },
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           );

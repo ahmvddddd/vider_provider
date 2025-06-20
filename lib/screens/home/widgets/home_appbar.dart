@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:iconsax/iconsax.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../utils/constants/sizes.dart';
@@ -10,21 +9,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeAppBar extends ConsumerStatefulWidget {
   final int unreadCount;
-  const HomeAppBar({super.key,
-  required this.unreadCount });
+  const HomeAppBar({super.key, required this.unreadCount});
 
   @override
   ConsumerState<HomeAppBar> createState() => _HomeAppBarState();
 }
 
 class _HomeAppBarState extends ConsumerState<HomeAppBar> {
-
   @override
   void initState() {
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +99,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                               ),
                             ),
                             child: Icon(
-                              Iconsax.notification,
+                              Icons.notifications,
                               size: Sizes.iconMd,
                               color: dark ? Colors.white : Colors.black,
                             ),
@@ -112,7 +107,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                           : Icon(
                             Icons.notifications,
                             size: Sizes.iconMd,
-                        color: dark ? Colors.white : Colors.black,
+                            color: dark ? Colors.white : Colors.black,
                           ),
                 ),
               ),
@@ -209,7 +204,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                           ? Colors.white.withValues(alpha: 0.1)
                           : Colors.black.withValues(alpha: 0.1),
                   child: const Icon(
-                    Iconsax.notification,
+                    Icons.notifications,
                     size: Sizes.iconMd,
                     color: Colors.white,
                   ),
