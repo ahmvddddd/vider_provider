@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -101,6 +102,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                   ProviderDashboardScreen(dashboardAsync: dashboardAsync),
+
+                  const SizedBox(height: Sizes.sm),
+                  ElevatedButton(
+  onPressed: () async {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        channelKey: 'basic_channel',
+        title: 'Test Notification',
+        body: 'This is a test notification triggered manually.',
+        notificationLayout: NotificationLayout.Default,
+        payload: {
+          'type': 'notification', // or 'chat' if you want to simulate chat
+        },
+      ),
+    );
+  },
+  child: Text('Send Test Notification'),
+),
+
 
                   SizedBox(height: Sizes.spaceBtwItems),
                   RecentTransactions(transactionsAsync: transactionsAsync),
