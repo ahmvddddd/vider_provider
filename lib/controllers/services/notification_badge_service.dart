@@ -1,12 +1,36 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../screens/messages/chat.dart';
-import '../../screens/notifications/notifications.dart';
 import '../notifications/message_notification_controller.dart';
 import '../notifications/unread_notifications_controller.dart';
-import '../../../main.dart';
+
+/// 🔔 Handle notification taps (no navigation)
+@pragma("vm:entry-point")
+Future<void> onNotificationActionTap(ReceivedAction receivedAction) async {
+  // Just bring the app to foreground
+  debugPrint('Notification tapped: ${receivedAction.payload}');
+}
+
+/// 🛠️ Background message handler for FCM
+@pragma("vm:entry-point")
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      channelKey: 'basic_channel',
+      title: message.notification?.title ?? 'New Notification',
+      body: message.notification?.body ?? '',
+      notificationLayout: NotificationLayout.Default,
+      payload: {
+        'type': message.data['type'] ?? '',
+      },
+    ),
+  );
+}
 
 class NotificationBadgeService {
   final ProviderContainer container;
@@ -14,11 +38,12 @@ class NotificationBadgeService {
   NotificationBadgeService({required this.container});
 
   Future<void> init() async {
+    // Foreground listener
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       await _handleIncomingMessage(message);
     });
 
-    // Use the top-level method instead of inline function
+    // Background tap listener
     AwesomeNotifications().setListeners(
       onActionReceivedMethod: onNotificationActionTap,
     );
@@ -51,7 +76,7 @@ class NotificationBadgeService {
         title: message.notification?.title ?? 'New Notification',
         body: message.notification?.body ?? '',
         notificationLayout: NotificationLayout.Default,
-        payload: {'type': message.data['type']},
+        payload: {'type': message.data['type'] ?? ''},
       ),
     );
   }
@@ -62,20 +87,5 @@ class NotificationBadgeService {
         container.read(unreadNotificationsProvider).toInt();
 
     await AwesomeNotifications().setGlobalBadgeCounter(totalUnread);
-  }
-}
-
-@pragma("vm:entry-point")
-Future<void> onNotificationActionTap(ReceivedAction receivedAction) async {
-  final type = receivedAction.payload?['type'];
-
-  if (type == 'chat') {
-    navigatorKey.currentState?.push(
-      MaterialPageRoute(builder: (_) => ChatScreen()),
-    );
-  } else if (type == 'notification') {
-    navigatorKey.currentState?.push(
-      MaterialPageRoute(builder: (_) => NotificationsScreen()),
-    );
   }
 }

@@ -86,8 +86,6 @@ class _JobsPageState extends ConsumerState<JobsPage> {
               padding: const EdgeInsets.all(Sizes.spaceBtwItems),
               child: Column(
                 children: [
-                  Text(jobs.length.toString(),
-                  style:Theme.of(context).textTheme.bodySmall),
 
                   const SizedBox(height: Sizes.spaceBtwItems,),
                   HomeListView(
