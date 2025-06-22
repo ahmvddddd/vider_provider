@@ -65,10 +65,11 @@ class NotificationBadgeService {
         container.read(unreadNotificationsProvider).toInt();
 
     await AwesomeNotifications().setGlobalBadgeCounter(totalUnread);
-    await _showLocalNotification(message);
+    await showLocalNotification(message);
   }
 
-  Future<void> _showLocalNotification(RemoteMessage message) async {
+  Future<void> showLocalNotification(RemoteMessage message) async {
+  print("🔔 Showing Awesome Notification: ${message.notification?.title}");
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
