@@ -187,7 +187,7 @@ class _UpdateSkillsState extends ConsumerState<UpdateSkills> {
                         : Colors.black, // background circle color
               ),
             ),
-        error: (err, _) => Center(child: Text('Error: $err')),
+        error: (err, _) => Center(child: Text('An error occurred. Try again later')),
       ),
     );
   }

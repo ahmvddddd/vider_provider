@@ -46,19 +46,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
               'Location',
               style: Theme.of(context).textTheme.labelSmall,
             ),
-            trailing:
-            // Switch(
-            //   value: isOn,
-            //   onChanged: (value) {
-            //     ref.read(locationSwitchProvider.notifier).setSwitch(value);
-            //     Future.microtask(() async {
-            //       await ref
-            //           .read(saveLocationProvider)
-            //           .getAndSaveLocation(context);
-            //     });
-            //   },
-            // ),
-            Switch(
+            trailing: Switch(
               value: isLocationEnabled,
               onChanged: (value) async {
                 await switchController.setSwitch(

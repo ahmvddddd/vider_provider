@@ -3,13 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vider_provider/common/widgets/custom_shapes/containers/rounded_container.dart';
+import 'package:vider_provider/utils/helpers/capitalize_text.dart';
+import '../../common/widgets/custom_shapes/divider/custom_divider.dart';
 import '../../common/widgets/image/full_screen_image_view.dart';
 import '../../common/widgets/layouts/listvew.dart';
 import '../../controllers/user/user_controller.dart';
 import '../../models/user/user_profile_model.dart';
 import '../../repository/user/user_local_storage.dart';
+import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
+import '../settings/settings_screen.dart';
 import 'components/service_profile_shimmer.dart';
 // import 'widgets/certification_title.dart';
 import 'widgets/user_bio.dart';
@@ -78,7 +82,29 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                     padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                     child: Column(
                       children: [
-                        const SizedBox(height: Sizes.spaceBtwSections + 4),
+                        const SizedBox(height: Sizes.spaceBtwSections + 2),
+                        GestureDetector(
+                          onTap: () {
+                            HelperFunction.navigateScreen(
+                              context,
+                              SettingsScreen(),
+                            );
+                          },
+                          child: RoundedContainer(
+                            height: screenHeight * 0.06,
+                            padding: const EdgeInsets.all(Sizes.sm),
+                            backgroundColor: CustomColors.primary,
+                            child: Center(
+                              child: Text(
+                                'Settings',
+                                style: Theme.of(context).textTheme.labelSmall!
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: Sizes.spaceBtwItems),
                         RoundedContainer(
                           padding: const EdgeInsets.all(Sizes.sm),
                           backgroundColor:
@@ -89,21 +115,21 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               UserInfo(
-                                fullname:
-                                    '${user.firstname} ${user.lastname}',
+                                fullname: '${user.firstname.capitalizeEachWord()} ${user.lastname.capitalizeEachWord()}',
                                 username: user.username,
                                 service: user.service,
                                 rating: 5.0,
                                 category: user.category,
                                 hourlyRate: user.hourlyRate,
                               ),
-    
-                              const SizedBox(height: Sizes.spaceBtwSections + 4),
+
+                              const CustomDivider(
+                                padding: EdgeInsets.all(Sizes.spaceBtwItems,
+                              ),),
                               user.portfolioImages.isEmpty
                                   ? const SizedBox.shrink()
                                   : HomeListView(
-                                    sizedBoxHeight:
-                                        horizontalCardHeight * 0.50,
+                                    sizedBoxHeight: horizontalCardHeight * 0.50,
                                     scrollDirection: Axis.horizontal,
                                     seperatorBuilder:
                                         (context, index) =>
@@ -112,40 +138,36 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap:
-                                            () =>
-                                                HelperFunction.navigateScreen(
-                                                  context,
-                                                  FullScreenImageView(
-                                                    images:
-                                                        user.portfolioImages,
-                                                    initialIndex: index,
-                                                  ),
-                                                ),
+                                            () => HelperFunction.navigateScreen(
+                                              context,
+                                              FullScreenImageView(
+                                                images: user.portfolioImages,
+                                                initialIndex: index,
+                                              ),
+                                            ),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(
                                             Sizes.borderRadiusLg,
                                           ),
                                           child: Image.network(
                                             user.portfolioImages[index],
-                                            width:
-                                                horizontalCardHeight * 0.50,
-                                            height:
-                                                horizontalCardHeight * 0.60,
+                                            width: horizontalCardHeight * 0.50,
+                                            height: horizontalCardHeight * 0.60,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                       );
                                     },
                                   ),
-    
-                                  const SizedBox(height: Sizes.spaceBtwItems,)
+
+                              const SizedBox(height: Sizes.spaceBtwItems),
                             ],
                           ),
                         ),
-    
+
                         const SizedBox(height: Sizes.spaceBtwItems),
                         RoundedContainer(
-                          padding: const EdgeInsets.all(Sizes.sm),
+                          padding: const EdgeInsets.all(Sizes.sm + 4),
                           backgroundColor:
                               dark
                                   ? Colors.white.withValues(alpha: 0.1)
@@ -154,8 +176,10 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               UserBio(bio: user.bio),
-    
-                              const SizedBox(height: Sizes.spaceBtwSections),
+
+                              const CustomDivider(
+                                padding: EdgeInsets.all(Sizes.spaceBtwItems,
+                              ),),
                               HomeListView(
                                 sizedBoxHeight: screenHeight * 0.06,
                                 scrollDirection: Axis.horizontal,
@@ -167,8 +191,8 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                                     (context, index) =>
                                         Services(service: user.skills[index]),
                               ),
-    
-                              const SizedBox(height: Sizes.spaceBtwItems,)
+
+                              const SizedBox(height: Sizes.spaceBtwItems),
                             ],
                           ),
                         ),
