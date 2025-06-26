@@ -1,0 +1,11 @@
+<resources>
+    <color name="common_google_signin_btn_text_dark_default">#FFFFFF</color>
+    <color name="common_google_signin_btn_text_dark_disabled">#BDBDBD</color>
+    <color name="common_google_signin_btn_text_dark_focused">#E0E0E0</color>
+    <color name="common_google_signin_btn_text_dark_pressed">#9E9E9E</color>
+
+    <color name="common_google_signin_btn_text_light_default">#000000</color>
+    <color name="common_google_signin_btn_text_light_disabled">#9E9E9E</color>
+    <color name="common_google_signin_btn_text_light_focused">#757575</color>
+    <color name="common_google_signin_btn_text_light_pressed">#616161</color>
+</resources>

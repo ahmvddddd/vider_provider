@@ -40,6 +40,22 @@ class LoginController extends StateNotifier<LoginState> {
     }
   }
 
+  static Future<bool> isUserStillLoggedIn() async {
+  final token = await _secureStorage.read(key: 'token');
+  final timestampStr = await _secureStorage.read(key: 'loginTimestamp');
+
+  if (token == null || timestampStr == null) return false;
+
+  final loginTime = DateTime.tryParse(timestampStr);
+  if (loginTime == null) return false;
+
+  final now = DateTime.now();
+  final difference = now.difference(loginTime);
+
+  return difference.inDays < 7;
+}
+
+
   Future<void> login(
     BuildContext context,
     String username,
@@ -64,6 +80,10 @@ class LoginController extends StateNotifier<LoginState> {
 
         await Future.wait([
           _secureStorage.write(key: 'token', value: responseData['token']),
+          _secureStorage.write(
+    key: 'loginTimestamp',
+    value: DateTime.now().toIso8601String(),
+  ),
           UsernameLocalStorage.saveUsername(username),
         ]);
 

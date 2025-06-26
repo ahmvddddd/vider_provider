@@ -124,7 +124,7 @@ class _UpdateHourlyRateState extends ConsumerState<UpdateHourlyRate> {
                         : Colors.black, // background circle color
               ),
             ),
-        error: (err, _) => Center(child: Text('Error loading profile: $err')),
+        error: (err, _) => Center(child: Text('An error occurred. Try again later')),
       ),
     );
   }

@@ -12,23 +12,18 @@ class Services extends StatelessWidget {
     final dark = HelperFunction.isDarkMode(context);
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: CustomColors.primary
-        ),
+        border: Border.all(color: CustomColors.primary,
+        width: 0.5),
           borderRadius: BorderRadius.circular(Sizes.cardRadiusLg),
-          color: dark 
-          ? Colors.white.withValues(alpha: 0.1)
-          :Colors.black.withValues(alpha: 0.1)),
-      padding: const EdgeInsets.all(Sizes.xs),
+          color: dark ? Colors.black : Colors.white),
+      padding: const EdgeInsets.symmetric(vertical: Sizes.xs, horizontal: Sizes.xs + 1),
       child: Center(
         child: Text(
           service,
           style: Theme.of(context)
               .textTheme
               .labelSmall!
-              .copyWith(color:dark
-               ? CustomColors.white
-               : CustomColors.black),
+              .copyWith(color:dark ?Colors.white : Colors.black),
         ),
       ),
     );

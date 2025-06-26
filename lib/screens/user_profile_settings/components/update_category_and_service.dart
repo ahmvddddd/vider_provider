@@ -155,7 +155,7 @@ class _UpdateCategoryAndServiceState
               ),
             ),
         error:
-            (err, _) => Center(child: Text('Error loading categories: $err')),
+            (err, _) => Center(child: Text('An error occurred. Try again later')),
       ),
     );
   }
