@@ -95,7 +95,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
                 scrollable: true,
                 showColorTip: true,
                 defaultColor:
-                    CustomColors.primary.withValues(alpha: 0.25),
+                    isDark ? Colors.blue.withValues(alpha: 0.15) : CustomColors.primary.withValues(alpha: 0.25),
                 textColor: isDark ? Colors.white : Colors.black,
                 colorsets: {
                   1: CustomColors.primary.withValues(alpha: 0.3),

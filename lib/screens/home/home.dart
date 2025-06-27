@@ -27,20 +27,35 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isRefreshing = false;
+  NotificationBadgeService? _badgeService;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  // //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  // //   final container = ProviderScope.containerOf(context);
+  // //   final notificationService = NotificationBadgeService(container: container);
+
+  // //   // Optionally refresh unread count
+  // //   container.read(unreadNotificationsProvider.notifier).refresh();
+
+  // //   // Show local notification
+  // //   notificationService.showLocalNotification(message);
+  // // });
+  // final container = ProviderScope.containerOf(context);
+  //   final badgeService = NotificationBadgeService(container: container);
+  //   badgeService.init();
+  // }
 
   @override
-  void initState() {
-    super.initState();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    final container = ProviderScope.containerOf(context);
-    final notificationService = NotificationBadgeService(container: container);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
-    // Optionally refresh unread count
-    container.read(unreadNotificationsProvider.notifier).refresh();
-
-    // Show local notification
-    notificationService.showLocalNotification(message);
-  });
+    if (_badgeService == null) {
+      final container = ProviderScope.containerOf(context);
+      _badgeService = NotificationBadgeService(container: container);
+      _badgeService!.init(); // ✅ Safe to call here
+    }
   }
 
   @override
@@ -95,29 +110,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ProviderDashboardScreen(dashboardAsync: dashboardAsync),
 
-                  const SizedBox(height: Sizes.sm,),
-                  ElevatedButton(onPressed: () async {
-                    final token = await FirebaseMessaging.instance.getToken();
-print("FCM Token: $token");
-                  }, child: Text('token')),
+                  const SizedBox(height: Sizes.sm),
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     final token = await FirebaseMessaging.instance.getToken();
+                  //     print("FCM Token: $token");
+                  //   },
+                  //   child: Text('token'),
+                  // ),
 
-                  AddNotificationButton(notificationModel: AddNotificationModel(
-    type: 'notification',
-    title: 'New Job Available',
-    message: 'New job alert!',
-    recipientId: '6844dbfceb249077e8117fbd',
-  ),
-),
-
+                                    AddNotificationButton(notificationModel: AddNotificationModel(
+                      type: 'generic',
+                      title: 'New Job Available',
+                      message: 'New job alert!',
+                      recipientId: '6844dbfceb249077e8117fbd',
+                    ),
+                  ),
                   SendNotificationButton(
-  model: AddNotificationModel(
-    type: 'notification',
-    title: 'New Job Available',
-    message: 'New job alert!',
-    recipientId: '6844dbfceb249077e8117fbd',
-  ),
-),
-
+                    model: AddNotificationModel(
+                      type: 'generic',
+                      title: 'New Job Available',
+                      message: 'New job alert!',
+                      recipientId: '6844dbfceb249077e8117fbd',
+                    ),
+                  ),
 
                   SizedBox(height: Sizes.spaceBtwItems),
                   RecentTransactions(transactionsAsync: transactionsAsync),
@@ -131,9 +147,6 @@ print("FCM Token: $token");
   }
 }
 
-
-
-
 class AddNotificationButton extends ConsumerWidget {
   final AddNotificationModel notificationModel;
 
@@ -144,27 +157,27 @@ class AddNotificationButton extends ConsumerWidget {
     final asyncValue = ref.watch(addNotificationProvider(notificationModel));
 
     return ElevatedButton(
-      onPressed: asyncValue is AsyncLoading
-          ? null
-          : () {
-              ref.refresh(addNotificationProvider(notificationModel));
-              ref.watch(unreadNotificationsProvider);
-            },
-      child: asyncValue is AsyncLoading
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Colors.white,
-              ),
-            )
-          : const Text('Add Notification'),
+      onPressed:
+          asyncValue is AsyncLoading
+              ? null
+              : () {
+                ref.refresh(addNotificationProvider(notificationModel));
+                ref.watch(unreadNotificationsProvider);
+              },
+      child:
+          asyncValue is AsyncLoading
+              ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+              : const Text('Add Notification'),
     );
   }
 }
-
-
 
 class SendNotificationButton extends ConsumerWidget {
   final AddNotificationModel model;
@@ -176,17 +189,21 @@ class SendNotificationButton extends ConsumerWidget {
     final state = ref.watch(sendNotificationProvider);
 
     return ElevatedButton(
-      onPressed: state is AsyncLoading
-          ? null
-          : () async {
-              await ref.read(sendNotificationProvider.notifier).sendNotification(model);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Notification sent')),
-              );
-            },
-      child: state is AsyncLoading
-          ? const CircularProgressIndicator(color: Colors.white)
-          : const Text('Send Notification'),
+      onPressed:
+          state is AsyncLoading
+              ? null
+              : () async {
+                await ref
+                    .read(sendNotificationProvider.notifier)
+                    .sendNotification(model);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Notification sent')),
+                );
+              },
+      child:
+          state is AsyncLoading
+              ? const CircularProgressIndicator(color: Colors.white)
+              : const Text('Send Notification'),
     );
   }
 }

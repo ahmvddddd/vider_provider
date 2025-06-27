@@ -17,6 +17,11 @@
         <!-- Required for awesome_notifications -->
     <receiver android:name="me.carda.awesome_notifications.notifications.receivers.ActionReceiver" android:exported="true"/>
     <receiver android:name="me.carda.awesome_notifications.notifications.receivers.DismissedReceiver" android:exported="true"/>
+
+    <service
+        android:name="me.carda.awesome_notifications.notifications.services.FirebaseService"
+        android:exported="true"
+        android:permission="android.permission.BIND_JOB_SERVICE"/>
         
         <!-- Optional: Support for legacy HTTP library if needed -->
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
