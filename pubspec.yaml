@@ -86,6 +86,7 @@ dependencies:
   flutter_local_notifications: ^19.2.1
   firebase_crashlytics: ^4.3.6
   awesome_notifications: ^0.10.1
+  awesome_notifications_fcm: ^0.10.1
   flutter_launcher_icons: ^0.14.3
   animated_text_kit: ^4.2.3
 

@@ -4,6 +4,8 @@ import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import 'package:intl/intl.dart';
 
+import '../../../utils/helpers/helper_function.dart';
+
 class UserInfo extends StatelessWidget {
   final String fullname;
   final String username;
@@ -23,6 +25,7 @@ class UserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = HelperFunction.isDarkMode(context);
     return Padding(
       padding: const EdgeInsets.all(Sizes.xs),
       child: Column(
@@ -48,7 +51,7 @@ class UserInfo extends StatelessWidget {
               ),
           
               //email
-              Text(username, style: Theme.of(context).textTheme.labelSmall!.copyWith(color: CustomColors.primary)),
+              Text(username, style: Theme.of(context).textTheme.labelSmall!.copyWith(color: dark ? Colors.blue : CustomColors.primary)),
             ],
           ),
       
