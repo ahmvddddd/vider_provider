@@ -95,6 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             await Future.wait([
               ref.refresh(providerDashboardProvider.future),
               ref.refresh(transactionProvider(4).future),
+    Future(() => ref.refresh(unreadNotificationsProvider)),
             ]);
             setState(() => isRefreshing = false);
           },
@@ -122,13 +123,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Text('token'),
                   ),
 
-                  //                   AddNotificationButton(notificationModel: AddNotificationModel(
-                  //     type: 'generic',
-                  //     title: 'New Job Available',
-                  //     message: 'New job alert!',
-                  //     recipientId: '6844dbfceb249077e8117fbd',
-                  //   ),
-                  // ),
+                                    AddNotificationButton(notificationModel: AddNotificationModel(
+                      type: 'generic',
+                      title: 'New Job Available',
+                      message: 'New job alert!',
+                      recipientId: '6844dbfceb249077e8117fbd',
+                    ),
+                  ),
                   SendNotificationButton(
                     model: AddNotificationModel(
                       type: 'generic',
@@ -160,13 +161,20 @@ class AddNotificationButton extends ConsumerWidget {
     final asyncValue = ref.watch(addNotificationProvider(notificationModel));
 
     return ElevatedButton(
-      onPressed:
-          asyncValue is AsyncLoading
-              ? null
-              : () {
-                ref.refresh(addNotificationProvider(notificationModel));
-                ref.watch(unreadNotificationsProvider);
-              },
+      onPressed:asyncValue is AsyncLoading
+          ? null
+          : () async {
+             await ref
+                  .read(addNotificationProvider(notificationModel).future);
+
+              // Optionally refresh unread count if needed
+              ref.read(unreadNotificationsProvider.notifier).refresh();
+
+              // Optional: Show success UI feedback
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Notification saved')),
+              );
+            },
       child:
           asyncValue is AsyncLoading
               ? const SizedBox(

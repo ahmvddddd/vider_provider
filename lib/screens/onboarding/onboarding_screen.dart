@@ -89,99 +89,101 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: _pages.length,
-              onPageChanged:
-                  (index) =>
-                      ref.read(currentIndexProvider.notifier).state = index,
-              itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: screenHeight * 0.60,
-                      width: screenWidth,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            images[index]['image'],
-                          ), // or NetworkImage(...)
-                          fit:
-                              BoxFit.cover, // BoxFit.cover, contain, fill, etc.
-                        ),
-                        color: CustomColors.primary.withValues(alpha: 0.05),
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(Sizes.xl),
-                          bottomRight: Radius.circular(Sizes.xl),
-                        ),
-                      ),
-                      child: SizedBox.shrink(),
-                    ),
-                    const SizedBox(height: Sizes.spaceBtwSections),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.spaceBtwItems,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _pages[index]['text'],
-                            style: Theme.of(context).textTheme.headlineSmall!
-                                .copyWith(color: CustomColors.primary),
-                            textAlign: TextAlign.center,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: _pages.length,
+                onPageChanged:
+                    (index) =>
+                        ref.read(currentIndexProvider.notifier).state = index,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: screenHeight * 0.60,
+                        width: screenWidth,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              images[index]['image'],
+                            ), // or NetworkImage(...)
+                            fit:
+                                BoxFit.cover, // BoxFit.cover, contain, fill, etc.
                           ),
-                          const SizedBox(height: Sizes.sm),
-                          SizedBox(
-                            width: screenWidth * 0.80,
-                            child: Text(
-                              pageTexts[index]['pageText'],
-                              style: Theme.of(context).textTheme.bodySmall,
-                              softWrap: true,
+                          color: CustomColors.primary.withValues(alpha: 0.05),
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(Sizes.xl),
+                            bottomRight: Radius.circular(Sizes.xl),
+                          ),
+                        ),
+                        child: SizedBox.shrink(),
+                      ),
+                      const SizedBox(height: Sizes.spaceBtwSections),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.spaceBtwItems,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _pages[index]['text'],
+                              style: Theme.of(context).textTheme.headlineSmall!
+                                  .copyWith(color: CustomColors.primary),
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: Sizes.sm),
+                            SizedBox(
+                              width: screenWidth * 0.80,
+                              child: Text(
+                                pageTexts[index]['pageText'],
+                                style: Theme.of(context).textTheme.bodySmall,
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: List.generate(
+                      _pages.length,
+                      (index) => _buildIndicator(index, currentIndex),
                     ),
-                  ],
-                );
-              },
+                  ),
+                  TextButton(
+                    onPressed: _nextPage,
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(Sizes.xs),
+                      backgroundColor: CustomColors.primary,
+                    ),
+                    child: Text(
+                      currentIndex == _pages.length - 1 ? 'Finish' : 'Next',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: List.generate(
-                    _pages.length,
-                    (index) => _buildIndicator(index, currentIndex),
-                  ),
-                ),
-                TextButton(
-                  onPressed: _nextPage,
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(Sizes.xs),
-                    backgroundColor: CustomColors.primary,
-                  ),
-                  child: Text(
-                    currentIndex == _pages.length - 1 ? 'Finish' : 'Next',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelMedium!.copyWith(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
