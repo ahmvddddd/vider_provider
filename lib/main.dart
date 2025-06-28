@@ -158,7 +158,6 @@ Future<void> main() async {
 @pragma("vm:entry-point")
 Future<void> myFcmTokenHandler(String token) async {
   debugPrint('🟦 FCM Token received: $token');
-  // Store or send to backend
 }
 
 // 🔕 Handle background silent push (no notification UI)

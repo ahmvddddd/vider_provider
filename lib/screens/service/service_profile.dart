@@ -91,7 +91,7 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                             );
                           },
                           child: RoundedContainer(
-                            height: screenHeight * 0.06,
+                            height: screenHeight * 0.05,
                             padding: const EdgeInsets.all(Sizes.sm),
                             backgroundColor: CustomColors.primary,
                             child: Center(
