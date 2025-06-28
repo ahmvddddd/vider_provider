@@ -3,6 +3,7 @@
 class Images {
 
   //Avatar
+  static const String appIcon = "assets/profile_images/vider_icon.png";
   static const String avatarF1 = "assets/profile_images/avatar_f1.png";
   static const String avatarF2 = "assets/profile_images/avatar_f2.png";
   static const String avatarM1 = "assets/profile_images/avatar_m1.png";

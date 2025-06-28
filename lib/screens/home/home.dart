@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:vider_provider/controllers/services/firebase_service.dart';
 import '../../controllers/notifications/add_notification_controller.dart';
 import '../../controllers/notifications/send_fcm_controller.dart';
 import '../../controllers/services/notification_badge_service.dart';
@@ -56,6 +57,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       _badgeService = NotificationBadgeService(container: container);
       _badgeService!.init(); // ✅ Safe to call here
     }
+
+    saveFcmTokenToBackend();
   }
 
   @override
@@ -111,21 +114,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ProviderDashboardScreen(dashboardAsync: dashboardAsync),
 
                   const SizedBox(height: Sizes.sm),
-                  // ElevatedButton(
-                  //   onPressed: () async {
-                  //     final token = await FirebaseMessaging.instance.getToken();
-                  //     print("FCM Token: $token");
-                  //   },
-                  //   child: Text('token'),
-                  // ),
-
-                                    AddNotificationButton(notificationModel: AddNotificationModel(
-                      type: 'generic',
-                      title: 'New Job Available',
-                      message: 'New job alert!',
-                      recipientId: '6844dbfceb249077e8117fbd',
-                    ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final token = await FirebaseMessaging.instance.getToken();
+                      print("FCM Token: $token");
+                    },
+                    child: Text('token'),
                   ),
+
+                  //                   AddNotificationButton(notificationModel: AddNotificationModel(
+                  //     type: 'generic',
+                  //     title: 'New Job Available',
+                  //     message: 'New job alert!',
+                  //     recipientId: '6844dbfceb249077e8117fbd',
+                  //   ),
+                  // ),
                   SendNotificationButton(
                     model: AddNotificationModel(
                       type: 'generic',
