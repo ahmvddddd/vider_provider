@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:vider_provider/controllers/services/firebase_service.dart';
-import '../../controllers/notifications/add_notification_controller.dart';
+// import '../../controllers/notifications/add_notification_controller.dart';
 import '../../controllers/notifications/send_fcm_controller.dart';
 import '../../controllers/services/notification_badge_service.dart';
 import '../../models/notification/add_notification_model.dart';
@@ -95,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             await Future.wait([
               ref.refresh(providerDashboardProvider.future),
               ref.refresh(transactionProvider(4).future),
-    Future(() => ref.refresh(unreadNotificationsProvider)),
+    // Future(() => ref.refresh(unreadNotificationsProvider)),
             ]);
             setState(() => isRefreshing = false);
           },
@@ -114,22 +114,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ProviderDashboardScreen(dashboardAsync: dashboardAsync),
 
-                  const SizedBox(height: Sizes.sm),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final token = await FirebaseMessaging.instance.getToken();
-                      print("FCM Token: $token");
-                    },
-                    child: Text('token'),
-                  ),
+                  // const SizedBox(height: Sizes.sm),
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     final token = await FirebaseMessaging.instance.getToken();
+                  //     print("FCM Token: $token");
+                  //   },
+                  //   child: Text('token'),
+                  // ),
 
-                                    AddNotificationButton(notificationModel: AddNotificationModel(
-                      type: 'generic',
-                      title: 'New Job Available',
-                      message: 'New job alert!',
-                      recipientId: '6844dbfceb249077e8117fbd',
-                    ),
-                  ),
+                  //                   AddNotificationButton(notificationModel: AddNotificationModel(
+                  //     type: 'generic',
+                  //     title: 'New Job Available',
+                  //     message: 'New job alert!',
+                  //     recipientId: '6844dbfceb249077e8117fbd',
+                  //   ),
+                  // ),
                   SendNotificationButton(
                     model: AddNotificationModel(
                       type: 'generic',
@@ -151,44 +151,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-class AddNotificationButton extends ConsumerWidget {
-  final AddNotificationModel notificationModel;
+// class AddNotificationButton extends ConsumerWidget {
+//   final AddNotificationModel notificationModel;
 
-  const AddNotificationButton({super.key, required this.notificationModel});
+//   const AddNotificationButton({super.key, required this.notificationModel});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final asyncValue = ref.watch(addNotificationProvider(notificationModel));
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final asyncValue = ref.watch(addNotificationProvider(notificationModel));
 
-    return ElevatedButton(
-      onPressed:asyncValue is AsyncLoading
-          ? null
-          : () async {
-             await ref
-                  .read(addNotificationProvider(notificationModel).future);
-
-              // Optionally refresh unread count if needed
-              ref.read(unreadNotificationsProvider.notifier).refresh();
-
-              // Optional: Show success UI feedback
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Notification saved')),
-              );
-            },
-      child:
-          asyncValue is AsyncLoading
-              ? const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: Colors.white,
-                ),
-              )
-              : const Text('Add Notification'),
-    );
-  }
-}
+//     return ElevatedButton(
+//       onPressed:
+//           asyncValue is AsyncLoading
+//               ? null
+//               : () {
+//                 ref.refresh(addNotificationProvider(notificationModel));
+//                 ref.watch(unreadNotificationsProvider);
+//               },
+//       child:
+//           asyncValue is AsyncLoading
+//               ? const SizedBox(
+//                 height: 20,
+//                 width: 20,
+//                 child: CircularProgressIndicator(
+//                   strokeWidth: 2,
+//                   color: Colors.white,
+//                 ),
+//               )
+//               : const Text('Add Notification'),
+//     );
+//   }
+// }
 
 class SendNotificationButton extends ConsumerWidget {
   final AddNotificationModel model;

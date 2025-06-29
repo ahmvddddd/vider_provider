@@ -57,7 +57,7 @@ class UnreadNotificationsNotifier extends StateNotifier<int> {
       } catch (e) {
         logger.i('Crashlytics fetch unread notifications controller failed $e');
       }
-      throw Exception('An error occurred');
+      throw Exception('Ann error occured');
     }
   }
 
