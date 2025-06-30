@@ -184,7 +184,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: JobsDashBoardShimmer()),
-      error: (e, _) => Center(child: Text("Error: $e")),
+      error: (e, _) => Center(child: Text("Could not load screen, check your internet connection and refresh")),
     );
   }
 }

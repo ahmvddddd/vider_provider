@@ -31,21 +31,40 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
     return walletController.when(
       data: (wallet) {
         return WalletDetails(
+          onPressed: () async {
+            await Future.wait([
+    Future(() => ref.refresh(walletProvider)),
+            ]);
+          },
           balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}',
           subscriptionPlan: wallet.subscriptionPlan,
         );
       },
-      loading: () => WalletDetails(balance: '\$0.00', subscriptionPlan: 'Free'),
-      error: (err, _) => Center(child: Text('Error: Failed to fetch balance')),
+      loading: () => WalletDetails(
+          onPressed: () async {
+            await Future.wait([
+    Future(() => ref.refresh(walletProvider)),
+            ]);
+          },
+          balance: '\$0.00', subscriptionPlan: 'Free'),
+      error: (err, _) => WalletDetails(
+          onPressed: () async {
+            await Future.wait([
+    Future(() => ref.refresh(walletProvider)),
+            ]);
+          },balance: '\$0.00', subscriptionPlan: 'Free'),
     );
   }
 }
 
 class WalletDetails extends StatelessWidget {
+  final VoidCallback? onPressed;
   final String balance;
   final String subscriptionPlan;
+
   const WalletDetails({
     super.key,
+    required this.onPressed,
     required this.balance,
     required this.subscriptionPlan,
   });
@@ -64,9 +83,20 @@ class WalletDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Balance', style: Theme.of(context).textTheme.labelSmall),
-          Text(balance, style: Theme.of(context).textTheme.headlineSmall),
-
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Balance', style: Theme.of(context).textTheme.labelSmall),
+              Text(balance, style: Theme.of(context).textTheme.headlineSmall),
+                ],
+              ),
+              IconButton(onPressed: onPressed, icon: Icon(Icons.refresh, size: Sizes.iconSm,))
+            ],
+          ),
+      
           const SizedBox(height: Sizes.xs),   
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

@@ -85,7 +85,7 @@ class _RecentTransactionsState extends ConsumerState<RecentTransactions> {
         );
       },
       loading: () => const Center(child: RecentTransactionsShimmer()),
-      error: (error, stack) => Center(child: Text(error.toString())),
+      error: (error, stack) => SizedBox.shrink(),
     );
   }
 }
