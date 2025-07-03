@@ -6,9 +6,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../models/notification/add_notification_model.dart';
 
-final sendNotificationProvider = StateNotifierProvider<SendNotificationController, AsyncValue<void>>(
-  (ref) => SendNotificationController(),
-);
+final sendNotificationProvider =
+    StateNotifierProvider<SendNotificationController, AsyncValue<void>>(
+      (ref) => SendNotificationController(),
+    );
 
 class SendNotificationController extends StateNotifier<AsyncValue<void>> {
   SendNotificationController() : super(const AsyncData(null));

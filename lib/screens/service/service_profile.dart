@@ -10,10 +10,8 @@ import '../../common/widgets/layouts/listvew.dart';
 import '../../controllers/user/user_controller.dart';
 import '../../models/user/user_profile_model.dart';
 import '../../repository/user/user_local_storage.dart';
-import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
-import '../settings/settings_screen.dart';
 import 'components/service_profile_shimmer.dart';
 // import 'widgets/certification_title.dart';
 import 'widgets/user_bio.dart';
@@ -82,29 +80,7 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                     padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                     child: Column(
                       children: [
-                        const SizedBox(height: Sizes.spaceBtwSections + 2),
-                        GestureDetector(
-                          onTap: () {
-                            HelperFunction.navigateScreen(
-                              context,
-                              SettingsScreen(),
-                            );
-                          },
-                          child: RoundedContainer(
-                            height: screenHeight * 0.05,
-                            padding: const EdgeInsets.all(Sizes.sm),
-                            backgroundColor: CustomColors.primary,
-                            child: Center(
-                              child: Text(
-                                'Settings',
-                                style: Theme.of(context).textTheme.labelSmall!
-                                    .copyWith(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: Sizes.spaceBtwItems),
+                        const SizedBox(height: Sizes.spaceBtwSections),
                         RoundedContainer(
                           padding: const EdgeInsets.all(Sizes.sm),
                           backgroundColor:

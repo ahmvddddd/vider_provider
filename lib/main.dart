@@ -14,64 +14,64 @@ import 'app.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
-  runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
-    await dotenv.load(fileName: ".env");
+      await dotenv.load(fileName: ".env");
 
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
 
-    // 🔔 Initialize Awesome Notifications with FCM
-    AwesomeNotifications().initialize(
-  null,
-  [
-    NotificationChannel(
-      channelKey: 'basic_channel',
-      channelName: 'Basic Notifications',
-      channelDescription: 'Channel for general alerts',
-      importance: NotificationImportance.High,
-      defaultColor: Colors.blue,
-      ledColor: Colors.white,
-    ),
-  ],
-);
+      // 🔔 Initialize Awesome Notifications with FCM
+      AwesomeNotifications().initialize(null, [
+        NotificationChannel(
+          channelKey: 'basic_channel',
+          channelName: 'Basic Notifications',
+          channelDescription: 'Channel for general alerts',
+          importance: NotificationImportance.High,
+          defaultColor: Colors.blue,
+          ledColor: Colors.white,
+        ),
+      ]);
 
-    // 🔑 FCM + Awesome Notifications
-    await AwesomeNotificationsFcm().initialize(
-  onFcmTokenHandle: myFcmTokenHandler,
-  onFcmSilentDataHandle: mySilentDataHandler,
-);
+      // 🔑 FCM + Awesome Notifications
+      await AwesomeNotificationsFcm().initialize(
+        onFcmTokenHandle: myFcmTokenHandler,
+        onFcmSilentDataHandle: mySilentDataHandler,
+      );
 
-    // 🔓 Ask for permission if not already granted
-    final isAllowed = await AwesomeNotifications().isNotificationAllowed();
-    if (!isAllowed) {
-      await AwesomeNotifications().requestPermissionToSendNotifications();
-    }
+      // 🔓 Ask for permission if not already granted
+      final isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      if (!isAllowed) {
+        await AwesomeNotifications().requestPermissionToSendNotifications();
+      }
 
-    await FirebaseMessaging.instance.requestPermission();
+      await FirebaseMessaging.instance.requestPermission();
 
-    runApp(
-      ProviderScope(
-        child: App(),
-      ),
-    );
-  }, (error, stackTrace) {
-    FirebaseCrashlytics.instance.recordError(
-      error,
-      stackTrace,
-      reason: 'Uncaught async error',
-      fatal: true,
-    );
-  });
+      NotificationSettings settings =
+          await FirebaseMessaging.instance.getNotificationSettings();
+      debugPrint('🔔 Permission granted: ${settings.authorizationStatus}');
+
+      runApp(ProviderScope(child: App()));
+    },
+    (error, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(
+        error,
+        stackTrace,
+        reason: 'Uncaught async error',
+        fatal: true,
+      );
+    },
+  );
 }
 
 // 🔧 Callback to store FCM token (optional)

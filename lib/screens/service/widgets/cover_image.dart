@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../utils/constants/custom_colors.dart';
+import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
+import '../../settings/settings_screen.dart';
 
 class CoverImage extends StatelessWidget {
   final String coverImageString;
@@ -30,6 +33,25 @@ class CoverImage extends StatelessWidget {
             ),
           ),
         ),
+
+        Positioned(
+          top: 40,
+          right: 15,
+          child: GestureDetector(
+            onTap: () {
+              HelperFunction.navigateScreen(
+                              context,
+                              SettingsScreen(),
+                            );
+            },
+            child: RoundedContainer(
+              backgroundColor: CustomColors.primary,
+              padding: const EdgeInsets.all(Sizes.sm),
+              radius: 100,
+              child: Icon(Icons.settings, color: Colors.white,),
+            ),
+          )
+          ),
 
         //Icon
         Positioned(
