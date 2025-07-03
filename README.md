@@ -1,6 +1,6 @@
-# myapp
+# Vider Provider
 
-A new Flutter project.
+Freelancer Android and IOS app
 
 ## Getting Started
 
