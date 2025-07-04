@@ -15,14 +15,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'components/jobs_screen_shimmer.dart';
 
-class JobsPage extends ConsumerStatefulWidget {
-  const JobsPage({super.key});
+class JobsScreen extends ConsumerStatefulWidget {
+  const JobsScreen({super.key});
 
   @override
-  ConsumerState<JobsPage> createState() => _JobsPageState();
+  ConsumerState<JobsScreen> createState() => _JobsPageState();
 }
 
-class _JobsPageState extends ConsumerState<JobsPage> {
+class _JobsPageState extends ConsumerState<JobsScreen> {
   Timer? _timer;
   bool isRefreshing = false;
 
@@ -243,7 +243,7 @@ class _JobsPageState extends ConsumerState<JobsPage> {
             );
           },
           loading: () => const JobsScreenShimmer(),
-          error: (e, _) => Center(child: Text('Could not load screen, check your internet connection and refresh',
+          error: (e, _) => Center(child: Text('Could not load screen, check your internet connection',
           style: Theme.of(context).textTheme.bodySmall,
           softWrap: true,
           )),

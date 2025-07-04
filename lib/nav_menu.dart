@@ -40,15 +40,21 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
           builder:
               (context) => AlertDialog(
                 backgroundColor: dark ? Colors.black : Colors.white,
-                title: Text('Exit App',
-                style: Theme.of(context).textTheme.headlineSmall,),
-                content: Text('Are you sure you want to exit the app?',
-                style: Theme.of(context).textTheme.bodySmall),
+                title: Text(
+                  'Exit App',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                content: Text(
+                  'Are you sure you want to exit the app?',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: Text('No',
-                style: Theme.of(context).textTheme.bodyMedium),
+                    child: Text(
+                      'No',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
@@ -58,8 +64,12 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
                         Navigator.of(context).pop(true);
                       }
                     },
-                    child: Text('Yes',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: CustomColors.error)),
+                    child: Text(
+                      'Yes',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: CustomColors.error,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -78,7 +88,7 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
         case 0:
           return const HomeScreen();
         case 1:
-          return const JobsPage();
+          return const JobsScreen();
         case 2:
           return ChatScreen(key: UniqueKey());
         case 3:
