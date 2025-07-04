@@ -135,7 +135,7 @@ class _ChatState extends ConsumerState<ChatScreen> {
                 ),
               ),
           loading: () => const ChatShimmer(),
-          error: (e, _) => Center(child: Text('Could not load screen, check your internet connection and refresh',
+          error: (e, _) => Center(child: Text('Could not load screen, check your internet connection',
           style: Theme.of(context).textTheme.bodySmall,
           softWrap: true,),
           ),

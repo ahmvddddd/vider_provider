@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
+import '../../../common/widgets/shimmer/shimmer_widget.dart';
 import '../../../controllers/user/wallet_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
@@ -18,6 +19,7 @@ class AccountInfo extends ConsumerStatefulWidget {
 
 class _AccountInfoState extends ConsumerState<AccountInfo> {
   final storage = const FlutterSecureStorage();
+  bool isRefreshing = false;
 
   @override
   void initState() {
@@ -28,31 +30,40 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
   @override
   Widget build(BuildContext context) {
     final walletController = ref.watch(walletProvider);
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return walletController.when(
       data: (wallet) {
-        return WalletDetails(
-          onPressed: () async {
-            await Future.wait([
-    Future(() => ref.refresh(walletProvider)),
-            ]);
-          },
-          balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}',
-          subscriptionPlan: wallet.subscriptionPlan,
-        );
+        return isRefreshing
+            ? ShimmerWidget(
+              width: screenWidth * 0.90,
+              height: screenHeight * 0.20,
+              radius: Sizes.cardRadiusSm,
+            )
+            : WalletDetails(
+              onPressed: () async {
+                await Future.wait([Future(() => ref.refresh(walletProvider))]);
+              },
+              balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}',
+              subscriptionPlan: wallet.subscriptionPlan,
+            );
       },
-      loading: () => WalletDetails(
-          onPressed: () async {
-            await Future.wait([
-    Future(() => ref.refresh(walletProvider)),
-            ]);
-          },
-          balance: '\$0.00', subscriptionPlan: 'Free'),
-      error: (err, _) => WalletDetails(
-          onPressed: () async {
-            await Future.wait([
-    Future(() => ref.refresh(walletProvider)),
-            ]);
-          },balance: '\$0.00', subscriptionPlan: 'Free'),
+      loading:
+          () => WalletDetails(
+            onPressed: () async {
+              await Future.wait([Future(() => ref.refresh(walletProvider))]);
+            },
+            balance: '\$0.00',
+            subscriptionPlan: 'Free',
+          ),
+      error:
+          (err, _) => WalletDetails(
+            onPressed: () async {
+              await Future.wait([Future(() => ref.refresh(walletProvider))]);
+            },
+            balance: 'Could not fetch balance',
+            subscriptionPlan: '',
+          ),
     );
   }
 }
@@ -87,21 +98,29 @@ class WalletDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Balance', style: Theme.of(context).textTheme.labelSmall),
-              Text(balance, style: Theme.of(context).textTheme.headlineSmall),
+                  Text(
+                    'Balance',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  Text(
+                    balance,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ],
               ),
-              IconButton(onPressed: onPressed, icon: Icon(Icons.refresh, size: Sizes.iconSm,))
+              IconButton(
+                onPressed: onPressed,
+                icon: Icon(Icons.refresh, size: Sizes.iconSm),
+              ),
             ],
           ),
-      
-          const SizedBox(height: Sizes.xs),   
+
+          const SizedBox(height: Sizes.xs),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              
               Text(
                 subscriptionPlan,
                 style: Theme.of(

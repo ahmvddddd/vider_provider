@@ -243,9 +243,12 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
             );
           },
           loading: () => const JobsScreenShimmer(),
-          error: (e, _) => Center(child: Text('Could not load screen, check your internet connection',
-          style: Theme.of(context).textTheme.bodySmall,
-          softWrap: true,
+          error: (e, _) => Center(child: Padding(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Text('Could not load screen, check your internet connection',
+            style: Theme.of(context).textTheme.bodySmall,
+            softWrap: true,
+            ),
           )),
         ),
       ),
