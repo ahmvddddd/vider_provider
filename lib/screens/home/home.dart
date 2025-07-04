@@ -130,14 +130,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   //     recipientId: '6844dbfceb249077e8117fbd',
                   //   ),
                   // ),
-                  SendNotificationButton(
-                    model: AddNotificationModel(
-                      type: 'generic',
-                      title: 'New Job Available',
-                      message: 'New job alert!',
-                      recipientId: '6844dbfceb249077e8117fbd',
-                    ),
-                  ),
+                  // SendNotificationButton(
+                  //   model: AddNotificationModel(
+                  //     type: 'generic',
+                  //     title: 'New Job Available',
+                  //     message: 'New job alert!',
+                  //     recipientId: '6844dbfceb249077e8117fbd',
+                  //   ),
+                  // ),
 
                   SizedBox(height: Sizes.spaceBtwItems),
                   RecentTransactions(transactionsAsync: transactionsAsync),

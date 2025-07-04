@@ -175,7 +175,10 @@ class NotificationsScreen extends ConsumerWidget {
             loading: () => SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               child: const ChatShimmer()),
-            error: (err, _) => Center(child: Text('Error: $err')),
+            error: (err, _) => Center(child: Padding(
+              padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+              child: Text('Could not load screen, check your internet connection'),
+            )),
           ),
         ),
       ),
