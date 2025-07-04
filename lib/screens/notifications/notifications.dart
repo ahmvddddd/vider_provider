@@ -172,7 +172,9 @@ class NotificationsScreen extends ConsumerWidget {
                 },
               );
             },
-            loading: () => const ChatShimmer(),
+            loading: () => SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: const ChatShimmer()),
             error: (err, _) => Center(child: Text('Error: $err')),
           ),
         ),
