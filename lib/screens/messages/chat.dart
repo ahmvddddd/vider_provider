@@ -94,11 +94,13 @@ class _ChatState extends ConsumerState<ChatScreen> {
                           itemCount: chatController.length,
                           itemBuilder: (context, index) {
                             final chats = chatController[index];
-                            final backgroundColor = Color(int.parse(chats.color));
-      
+                            final backgroundColor = Color(
+                              int.parse(chats.color),
+                            );
+
                             String avatar = chats.senderImage;
                             String sender = chats.senderName;
-      
+
                             if (chats.senderId == currentUserId) {
                               avatar = chats.receiverImage;
                               sender = chats.receiverName;
@@ -106,7 +108,7 @@ class _ChatState extends ConsumerState<ChatScreen> {
                               avatar = chats.senderImage;
                               sender = chats.senderName;
                             }
-      
+
                             return GestureDetector(
                               onTap: () async {
                                 await readChatController.readChat(
@@ -135,10 +137,18 @@ class _ChatState extends ConsumerState<ChatScreen> {
                 ),
               ),
           loading: () => const ChatShimmer(),
-          error: (e, _) => Center(child: Text('Could not load screen, check your internet connection',
-          style: Theme.of(context).textTheme.bodySmall,
-          softWrap: true,),
-          ),
+          error:
+              (e, _) => Column(
+                children: [
+                  SizedBox(height: 200),
+                  Text(
+                    'Could not load screen. Please check your internet connection',
+                    style: Theme.of(context).textTheme.bodySmall,
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
         ),
       ),
     );
