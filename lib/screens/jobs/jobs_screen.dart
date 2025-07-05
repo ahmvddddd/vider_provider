@@ -29,7 +29,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     Future.microtask(() => ref.watch(jobsFutureProvider));
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) setState(() {});
@@ -69,17 +69,14 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
     double xSAvatarHeight = screenHeight * 0.055;
     return Scaffold(
       appBar: TAppBar(
-        title: Text('Jobs',
-      style: Theme.of(context).textTheme.headlineSmall),
+        title: Text('Jobs', style: Theme.of(context).textTheme.headlineSmall),
       ),
       body: RefreshIndicator(
-          onRefresh: () async {
-            setState(() => isRefreshing = true);
-            await Future.wait([
-    Future(() => ref.refresh(jobsFutureProvider)),
-            ]);
-            setState(() => isRefreshing = false);
-          },
+        onRefresh: () async {
+          setState(() => isRefreshing = true);
+          await Future.wait([Future(() => ref.refresh(jobsFutureProvider))]);
+          setState(() => isRefreshing = false);
+        },
         child: jobsAsyncValue.when(
           data: (jobs) {
             if (jobs.isEmpty) {
@@ -95,14 +92,9 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                 padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                 child: Column(
                   children: [
-                  if (isRefreshing)
-                    Column(
-                      children: [
-                        JobsScreenShimmer(),
-                      ],
-                    ),
-        
-                    const SizedBox(height: Sizes.spaceBtwItems,),
+                    if (isRefreshing) Column(children: [JobsScreenShimmer()]),
+
+                    const SizedBox(height: Sizes.spaceBtwItems),
                     HomeListView(
                       scrollDirection: Axis.vertical,
                       itemCount: jobs.length,
@@ -112,9 +104,10 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                               const SizedBox(height: Sizes.spaceBtwItems),
                       itemBuilder: (context, index) {
                         var job = jobs[index];
-                        String date = DateFormat('dd/MM/yy HH:mm:ss').format(DateTime.parse(job['startTime']));
-                        
-                        
+                        String date = DateFormat(
+                          'dd/MM/yy HH:mm:ss',
+                        ).format(DateTime.parse(job['startTime']));
+
                         return RoundedContainer(
                           padding: const EdgeInsets.all(Sizes.sm),
                           backgroundColor:
@@ -131,29 +124,38 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                   Container(
                                     height: xSAvatarHeight * 0.80,
                                     width:
-                                        xSAvatarHeight * 0.80, // Ensure it's a square
+                                        xSAvatarHeight *
+                                        0.80, // Ensure it's a square
                                     padding: const EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
-                                      color: dark ? CustomColors.black : CustomColors.white,
+                                      color:
+                                          dark
+                                              ? CustomColors.black
+                                              : CustomColors.white,
                                     ),
                                     child: ClipOval(
                                       child: Image.network(
                                         job['employerImage'] ?? Images.avatarM1,
                                         height: xSAvatarHeight * 0.80,
                                         width: xSAvatarHeight * 0.80,
-                                        fit: BoxFit.cover, // fill the circle properly
+                                        fit:
+                                            BoxFit
+                                                .cover, // fill the circle properly
                                       ),
                                     ),
                                   ),
-                            
+
                                   const SizedBox(width: Sizes.sm),
                                   Row(
                                     children: [
                                       const SizedBox(width: Sizes.sm),
                                       Text(
                                         job['employerName'] ?? 'no name',
-                                        style: Theme.of(context).textTheme.labelSmall,
+                                        style:
+                                            Theme.of(
+                                              context,
+                                            ).textTheme.labelSmall,
                                         softWrap: true,
                                       ),
                                       const SizedBox(width: Sizes.xs),
@@ -166,34 +168,40 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                   ),
                                 ],
                               ),
-                        
+
                               //description
                               const Padding(
                                 padding: EdgeInsets.all(Sizes.xs),
                                 child: Divider(color: CustomColors.primary),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Duration',
-                                    style: Theme.of(context).textTheme.labelMedium,
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium,
                                   ),
                                   Text(
                                     '${job['duration']} hrs',
-                                    style: Theme.of(context).textTheme.labelMedium!
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
                                         .copyWith(color: CustomColors.success),
                                   ),
                                 ],
                               ),
-                        
+
                               const SizedBox(height: Sizes.xs),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Status',
-                                    style: Theme.of(context).textTheme.labelMedium,
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium,
                                   ),
                                   Text(
                                     getJobStatus(job),
@@ -207,31 +215,40 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                   ),
                                 ],
                               ),
-                        
+
                               const SizedBox(height: Sizes.xs),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     job['jobTitle'],
-                                    style: Theme.of(context).textTheme.labelMedium,
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium,
                                   ),
                                   Text(
                                     '\$${NumberFormat('#,##0.00').format(job['pay'])}',
-                                    style: Theme.of(context).textTheme.labelMedium!
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
                                         .copyWith(fontFamily: 'JosefinSans'),
                                   ),
                                 ],
                               ),
-                        
+
                               const SizedBox(height: Sizes.sm),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children:[
-                              Text(date,
-                              style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold))
-                              ]
-                              )
+                                children: [
+                                  Text(
+                                    date,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         );
@@ -243,13 +260,30 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
             );
           },
           loading: () => const JobsScreenShimmer(),
-          error: (e, _) => Center(child: Padding(
-            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-            child: Text('Could not load screen, check your internet connection',
-            style: Theme.of(context).textTheme.bodySmall,
-            softWrap: true,
-            ),
-          )),
+          error:
+              (e, _) => Padding(
+                padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                child: Column(
+                  children: [
+                    SizedBox(height: 200),
+                    Text(
+                      'Could not load screen. Please check your internet connection',
+                      style: Theme.of(context).textTheme.bodySmall,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: CustomColors.primary,
+                        padding: const EdgeInsets.all(Sizes.sm)
+                      ),
+                      icon: Icon(Icons.refresh, color: Colors.white,),
+                      onPressed: () => ref.refresh(jobsFutureProvider),
+                    )
+                  ],
+                ),
+              ),
         ),
       ),
     );

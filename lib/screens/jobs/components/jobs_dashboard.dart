@@ -184,7 +184,15 @@ class ProviderDashboardScreen extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: JobsDashBoardShimmer()),
-      error: (e, _) => Center(child: Text("Could not load screen, check your internet connection and refresh")),
+      error: (e, _) => Column(
+        children: [
+          SizedBox(height: 200),
+          Text("Could not load screen. Please check your internet connection",
+          style: Theme.of(context).textTheme.bodySmall,
+          softWrap: true,
+          textAlign: TextAlign.center,),
+        ],
+      ),
     );
   }
 }
