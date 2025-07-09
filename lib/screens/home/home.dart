@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, unused_result
 
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:vider_provider/controllers/services/firebase_service.dart';
@@ -29,24 +29,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isRefreshing = false;
   NotificationBadgeService? _badgeService;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  // //   final container = ProviderScope.containerOf(context);
-  // //   final notificationService = NotificationBadgeService(container: container);
-
-  // //   // Optionally refresh unread count
-  // //   container.read(unreadNotificationsProvider.notifier).refresh();
-
-  // //   // Show local notification
-  // //   notificationService.showLocalNotification(message);
-  // // });
-  // final container = ProviderScope.containerOf(context);
-  //   final badgeService = NotificationBadgeService(container: container);
-  //   badgeService.init();
-  // }
+   Future<void> refreshProvider() async{
+                      await ref.refresh(providerDashboardProvider.future);
+                      await ref.refresh(transactionProvider(4).future);
+                    }
 
   @override
   void didChangeDependencies() {
@@ -95,7 +81,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             await Future.wait([
               ref.refresh(providerDashboardProvider.future),
               ref.refresh(transactionProvider(4).future),
-    // Future(() => ref.refresh(unreadNotificationsProvider)),
             ]);
             setState(() => isRefreshing = false);
           },
@@ -112,34 +97,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         RecentTransactionsShimmer(),
                       ],
                     ),
-                  ProviderDashboardScreen(dashboardAsync: dashboardAsync),
-
-                  // const SizedBox(height: Sizes.sm),
-                  // ElevatedButton(
-                  //   onPressed: () async {
-                  //     final token = await FirebaseMessaging.instance.getToken();
-                  //     print("FCM Token: $token");
-                  //   },
-                  //   child: Text('token'),
-                  // ),
-
-                  //                   AddNotificationButton(notificationModel: AddNotificationModel(
-                  //     type: 'generic',
-                  //     title: 'New Job Available',
-                  //     message: 'New job alert!',
-                  //     recipientId: '6844dbfceb249077e8117fbd',
-                  //   ),
-                  // ),
-                  // SendNotificationButton(
-                  //   model: AddNotificationModel(
-                  //     type: 'generic',
-                  //     title: 'New Job Available',
-                  //     message: 'New job alert!',
-                  //     recipientId: '6844dbfceb249077e8117fbd',
-                  //   ),
-                  // ),
-
-                  SizedBox(height: Sizes.spaceBtwItems),
+                  ProviderDashboardScreen(
+                    onPressed: refreshProvider,
+                    dashboardAsync: dashboardAsync),
                   RecentTransactions(transactionsAsync: transactionsAsync),
                 ],
               ),
@@ -150,38 +110,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 }
-
-// class AddNotificationButton extends ConsumerWidget {
-//   final AddNotificationModel notificationModel;
-
-//   const AddNotificationButton({super.key, required this.notificationModel});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final asyncValue = ref.watch(addNotificationProvider(notificationModel));
-
-//     return ElevatedButton(
-//       onPressed:
-//           asyncValue is AsyncLoading
-//               ? null
-//               : () {
-//                 ref.refresh(addNotificationProvider(notificationModel));
-//                 ref.watch(unreadNotificationsProvider);
-//               },
-//       child:
-//           asyncValue is AsyncLoading
-//               ? const SizedBox(
-//                 height: 20,
-//                 width: 20,
-//                 child: CircularProgressIndicator(
-//                   strokeWidth: 2,
-//                   color: Colors.white,
-//                 ),
-//               )
-//               : const Text('Add Notification'),
-//     );
-//   }
-// }
 
 class SendNotificationButton extends ConsumerWidget {
   final AddNotificationModel model;

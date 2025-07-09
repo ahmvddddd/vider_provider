@@ -125,7 +125,7 @@ class PinController {
       } catch (e) {
         logger.i('Crashlytics transaction PIN controller failed $e');
       }
-    return 'An error occurred, failed to create PIN';
+    return error.toString();
   }
   }
 }
