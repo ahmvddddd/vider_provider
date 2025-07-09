@@ -54,7 +54,7 @@ class _CreatePinScreenState extends ConsumerState<CreatePinScreen> {
             HelperFunction.navigateScreen(context, NavigationMenu());
           }
         } else {
-          setState(() => error = 'Failed to create PIN. Try again later');
+          setState(() => error = result);
         }
       } else {
         setState(() => error = 'PINs do not match');

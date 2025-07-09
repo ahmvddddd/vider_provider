@@ -175,10 +175,27 @@ class NotificationsScreen extends ConsumerWidget {
             loading: () => SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               child: const ChatShimmer()),
-            error: (err, _) => Center(child: Padding(
+            error: (err, _) => Padding(
               padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-              child: Text('Could not load screen, check your internet connection'),
-            )),
+              child: Column(
+                children: [
+                    SizedBox(height: 200),
+                  Text('Could not load screen, check your internet connection',
+                      style: Theme.of(context).textTheme.bodySmall,
+                      softWrap: true,
+                      textAlign: TextAlign.center,),
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: CustomColors.primary,
+                        padding: const EdgeInsets.all(Sizes.sm)
+                      ),
+                      icon: Icon(Icons.refresh, color: Colors.white,),
+                      onPressed: () => ref.refresh(notificationsProvider),
+                    )
+                ],
+              ),
+            ),
           ),
         ),
       ),

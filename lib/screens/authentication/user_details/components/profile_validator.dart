@@ -9,7 +9,6 @@ class ProfileValidator {
   required List<String> skills,
   required bool dobSelected,
   required String? ageValidationMessage,
-  required String? cryptoAddress,
   required String? hourlyRate,
 }) {
   if (!dobSelected) return "Please select your date of birth";
@@ -18,10 +17,6 @@ class ProfileValidator {
   if (category == null) return "Please select a category";
   if (service == null) return "Please select a service";
   if (skills.isEmpty) return "Please add at least one skill";
-  if (cryptoAddress == null || cryptoAddress.trim().isEmpty) return "Crypto address is required";
-  if (cryptoAddress.length < 26 || cryptoAddress.length > 42) {
-    return "Enter a valid crypto address";
-  }
   if (hourlyRate == null || hourlyRate.isEmpty) return "Hourly rate is required.";
 
   final rate = double.tryParse(hourlyRate);

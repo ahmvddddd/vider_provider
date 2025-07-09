@@ -18,7 +18,8 @@ import '../widgets/total_earnings.dart';
 
 class ProviderDashboardScreen extends ConsumerWidget {
   final AsyncValue dashboardAsync;
-  const ProviderDashboardScreen({super.key, required this.dashboardAsync});
+  final VoidCallback onPressed;
+  const ProviderDashboardScreen({super.key, required this.dashboardAsync, required this.onPressed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,27 +66,33 @@ class ProviderDashboardScreen extends ConsumerWidget {
               star: star,
             ),
             const SizedBox(height: Sizes.sm),
-            Text('Total amount of money you have earned on vider.',
-            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 10),
-            softWrap: true,
+            Text(
+              'Total amount of money you have earned on vider.',
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall!.copyWith(fontSize: 10),
+              softWrap: true,
             ),
             const SizedBox(height: Sizes.spaceBtwItems),
 
-            JobDurationAndStatus(
-              averageDuration: dashboard.averageDuration,
-            ),
+            JobDurationAndStatus(averageDuration: dashboard.averageDuration),
             const SizedBox(height: Sizes.sm),
-            Text('Average number of hours you have worked on vider',
-            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 10),
-            softWrap: true,
+            Text(
+              'Average number of hours you have worked on vider',
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall!.copyWith(fontSize: 10),
+              softWrap: true,
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),
             RoundedContainer(
               padding: const EdgeInsets.all(Sizes.xs),
-              backgroundColor: isDark ? Colors.white.withValues(alpha: 0.1) 
-          : Colors.black.withValues(alpha: 0.1),
-          radius: Sizes.cardRadiusSm,
+              backgroundColor:
+                  isDark
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : Colors.black.withValues(alpha: 0.1),
+              radius: Sizes.cardRadiusSm,
               child: HeatMap(
                 datasets: heatmapData,
                 colorMode: ColorMode.color,
@@ -95,7 +102,9 @@ class ProviderDashboardScreen extends ConsumerWidget {
                 scrollable: true,
                 showColorTip: true,
                 defaultColor:
-                    isDark ? Colors.blue.withValues(alpha: 0.15) : CustomColors.primary.withValues(alpha: 0.25),
+                    isDark
+                        ? Colors.blue.withValues(alpha: 0.15)
+                        : CustomColors.primary.withValues(alpha: 0.25),
                 textColor: isDark ? Colors.white : Colors.black,
                 colorsets: {
                   1: CustomColors.primary.withValues(alpha: 0.3),
@@ -107,92 +116,114 @@ class ProviderDashboardScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: Sizes.sm),
-            Text('Heatmap for jobs and completion dates.',
-            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 10),
-            softWrap: true,
+            Text(
+              'Heatmap for jobs and completion dates.',
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall!.copyWith(fontSize: 10),
+              softWrap: true,
             ),
 
             const SizedBox(height: Sizes.spaceBtwItems),
             dashboard.topEmployers.isEmpty
-            ? const SizedBox.shrink()
-            : TSectionHeading(
-              title: 'Clients',
-              showActionButton: true,
-              onPressed: () {
-                HelperFunction.navigateScreen(context, AllClientsScreen(
-                  childWidget: GridLayout(
-                mainAxisExtent: screenHeight * 0.25,
-                itemCount: dashboard.topEmployers.length,
-                itemBuilder: (context, index) {
-                final employer = dashboard.topEmployers[index];
-                  return ClientCard(
-                  profileImage: employer.employerImage,
-                  profileName: employer.employerName,
-                  jobsLength: employer.totalJobs,
-                  onTap: () {
-                    Navigator.push(
+                ? const SizedBox.shrink()
+                : TSectionHeading(
+                  title: 'Clients',
+                  showActionButton: true,
+                  onPressed: () {
+                    HelperFunction.navigateScreen(
                       context,
-                      MaterialPageRoute(
-                        builder:
-                            (_) => ClientsScreen(
-                              employerName: employer.employerName,
-                              employerImage: employer.employerImage,
-                              jobs: employer.jobs,
-                            ),
+                      AllClientsScreen(
+                        childWidget: GridLayout(
+                          mainAxisExtent: screenHeight * 0.25,
+                          itemCount: dashboard.topEmployers.length,
+                          itemBuilder: (context, index) {
+                            final employer = dashboard.topEmployers[index];
+                            return ClientCard(
+                              profileImage: employer.employerImage,
+                              profileName: employer.employerName,
+                              jobsLength: employer.totalJobs,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => ClientsScreen(
+                                          employerName: employer.employerName,
+                                          employerImage: employer.employerImage,
+                                          jobs: employer.jobs,
+                                        ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     );
                   },
-                );
-                },
-              )
-                ));
-              },
-            ),
+                ),
 
             const SizedBox(height: Sizes.sm),
             dashboard.topEmployers.isEmpty
-            ? const SizedBox.shrink()
-            : HomeListView(
-              sizedBoxHeight: screenHeight * 0.25,
-              scrollDirection: Axis.horizontal,
-              seperatorBuilder:
-                  (context, index) => const SizedBox(width: Sizes.sm),
-              itemCount: dashboard.topEmployers.length > 3 ? 3 : dashboard.topEmployers.length,
-              itemBuilder: (context, index) {
-                final employer = dashboard.topEmployers[index];
-                return ClientCard(
-                  profileImage: employer.employerImage,
-                  profileName: employer.employerName,
-                  jobsLength: employer.totalJobs,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (_) => ClientsScreen(
-                              employerName: employer.employerName,
-                              employerImage: employer.employerImage,
-                              jobs: employer.jobs,
-                            ),
-                      ),
+                ? const SizedBox.shrink()
+                : HomeListView(
+                  sizedBoxHeight: screenHeight * 0.25,
+                  scrollDirection: Axis.horizontal,
+                  seperatorBuilder:
+                      (context, index) => const SizedBox(width: Sizes.sm),
+                  itemCount:
+                      dashboard.topEmployers.length > 3
+                          ? 3
+                          : dashboard.topEmployers.length,
+                  itemBuilder: (context, index) {
+                    final employer = dashboard.topEmployers[index];
+                    return ClientCard(
+                      profileImage: employer.employerImage,
+                      profileName: employer.employerName,
+                      jobsLength: employer.totalJobs,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (_) => ClientsScreen(
+                                  employerName: employer.employerName,
+                                  employerImage: employer.employerImage,
+                                  jobs: employer.jobs,
+                                ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
           ],
         );
       },
       loading: () => const Center(child: JobsDashBoardShimmer()),
-      error: (e, _) => Column(
-        children: [
-          SizedBox(height: 200),
-          Text("Could not load screen. Please check your internet connection",
-          style: Theme.of(context).textTheme.bodySmall,
-          softWrap: true,
-          textAlign: TextAlign.center,),
-        ],
-      ),
+      error:
+          (e, _) => Column(
+            children: [
+              SizedBox(height: 200),
+              Text(
+                "Could not load screen. Please check your internet connection",
+                style: Theme.of(context).textTheme.bodySmall,
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: Sizes.sm,),
+              IconButton(
+                onPressed: onPressed,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(Sizes.sm),
+                  backgroundColor: CustomColors.primary,
+                ),
+                icon: Icon(Icons.refresh, color: Colors.white),
+              ),
+            ],
+          ),
     );
   }
 }

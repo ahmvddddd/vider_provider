@@ -28,6 +28,8 @@ class _RecentTransactionsState extends ConsumerState<RecentTransactions> {
         }
         return Column(
           children: [
+
+            const SizedBox(height: Sizes.spaceBtwItems),
             TSectionHeading(
               title: 'Recent Transactions',
               showActionButton: true,

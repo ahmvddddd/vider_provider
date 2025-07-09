@@ -36,7 +36,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
 
   final TextEditingController bioController = TextEditingController();
   final TextEditingController skillsController = TextEditingController();
-  final TextEditingController cryptoAddressController = TextEditingController();
   final TextEditingController hourlyRateController = TextEditingController();
   final FlutterSecureStorage storage = FlutterSecureStorage();
 
@@ -95,7 +94,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       service: selectedService,
       skills: skills,
       ageValidationMessage: validationMessage,
-      cryptoAddress: cryptoAddressController.text,
       dobSelected: _dobSelected,
       hourlyRate: hourlyRateController.text,
     );
@@ -119,7 +117,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         'service': selectedService,
         'bio': bioController.text.trim(),
         'skills': skills,
-        'cryptoAddress': cryptoAddressController.text.trim(),
         'hourlyRate': double.parse(hourlyRateController.text.trim()),
       }).future,
     );
@@ -264,30 +261,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           isDark: dark,
           onDelete: (index) => setState(() => skills.removeAt(index)),
         ),
-        const SizedBox(height: Sizes.spaceBtwSections),
-        const TitleAndDescription(
-          textAlign: TextAlign.left,
-          title: 'Crypto Address',
-          description: 'Enter your wallet address to receive payments',
-        ),
-        const SizedBox(height: Sizes.sm),
-        SizedBox(
-          width: screenWidth * 0.90,
-          child: Text(
-            'Make sure to submit a valid crypto address. You address cannot be changed after submission',
-            style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: CustomColors.warning,
-              overflow: TextOverflow.ellipsis,
-            ),
-            softWrap: true,
-            maxLines: 3,
-          ),
-        ),
-        TextFieldContainer(
-          controller: cryptoAddressController,
-          hintText: 'Crypto Address',
-          keyboardType: TextInputType.text,
-        ),
+        
         const SizedBox(height: Sizes.spaceBtwSections),
         const TitleAndDescription(
           textAlign: TextAlign.left,
