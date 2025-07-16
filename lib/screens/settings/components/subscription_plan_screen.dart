@@ -74,7 +74,7 @@ class _SubscriptionPlanScreenState extends ConsumerState<SubscriptionPlanScreen>
     
               return SingleChildScrollView(
                 child: Column(
-                  children: ['Free', 'Basic', 'Standard', 'Premium'].map((plan) {
+                  children: ['Basic', 'Standard', 'Premium'].map((plan) {
                     final planLower = plan.toLowerCase();
                     final isSelected = selectedPlan?.toLowerCase() == planLower;
                     final isCurrent = currentPlan == planLower;
@@ -83,14 +83,12 @@ class _SubscriptionPlanScreenState extends ConsumerState<SubscriptionPlanScreen>
     
                     String getPlanDescription(String plan) {
                       switch (plan.toLowerCase()) {
-                        case 'free':
-                          return 'Basic profile visibility. No platform boost.';
                         case 'basic':
-                          return 'Better visibility. In app promotion.';
+                          return 'Basic profile visibility. Minimal platform boost.';
                         case 'standard':
                           return 'High visibility. Priority on listings. External publicity';
                         case 'premium':
-                          return 'Maximum visibility, featured profile placement. Physical publicity and marketing campaign';
+                          return 'Maximum visibility, featured profile placement. Physical publicity and Ad campaign';
                         default:
                           return '';
                       }
@@ -140,10 +138,8 @@ class _SubscriptionPlanScreenState extends ConsumerState<SubscriptionPlanScreen>
 
   double getPercentage(String plan) {
     switch (plan.toLowerCase()) {
-      case 'free':
-        return 10;
       case 'basic':
-        return 15;
+        return 10;
       case 'standard':
         return 20;
       case 'premium':

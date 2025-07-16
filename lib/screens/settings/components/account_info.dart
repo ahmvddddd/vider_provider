@@ -47,9 +47,9 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
                 await Future.wait([Future(() => ref.refresh(walletProvider))]);
                 setState(() => isRefreshing = false);
               },
-              balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}',
+              balance: '\$${NumberFormat('#,##0.00').format(wallet.usdcBalance)}',
               onTap:
-                  (wallet.balance >= 1.00)
+                  (wallet.usdcBalance <= 1.00)
                       ? null
                       : () async {
                         HelperFunction.navigateScreen(
@@ -58,7 +58,7 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
                         );
                       },
               backgroundColor:
-                  (wallet.balance == 0.00)
+                  (wallet.usdcBalance <= 1.00)
                       ? CustomColors.darkerGrey
                       : CustomColors.primary,
               subscriptionPlan: wallet.subscriptionPlan,
