@@ -54,7 +54,7 @@ class JobDurationAndStatus extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children:  [
-            Text('0 hrs',
+            Text('0 hr',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white, fontSize: 10)),
             Text('24 hrs',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white, fontSize: 10)),

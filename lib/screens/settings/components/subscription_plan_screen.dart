@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common/widgets/appbar/appbar.dart';
+import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../controllers/user/subscription_plan_controller.dart';
 import '../../../controllers/user/wallet_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../jobs/components/jobs_screen_shimmer.dart';
+import '../../transactions/validate_pin_screen.dart';
 
 final selectedSubscriptionPlanProvider = StateProvider<String?>((ref) => null);
 
@@ -27,11 +29,36 @@ class _SubscriptionPlanScreenState extends ConsumerState<SubscriptionPlanScreen>
     });
   }
 
+  Future<void> confirmPinAndTransfer(
+    BuildContext context,
+    String plan,
+  ) async {
+    final isPinValid = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const ValidatePinDialog(),
+    );
+
+    if (isPinValid == true) {
+      await ref.read(subscriptionControllerProvider.notifier)
+          .updateSubscriptionPlan(
+            plan, context,
+          );
+    } else {
+      CustomSnackbar.show(
+          context: context,
+          title: 'Invalid PIN',
+          message: 'Transaction failed',
+          icon: Icons.error_outline,
+          backgroundColor: CustomColors.error,
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final walletController = ref.watch(walletProvider);
     final selectedPlan = ref.watch(selectedSubscriptionPlanProvider);
-    final controller = ref.read(subscriptionControllerProvider.notifier);
 
     return Scaffold(
       appBar: TAppBar(
@@ -83,7 +110,7 @@ class _SubscriptionPlanScreenState extends ConsumerState<SubscriptionPlanScreen>
                                                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: CustomColors.primary),),
                               )
                               : ElevatedButton(
-                            onPressed: () => controller.updateSubscriptionPlan(plan, context),
+                            onPressed: () => confirmPinAndTransfer( context, plan),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: showPrimary ? Colors.transparent : CustomColors.primary,
                             ),

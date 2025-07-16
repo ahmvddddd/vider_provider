@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../common/widgets/appbar/appbar.dart';
 import '../../common/widgets/inputs/custom_keypad.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../controllers/user/validate_pin_controller.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
-import '../../utils/helpers/helper_function.dart';
-import '../settings/components/subscription_plan_screen.dart';
 
-class ValidatePinScreen extends ConsumerStatefulWidget {
-  const ValidatePinScreen({super.key});
+class ValidatePinDialog extends ConsumerStatefulWidget {
+  const ValidatePinDialog({super.key});
 
   @override
-  ConsumerState<ValidatePinScreen> createState() => _ValidatePinScreenState();
+  ConsumerState<ValidatePinDialog> createState() => _ValidatePinDialogState();
 }
 
-class _ValidatePinScreenState extends ConsumerState<ValidatePinScreen> {
+class _ValidatePinDialogState extends ConsumerState<ValidatePinDialog> {
   List<String> currentPin = ['', '', '', ''];
   String? error;
 
@@ -51,77 +48,56 @@ class _ValidatePinScreenState extends ConsumerState<ValidatePinScreen> {
     final result = await controller.validatePin(currentPin: currentPin.join());
 
     if (result == null) {
-      if (mounted) {
-        HelperFunction.navigateScreen(
-          context,
-          SubscriptionPlanScreen(),
-        ); 
-      }
+      if (mounted) Navigator.pop(context, true); // success
     } else {
       setState(() {
         error = result;
         currentPin = ['', '', '', ''];
       });
-        CustomSnackbar.show(
-          context: context,
-          title: 'Error',
-          message: result,
-          icon: Icons.error_outline,
-          backgroundColor: CustomColors.error,
-        );
+      CustomSnackbar.show(
+        context: context,
+        title: 'Error',
+        message: result,
+        icon: Icons.error_outline,
+        backgroundColor: CustomColors.error,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'Transaction PIN',
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
-        showBackArrow: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Enter Your Transaction PIN",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+    return AlertDialog(
+      title: const Text('Enter Transaction PIN'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: currentPin.map((digit) {
+              return Container(
+                margin: const EdgeInsets.all(8),
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    digit.isEmpty ? "•" : "*",
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 30),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          if (error != null) ...[
             const SizedBox(height: Sizes.spaceBtwItems),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:
-                  currentPin.map((digit) {
-                    return Container(
-                      margin: const EdgeInsets.all(8),
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          digit.isEmpty ? "•" : "*",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.headlineLarge!.copyWith(fontSize: 30),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-            ),
-            if (error != null) ...[
-              const SizedBox(height: Sizes.spaceBtwItems),
-              Text(error!, style: const TextStyle(color: Colors.red)),
-            ],
-            const SizedBox(height: Sizes.spaceBtwItems),
-            CustomKeypad(onDigitPressed: _enterDigit, onBackspace: _removeDigit),
+            Text(error!, style: const TextStyle(color: Colors.red)),
           ],
-        ),
+          const SizedBox(height: Sizes.spaceBtwItems),
+          CustomKeypad(onDigitPressed: _enterDigit, onBackspace: _removeDigit),
+        ],
       ),
     );
   }

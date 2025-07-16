@@ -47,7 +47,7 @@ class NotificationCard extends StatelessWidget {
       
             const SizedBox(width: Sizes.xs),
                 SizedBox(
-              width: screenWidth * 0.90,
+              width: screenWidth * 0.60,
               child: Text(title, style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   overflow: TextOverflow.ellipsis,
                 ),

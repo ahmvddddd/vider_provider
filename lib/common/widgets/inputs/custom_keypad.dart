@@ -43,8 +43,8 @@ class CustomKeypad extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => onDigitPressed(e),
                     child: Container(
-                      height: screenHeight * 0.10,
-                      width: screenHeight * 0.11,
+                      height: screenHeight * 0.08,
+                      width: screenHeight * 0.08,
                       decoration: BoxDecoration(
                         color: dark
                             ? Colors.white.withValues(alpha: 0.1)

@@ -7,8 +7,8 @@ import '../../../controllers/user/wallet_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import 'package:intl/intl.dart';
-
 import '../../../utils/helpers/helper_function.dart';
+import '../../transactions/transfer_token_screen.dart';
 
 class AccountInfo extends ConsumerStatefulWidget {
   const AccountInfo({super.key});
@@ -20,6 +20,7 @@ class AccountInfo extends ConsumerStatefulWidget {
 class _AccountInfoState extends ConsumerState<AccountInfo> {
   final storage = const FlutterSecureStorage();
   bool isRefreshing = false;
+  
 
   @override
   void initState() {
@@ -37,31 +38,47 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
         return isRefreshing
             ? ShimmerWidget(
               width: screenWidth * 0.90,
-              height: screenHeight * 0.20,
+              height: screenHeight * 0.13,
               radius: Sizes.cardRadiusSm,
             )
             : WalletDetails(
               onPressed: () async {
+                setState(() => isRefreshing = true);
                 await Future.wait([Future(() => ref.refresh(walletProvider))]);
+                setState(() => isRefreshing = false);
               },
               balance: '\$${NumberFormat('#,##0.00').format(wallet.balance)}',
+              onTap:
+                  (wallet.balance >= 1.00)
+                      ? null
+                      : () async {
+                        HelperFunction.navigateScreen(
+                          context,
+                          TransferTokenScreen(),
+                        );
+                      },
+              backgroundColor:
+                  (wallet.balance == 0.00)
+                      ? CustomColors.darkerGrey
+                      : CustomColors.primary,
               subscriptionPlan: wallet.subscriptionPlan,
             );
       },
       loading:
-          () => WalletDetails(
-            onPressed: () async {
-              await Future.wait([Future(() => ref.refresh(walletProvider))]);
-            },
-            balance: '\$0.00',
-            subscriptionPlan: 'Free',
+          () => ShimmerWidget(
+            width: screenWidth * 0.90,
+            height: screenHeight * 0.13,
+            radius: Sizes.cardRadiusSm,
           ),
       error:
           (err, _) => WalletDetails(
             onPressed: () async {
+              setState(() => isRefreshing = true);
               await Future.wait([Future(() => ref.refresh(walletProvider))]);
+              setState(() => isRefreshing = false);
             },
             balance: 'Could not fetch balance',
+            backgroundColor: CustomColors.darkerGrey,
             subscriptionPlan: '',
           ),
     );
@@ -72,12 +89,16 @@ class WalletDetails extends StatelessWidget {
   final VoidCallback? onPressed;
   final String balance;
   final String subscriptionPlan;
+  final VoidCallback? onTap;
+  final Color backgroundColor;
 
   const WalletDetails({
     super.key,
     required this.onPressed,
     required this.balance,
     required this.subscriptionPlan,
+    this.onTap,
+    required this.backgroundColor,
   });
 
   @override
@@ -119,13 +140,32 @@ class WalletDetails extends StatelessWidget {
 
           const SizedBox(height: Sizes.xs),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 subscriptionPlan,
                 style: Theme.of(
                   context,
                 ).textTheme.bodySmall!.copyWith(color: CustomColors.primary),
+              ),
+
+              GestureDetector(
+                onTap: onTap,
+                child: RoundedContainer(
+                  width: MediaQuery.of(context).size.width * 0.30,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  radius: Sizes.cardRadiusSm,
+                  padding: const EdgeInsets.all(Sizes.sm),
+                  backgroundColor: backgroundColor,
+                  child: Center(
+                    child: Text(
+                      'Withdraw',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall!.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
