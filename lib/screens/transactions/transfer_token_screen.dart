@@ -80,10 +80,12 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
         padding: const EdgeInsets.all(16.0),
         child:
             transferState.isLoading
-                ? CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                  strokeWidth: 4.0,
-                  backgroundColor: isDark ? Colors.white : Colors.black,
+                ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                    strokeWidth: 4.0,
+                    backgroundColor: isDark ? Colors.white : Colors.black,
+                  ),
                 )
                 : Form(
                   key: _formKey,
