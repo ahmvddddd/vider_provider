@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import '../../utils/helpers/connectivity_helper.dart';
 
 class JobRepository {
   final storage = const FlutterSecureStorage();
@@ -12,7 +13,13 @@ class JobRepository {
       dotenv.env['PROVIDER_JOBS_URL'] ?? 'https://defaulturl.com/api';
   final logger = Logger();
 
-  Future<List<dynamic>> fetchEmployerJobs() async {
+  Future<List<dynamic>> fetchEmployerJobs(Ref ref) async {
+    final connectivity = ref.read(connectivityProvider);
+
+    if (!connectivity.isOnline) {
+      throw Exception('No Internet. Please check your internet connection');
+    }
+    
     try {
       final token = await storage.read(key: 'token');
       final response = await http.get(
@@ -58,5 +65,5 @@ final jobsFutureProvider = FutureProvider.autoDispose<List<dynamic>>((
   ref,
 ) async {
   final repository = ref.read(jobRepositoryProvider);
-  return repository.fetchEmployerJobs();
+  return repository.fetchEmployerJobs(ref);
 });

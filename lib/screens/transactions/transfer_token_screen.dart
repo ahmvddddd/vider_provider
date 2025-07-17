@@ -41,6 +41,7 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
             context: context,
             destinationAddress: address,
             amount: amount,
+            ref: ref
           );
     } else {
       CustomSnackbar.show(
@@ -76,74 +77,76 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
           }
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child:
-            transferState.isLoading
-                ? Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    strokeWidth: 4.0,
-                    backgroundColor: isDark ? Colors.white : Colors.black,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+          child:
+              transferState.isLoading
+                  ? Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      strokeWidth: 4.0,
+                      backgroundColor: isDark ? Colors.white : Colors.black,
+                    ),
+                  )
+                  : Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TitleAndDescription(
+                          textAlign: TextAlign.left,
+                          title: 'Destination Address',
+                          description:
+                              'Enter a valid Crypto address to receive USDC',
+                        ),
+                        const SizedBox(height: Sizes.spaceBtwItems),
+                        TextFormField(
+                          controller: _addressController,
+                          decoration: InputDecoration(
+                            hintText: 'Destination Address',
+                            hintStyle: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Please enter the destination address';
+                            }
+                            return null;
+                          },
+                        ),
+        
+                        //amount
+                        const SizedBox(height: Sizes.spaceBtwItems),
+                        const TitleAndDescription(
+                          textAlign: TextAlign.left,
+                          title: 'Amount',
+                          description: 'Enter desired amount to be withdrawn',
+                        ),
+                        const SizedBox(height: Sizes.spaceBtwItems),
+                        TextFormField(
+                          controller: _amountController,
+                          decoration: InputDecoration(
+                            hintText: 'Amount (USDC)',
+                            hintStyle: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          keyboardType: TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Please enter an amount';
+                            }
+                            final amount = double.tryParse(value.trim());
+                            if (amount == null || amount <= 0) {
+                              return 'Please enter a valid amount';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                )
-                : Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TitleAndDescription(
-                        textAlign: TextAlign.left,
-                        title: 'Destination Address',
-                        description:
-                            'Enter a valid Crypto address to receive USDC',
-                      ),
-                      const SizedBox(height: Sizes.spaceBtwItems),
-                      TextFormField(
-                        controller: _addressController,
-                        decoration: InputDecoration(
-                          hintText: 'Destination Address',
-                          hintStyle: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Please enter the destination address';
-                          }
-                          return null;
-                        },
-                      ),
-
-                      //amount
-                      const SizedBox(height: Sizes.spaceBtwItems),
-                      const TitleAndDescription(
-                        textAlign: TextAlign.left,
-                        title: 'Amount',
-                        description: 'Enter desired amount to be withdrawn',
-                      ),
-                      const SizedBox(height: Sizes.spaceBtwItems),
-                      TextFormField(
-                        controller: _amountController,
-                        decoration: InputDecoration(
-                          hintText: 'Amount (USDC)',
-                          hintStyle: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        keyboardType: TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Please enter an amount';
-                          }
-                          final amount = double.tryParse(value.trim());
-                          if (amount == null || amount <= 0) {
-                            return 'Please enter a valid amount';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+        ),
       ),
     );
   }

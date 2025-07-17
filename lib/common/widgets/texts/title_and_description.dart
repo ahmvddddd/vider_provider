@@ -23,7 +23,7 @@ class TitleAndDescription extends StatelessWidget {
           textAlign: textAlign,
         ),
       ),
-      const SizedBox(height: Sizes.spaceBtwItems),
+      const SizedBox(height: Sizes.sm),
         SizedBox(
           width: screenWidth * 0.70,
           child: Text(

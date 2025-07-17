@@ -2,6 +2,10 @@
 
 class Images {
 
+  //animations
+  static const String bankAnimation = "assets/animations/bank_animation.json";
+  static const String successAnimation = "assets/animations/success.json";
+
   //Avatar
   static const String appIcon = "assets/profile_images/vider_icon.png";
   static const String avatarF1 = "assets/profile_images/avatar_f1.png";
