@@ -89,6 +89,8 @@ dependencies:
   awesome_notifications_fcm: ^0.10.1
   flutter_launcher_icons: ^0.14.3
   animated_text_kit: ^4.2.3
+  connectivity_plus: ^6.1.4
+  lottie: ^3.3.1
 
 flutter_launcher_icons:
     android: true
@@ -121,6 +123,7 @@ flutter:
   assets:
     - assets/profile_images/
     - assets/utility_images/
+    - assets/animations/
     - .env
   #   - images/a_dot_ham.jpeg
 

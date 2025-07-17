@@ -1,4 +1,6 @@
 // import 'package:flutter/material.dart';
+// ignore_for_file: unused_result
+
 import 'package:iconsax/iconsax.dart';
 import '../../common/styles/shadows.dart';
 import '../../common/widgets/appbar/appbar.dart';
@@ -267,7 +269,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                   children: [
                     SizedBox(height: 200),
                     Text(
-                      'Could not load screen. Please check your internet connection',
+                      e.toString().replaceAll('Exception:', '').trim(),
                       style: Theme.of(context).textTheme.bodySmall,
                       softWrap: true,
                       textAlign: TextAlign.center,
@@ -276,11 +278,21 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                     IconButton(
                       style: IconButton.styleFrom(
                         backgroundColor: CustomColors.primary,
-                        padding: const EdgeInsets.all(Sizes.sm)
+                        padding: const EdgeInsets.all(Sizes.sm),
                       ),
-                      icon: Icon(Icons.refresh, color: Colors.white,),
-                      onPressed: () => ref.refresh(jobsFutureProvider),
-                    )
+                      icon: Icon(Icons.refresh, color: Colors.white),
+                      onPressed: () async {
+                        setState(() {
+                          isRefreshing = true;
+                        });
+                        await Future.wait([
+                          Future(() => ref.refresh(jobsFutureProvider)),
+                        ]);
+                        setState(() {
+                          isRefreshing = false;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),

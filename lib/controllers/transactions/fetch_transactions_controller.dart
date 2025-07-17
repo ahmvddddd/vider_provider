@@ -7,6 +7,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/helpers/connectivity_helper.dart';
+
 final FlutterSecureStorage storage = FlutterSecureStorage();
 String transactionsURL =
     dotenv.env['TRANSACTIONS_URL'] ?? 'https://defaulturl.com/api';
@@ -16,6 +18,13 @@ final transactionProvider = FutureProvider.family.autoDispose<
   List<TransactionModel>,
   int?
 >((ref, limit) async {
+
+  final connectivity = ref.read(connectivityProvider);
+
+    if (!connectivity.isOnline) {
+      throw Exception('No Internet. Please check your internet connection');
+    }
+
   try {
     final token = await storage.read(key: 'token');
     final response = await http.get(
