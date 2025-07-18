@@ -16,7 +16,7 @@ class JobDurationAndStatus extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     const double maxDuration = 24.0;
     return RoundedContainer(
-        height: screenHeight * 0.25,
+        height: screenHeight * 0.20,
         width: screenWidth * 0.90,
         padding: const EdgeInsets.all(Sizes.md),
         radius: Sizes.cardRadiusMd,
@@ -26,6 +26,7 @@ class JobDurationAndStatus extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Average Job Duration',
@@ -34,7 +35,7 @@ class JobDurationAndStatus extends StatelessWidget {
         const SizedBox(height: Sizes.spaceBtwItems),
         Text(
           '${averageDuration.toStringAsFixed(1)} hrs',
-          style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
         ),
     
           ],

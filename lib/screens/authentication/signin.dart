@@ -29,7 +29,7 @@ class SigninScreen extends StatelessWidget {
               SizedBox(
                 width: screenWidth * 0.90,
                 child: Text(
-                  'Enter your username and password to signin',
+                  'Enter your username and password to sign in',
                   style: Theme.of(context).textTheme.bodySmall,
                   softWrap: true,
                   maxLines: 2,

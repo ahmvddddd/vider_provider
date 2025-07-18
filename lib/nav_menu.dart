@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'controllers/notifications/message_notification_controller.dart';
 import 'controllers/services/notification_badge_service.dart';
 import 'controllers/user/save_location_controller.dart';
+import 'repository/user/location_state_storage.dart';
 import 'screens/home/home.dart';
 import 'screens/jobs/jobs_screen.dart';
 import 'screens/messages/chat.dart';
@@ -32,8 +33,13 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
       final badgeService = NotificationBadgeService(container: container);
       badgeService.init();
 
-      final saveLocation = container.read(saveLocationProvider);
-    saveLocation.getAndSaveLocation(context);
+    //   final saveLocation = container.read(saveLocationProvider);
+    // saveLocation.getAndSaveLocation(context);
+    final bool locationEnabled = container.read(persistentLocationSwitchProvider);
+    if (locationEnabled){
+    final saveLocation = container.read(saveSimpleLocationProvider);
+    saveLocation.saveUserLocation(context);
+    }
     });
   }
 

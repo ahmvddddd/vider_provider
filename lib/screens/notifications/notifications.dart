@@ -17,11 +17,19 @@ import 'widgets/job_request_notification.dart';
 import 'widgets/notification_card.dart';
 import '../../utils/constants/sizes.dart';
 
-class NotificationsScreen extends ConsumerWidget {
+class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NotificationsScreen> createState() =>
+      _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
+  bool isRefreshing = false;
+
+  @override
+  Widget build(BuildContext context) {
     final notificationsAsync = ref.watch(notificationsProvider);
 
     return Scaffold(
@@ -40,7 +48,7 @@ class NotificationsScreen extends ConsumerWidget {
               if (notifications.isEmpty) {
                 return Center(child: Text('No notifications'));
               }
-    
+
               return HomeListView(
                 scrollDirection: Axis.vertical,
                 scrollPhysics: const NeverScrollableScrollPhysics(),
@@ -50,7 +58,9 @@ class NotificationsScreen extends ConsumerWidget {
                 itemCount: notifications.length,
                 itemBuilder: (context, index) {
                   final notif = notifications[index];
-    
+
+                  if (isRefreshing) const ChatShimmer();
+
                   if (notif.type == 'job_request' && notif.jobDetails != null) {
                     final job = notif.jobDetails!;
                     return JobRequestNotification(
@@ -78,7 +88,7 @@ class NotificationsScreen extends ConsumerWidget {
                             );
                           },
                         );
-    
+
                         if (confirm == true) {
                           ref.read(deleteNotificationProvider(notif.id));
                         }
@@ -96,12 +106,11 @@ class NotificationsScreen extends ConsumerWidget {
                             );
                           },
                         );
-    
+
                         if (confirm == true) {
                           final now = DateTime.now();
-                          final jobStartTime =
-                              job.startTime; // Ensure this is a DateTime object
-    
+                          final jobStartTime = job.startTime;
+
                           if (now.isAfter(
                             jobStartTime.add(const Duration(minutes: 10)),
                           )) {
@@ -129,11 +138,11 @@ class NotificationsScreen extends ConsumerWidget {
                                   pay: job.pay,
                                   duration: job.duration,
                                 );
-    
+
                             await ref.read(
                               deleteNotificationProvider(notif.id).future,
                             );
-    
+
                             ref.read(selectedIndexProvider.notifier).state = 1;
                             Navigator.pushReplacement(
                               context,
@@ -146,7 +155,7 @@ class NotificationsScreen extends ConsumerWidget {
                       },
                     );
                   }
-    
+
                   return NotificationCard(
                     borderColor:
                         notif.isRead
@@ -172,30 +181,39 @@ class NotificationsScreen extends ConsumerWidget {
                 },
               );
             },
-            loading: () => SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: const ChatShimmer()),
-            error: (err, _) => Padding(
-              padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-              child: Column(
-                children: [
-                    SizedBox(height: 200),
-                  Text('Could not load screen, check your internet connection',
-                      style: Theme.of(context).textTheme.bodySmall,
-                      softWrap: true,
-                      textAlign: TextAlign.center,),
-                    const SizedBox(height: Sizes.spaceBtwItems),
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: CustomColors.primary,
-                        padding: const EdgeInsets.all(Sizes.sm)
+            loading:
+                () => SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: const ChatShimmer(),
+                ),
+            error:
+                (err, _) => Padding(
+                  padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 200),
+                      Text(
+                        'Could not load screen, check your internet connection',
+                        style: Theme.of(context).textTheme.bodySmall,
+                        softWrap: true,
+                        textAlign: TextAlign.center,
                       ),
-                      icon: Icon(Icons.refresh, color: Colors.white,),
-                      onPressed: () => ref.refresh(notificationsProvider),
-                    )
-                ],
-              ),
-            ),
+                      const SizedBox(height: Sizes.spaceBtwItems),
+                      IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: CustomColors.primary,
+                          padding: const EdgeInsets.all(Sizes.sm),
+                        ),
+                        icon: const Icon(Icons.refresh, color: Colors.white),
+                        onPressed: () {
+                          setState(() => isRefreshing = true);
+                          ref.refresh(notificationsProvider);
+                          setState(() => isRefreshing = false);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
           ),
         ),
       ),

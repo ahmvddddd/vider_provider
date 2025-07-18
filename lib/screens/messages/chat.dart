@@ -159,8 +159,15 @@ class _ChatState extends ConsumerState<ChatScreen> {
                         ),
                         icon: Icon(Icons.refresh, color: Colors.white,),
                         onPressed: () {
+                          
+                        setState(() {
+                          isRefreshing = true;
+                        });
                         ref.invalidate(userProvider);
                         ref.invalidate(chatsProvider);
+                        setState(() {
+                          isRefreshing = false;
+                        });
                       },
                       )
                   ],

@@ -25,9 +25,9 @@ Provide accurate and up-to-date info, and secure your credentials.
 3. Platform Use
 Use Vider lawfully. No spam, fraud, or abuse.
 
-4. Freelancer & Client Responsibilities
-Freelancers: Deliver on time and communicate.
-Clients: Provide clear requirements and make timely payments.
+4. Provider & Client Responsibilities
+Providers: Deliver on time and communicate.
+Clients: Provide clear requirements and understand providers' trems.
 
 5. Payments and Fees
 Fees apply. Payments are processed securely. Non-refundable unless stated.
