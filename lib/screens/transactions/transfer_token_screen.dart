@@ -11,7 +11,8 @@ import '../../utils/helpers/helper_function.dart';
 import 'validate_pin_screen.dart';
 
 class TransferTokenScreen extends ConsumerStatefulWidget {
-  const TransferTokenScreen({super.key});
+  final double usdcBalance;
+  const TransferTokenScreen({super.key, required this.usdcBalance});
 
   @override
   ConsumerState<TransferTokenScreen> createState() => _TransferTokenPageState();
@@ -41,7 +42,7 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
             context: context,
             destinationAddress: address,
             amount: amount,
-            ref: ref
+            ref: ref,
           );
     } else {
       CustomSnackbar.show(
@@ -111,10 +112,17 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
                             if (value == null || value.trim().isEmpty) {
                               return 'Please enter the destination address';
                             }
+                            final address = value.trim().toLowerCase();
+                            final isValid = RegExp(
+                              r'^0x[a-fA-F0-9]{40}$',
+                            ).hasMatch(address);
+                            if (!isValid) {
+                              return 'Enter a valid Ethereum address';
+                            }
                             return null;
                           },
                         ),
-        
+
                         //amount
                         const SizedBox(height: Sizes.spaceBtwItems),
                         const TitleAndDescription(
@@ -139,6 +147,9 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
                             final amount = double.tryParse(value.trim());
                             if (amount == null || amount <= 0) {
                               return 'Please enter a valid amount';
+                            }
+                            if (amount > widget.usdcBalance) {
+                              return 'Insufficient balance: ${widget.usdcBalance} USDC available';
                             }
                             return null;
                           },
