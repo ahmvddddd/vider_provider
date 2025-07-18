@@ -26,8 +26,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isRefreshing = false;
   NotificationBadgeService? _badgeService;
   Future<void> refreshProvider() async {
+    setState(() {
+      isRefreshing = true;
+    });
     await ref.refresh(providerDashboardProvider.future);
     await ref.refresh(transactionProvider(4).future);
+    setState(() {
+      isRefreshing = false;
+    });
   }
 
   @override

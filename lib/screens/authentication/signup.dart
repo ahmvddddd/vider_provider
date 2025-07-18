@@ -29,7 +29,7 @@ class SignupScreen extends StatelessWidget {
               SizedBox(
                 width: screenWidth * 0.70,
                 child: Text(
-                  'Enter your personal details to signup',
+                  'Enter your personal details to sign up',
                   style: Theme.of(context).textTheme.bodySmall,
                   softWrap: true,
                   textAlign: TextAlign.center,
@@ -67,8 +67,4 @@ class SignupScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class SignupForm {
-  const SignupForm();
 }
