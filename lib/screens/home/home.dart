@@ -1,8 +1,4 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously, unused_result
-
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:vider_provider/controllers/services/firebase_service.dart';
-// import '../../controllers/notifications/add_notification_controller.dart';
 import '../../controllers/notifications/send_fcm_controller.dart';
 import '../../controllers/services/notification_badge_service.dart';
 import '../../models/notification/add_notification_model.dart';
@@ -29,10 +25,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isRefreshing = false;
   NotificationBadgeService? _badgeService;
-   Future<void> refreshProvider() async{
-                      await ref.refresh(providerDashboardProvider.future);
-                      await ref.refresh(transactionProvider(4).future);
-                    }
+  Future<void> refreshProvider() async {
+    await ref.refresh(providerDashboardProvider.future);
+    await ref.refresh(transactionProvider(4).future);
+  }
 
   @override
   void didChangeDependencies() {
@@ -99,7 +95,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ProviderDashboardScreen(
                     onPressed: refreshProvider,
-                    dashboardAsync: dashboardAsync),
+                    dashboardAsync: dashboardAsync,
+                  ),
                   RecentTransactions(transactionsAsync: transactionsAsync),
                 ],
               ),

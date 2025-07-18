@@ -78,13 +78,7 @@ class SaveLocationController {
       );
 
       if (response.statusCode == 201) {
-        CustomSnackbar.show(
-          context: context,
-          icon: Icons.check_circle,
-          title: 'Success',
-          message: 'Location status saved successfully',
-          backgroundColor: CustomColors.success,
-        );
+        return;
       } else {
         try {
           await FirebaseCrashlytics.instance.recordError(

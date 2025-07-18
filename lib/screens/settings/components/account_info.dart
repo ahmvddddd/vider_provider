@@ -54,7 +54,9 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
                       : () async {
                         HelperFunction.navigateScreen(
                           context,
-                          TransferTokenScreen(),
+                          TransferTokenScreen(
+                            usdcBalance: wallet.usdcBalance,
+                          ),
                         );
                       },
               backgroundColor:
