@@ -176,13 +176,7 @@ class SaveSimpleLocationController {
       );
 
       if (response.statusCode == 201) {
-        CustomSnackbar.show(
-          context: context,
-          icon: Icons.check,
-          title: 'Success',
-          message: 'Location saved successfully',
-          backgroundColor: CustomColors.success,
-        );
+        return;
       } else {
         await FirebaseCrashlytics.instance.recordError(
           Exception("Failed to save user location: ${response.body}"),
@@ -190,13 +184,7 @@ class SaveSimpleLocationController {
           reason: 'Save location API returned error ${response.statusCode}',
         );
 
-        CustomSnackbar.show(
-          context: context,
-          icon: Icons.error_outline,
-          title: 'Failed',
-          message: 'Could not save location: ${response.body}',
-          backgroundColor: CustomColors.error,
-        );
+        return;
       }
     } catch (error, stackTrace) {
       await FirebaseCrashlytics.instance.recordError(

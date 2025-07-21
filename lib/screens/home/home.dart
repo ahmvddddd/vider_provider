@@ -1,12 +1,14 @@
 import 'package:vider_provider/controllers/services/firebase_service.dart';
 import '../../controllers/notifications/send_fcm_controller.dart';
 import '../../controllers/services/notification_badge_service.dart';
+import '../../controllers/user/save_location_controller.dart';
 import '../../models/notification/add_notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../controllers/jobs/jobs_dashboard_controller.dart';
 import '../../controllers/notifications/unread_notifications_controller.dart';
 import '../../controllers/transactions/fetch_transactions_controller.dart';
+import '../../repository/user/location_state_storage.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
 import '../jobs/components/job_dashboard_shimmer.dart';
@@ -25,6 +27,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isRefreshing = false;
   NotificationBadgeService? _badgeService;
+  bool _didListen = false;
   Future<void> refreshProvider() async {
     setState(() {
       isRefreshing = true;
@@ -43,7 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (_badgeService == null) {
       final container = ProviderScope.containerOf(context);
       _badgeService = NotificationBadgeService(container: container);
-      _badgeService!.init(); // ✅ Safe to call here
+      _badgeService!.init();
     }
 
     saveFcmTokenToBackend();
@@ -51,6 +54,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_didListen) {
+      _didListen = true;
+      ref.listen<bool>(persistentLocationSwitchProvider, (previous, next) {
+        if (next == true) {
+          final saveLocation = ref.read(saveSimpleLocationProvider);
+          saveLocation.saveUserLocation(context);
+        }
+      });
+    }
     final dashboardAsync = ref.watch(providerDashboardProvider);
     final transactionsAsync = ref.watch(transactionProvider(3));
     double screenHeight = MediaQuery.of(context).size.height;

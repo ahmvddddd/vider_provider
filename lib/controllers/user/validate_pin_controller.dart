@@ -20,8 +20,8 @@ class ValidatePinController {
   String formatBackendError(String message) {
     if (message.contains('Wallet not found')) {
       return 'An  error occurred with your account.';
-    } else if (message.contains('Yor PIN is incorrect')) {
-      return 'Transaction PIN is incorrect';
+    } else if (message.contains('User not found')) {
+      return 'An  error occurred with your account.';
     } else {
       return message;
     }
@@ -50,6 +50,13 @@ class ValidatePinController {
             response.statusCode == 500
                 ? 'Something went wrong on our side. Please try again later.'
                 : formatBackendError(rawError);
+
+        // ✅ Only add attempts left if it's actually a number
+        if (responseData.containsKey('attemptsLeft') &&
+            responseData['attemptsLeft'] != null) {
+          return formattedError;
+        }
+        
         return formattedError;
       }
     } catch (error, stackTrace) {
