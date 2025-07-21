@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../repository/user/username_local_storage.dart';
 import '../../../utils/constants/custom_colors.dart';
@@ -43,6 +44,52 @@ class _SigninFormState extends ConsumerState<SigninForm> {
     final loginController = ref.read(loginControllerProvider.notifier);
     final dark = HelperFunction.isDarkMode(context);
     double screenHeight = MediaQuery.of(context).size.height;
+                      final username = usernameController.text.trim();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (loginState.error != null &&
+          loginState.error!.toLowerCase().contains('suspended')) {
+        showDialog(
+          context: context,
+          builder:
+              (context) => AlertDialog(
+                title: Text(
+                  'Account Suspended',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: CustomColors.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: Text(
+                  'Your account @$username has been suspended due to multiple failed authentication attempts. '
+                  'File a complaint via email, to regain access to your account.',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () async {
+                      final Uri emailLaunchUri = Uri(
+                        scheme: 'mailto',
+                        path: 'vider_support@gmail.com',
+                        query: Uri.encodeQueryComponent(
+                          'subject=Account Suspension Appeal&body=Hello, my account @$username was suspended and I would like to appeal.',
+                        ),
+                      );
+                      await launchUrl(emailLaunchUri);
+                    },
+                    child: Text('File Complaint',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('Close',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+        );
+      }
+    });
 
     return Form(
       key: formKey,
@@ -106,14 +153,9 @@ class _SigninFormState extends ConsumerState<SigninForm> {
           loginState.isLoading
               ? Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.blue,
-                  ), // color
-                  strokeWidth: 4.0, // thickness of the line
-                  backgroundColor:
-                      dark
-                          ? Colors.white
-                          : Colors.black, // background circle color
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                  strokeWidth: 4.0,
+                  backgroundColor: dark ? Colors.white : Colors.black,
                 ),
               )
               : SizedBox(
@@ -128,7 +170,6 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                       );
                     }
                   },
-
                   child: RoundedContainer(
                     height: screenHeight * 0.06,
                     padding: const EdgeInsets.all(Sizes.sm),
@@ -157,17 +198,19 @@ class _SigninFormState extends ConsumerState<SigninForm> {
               ),
             ),
 
-          const SizedBox(
-                  height: Sizes.sm,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {HelperFunction.navigateScreen(context, EnterEmailScreen());}, 
-                  child: Text('Forgot Password?',
-                  style: Theme.of(context).textTheme.labelMedium)),
-                )
-
+          const SizedBox(height: Sizes.sm),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                HelperFunction.navigateScreen(context, EnterEmailScreen());
+              },
+              child: Text(
+                'Forgot Password?',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ),
+          ),
         ],
       ),
     );

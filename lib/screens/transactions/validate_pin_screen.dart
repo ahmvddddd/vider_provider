@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/widgets/inputs/custom_keypad.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
+import '../../controllers/auth/sign_out_controller.dart';
 import '../../controllers/user/validate_pin_controller.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
@@ -44,25 +45,32 @@ class _ValidatePinDialogState extends ConsumerState<ValidatePinDialog> {
   }
 
   Future<void> _submitPin() async {
-    final controller = ref.read(validatePinControllerProvider);
-    final result = await controller.validatePin(currentPin: currentPin.join());
+  final controller = ref.read(validatePinControllerProvider);
+  final result = await controller.validatePin(currentPin: currentPin.join());
 
-    if (result == null) {
-      if (mounted) Navigator.pop(context, true); // success
-    } else {
-      setState(() {
-        error = result;
-        currentPin = ['', '', '', ''];
-      });
-      CustomSnackbar.show(
-        context: context,
-        title: 'Error',
-        message: result,
-        icon: Icons.error_outline,
-        backgroundColor: CustomColors.error,
-      );
+  if (result == null) {
+    if (mounted) Navigator.pop(context, true); // success
+  } else {
+    setState(() {
+      error = result;
+      currentPin = ['', '', '', ''];
+    });
+ 
+    if (result.toLowerCase().contains('suspended')) {
+      await ref.read(signoutControllerProvider.notifier).signOut(context);
+      return;
     }
+
+    CustomSnackbar.show(
+      context: context,
+      title: 'Error',
+      message: result,
+      icon: Icons.error_outline,
+      backgroundColor: CustomColors.error,
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +101,8 @@ class _ValidatePinDialogState extends ConsumerState<ValidatePinDialog> {
           ),
           if (error != null) ...[
             const SizedBox(height: Sizes.spaceBtwItems),
-            Text(error!, style: const TextStyle(color: Colors.red)),
+            Text(error!, style: Theme.of(context).textTheme.bodySmall!.copyWith(color: CustomColors.error),
+            textAlign: TextAlign.center,),
           ],
           const SizedBox(height: Sizes.spaceBtwItems),
           CustomKeypad(onDigitPressed: _enterDigit, onBackspace: _removeDigit),
