@@ -15,6 +15,8 @@ class Images {
 
 
   //services
+  static const String bg1 = "assets/utility_images/bg_1.jpg";
+  static const String bg2 = "assets/utility_images/bg_2.jpg";
   static const String material = "assets/utility_images/material.jpg";
   static const String material2 = "assets/utility_images/material_full_blur.jpg";
   static const String material3 = "assets/utility_images/material_half_blur.jpg";
