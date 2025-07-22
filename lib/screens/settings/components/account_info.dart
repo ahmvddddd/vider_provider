@@ -5,6 +5,7 @@ import '../../../common/widgets/custom_shapes/containers/rounded_container.dart'
 import '../../../common/widgets/shimmer/shimmer_widget.dart';
 import '../../../controllers/user/wallet_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
+import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import 'package:intl/intl.dart';
 import '../../../utils/helpers/helper_function.dart';
@@ -20,7 +21,6 @@ class AccountInfo extends ConsumerStatefulWidget {
 class _AccountInfoState extends ConsumerState<AccountInfo> {
   final storage = const FlutterSecureStorage();
   bool isRefreshing = false;
-  
 
   @override
   void initState() {
@@ -47,22 +47,21 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
                 await Future.wait([Future(() => ref.refresh(walletProvider))]);
                 setState(() => isRefreshing = false);
               },
-              balance: '\$${NumberFormat('#,##0.00').format(wallet.usdcBalance)}',
+              balance:
+                  '\$${NumberFormat('#,##0.00').format(wallet.usdcBalance)}',
               onTap:
                   (wallet.usdcBalance <= 1.00)
                       ? null
                       : () async {
                         HelperFunction.navigateScreen(
                           context,
-                          TransferTokenScreen(
-                            usdcBalance: wallet.usdcBalance,
-                          ),
+                          TransferTokenScreen(usdcBalance: wallet.usdcBalance),
                         );
                       },
               backgroundColor:
                   (wallet.usdcBalance <= 1.00)
                       ? CustomColors.darkerGrey
-                      : CustomColors.primary,
+                      : CustomColors.success,
               subscriptionPlan: wallet.subscriptionPlan,
             );
       },
@@ -105,15 +104,16 @@ class WalletDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = HelperFunction.isDarkMode(context);
-    return RoundedContainer(
+    return Container(
       width: MediaQuery.of(context).size.width * 0.90,
-      backgroundColor:
-          dark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.1),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(Images.bg2),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(Sizes.cardRadiusMd),
+      ),
       padding: const EdgeInsets.all(Sizes.sm),
-      radius: Sizes.cardRadiusMd,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -125,22 +125,30 @@ class WalletDetails extends StatelessWidget {
                 children: [
                   Text(
                     'Balance',
-                    style: Theme.of(context).textTheme.labelSmall,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelSmall!.copyWith(color: Colors.white),
                   ),
                   Text(
                     balance,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.headlineSmall!.copyWith(color: Colors.white),
                   ),
                 ],
               ),
               IconButton(
                 onPressed: onPressed,
-                icon: Icon(Icons.refresh, size: Sizes.iconSm),
+                icon: Icon(
+                  Icons.refresh,
+                  size: Sizes.iconMd,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
 
-          const SizedBox(height: Sizes.xs),
+          const SizedBox(height: Sizes.sm + 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -148,7 +156,7 @@ class WalletDetails extends StatelessWidget {
                 subscriptionPlan,
                 style: Theme.of(
                   context,
-                ).textTheme.bodySmall!.copyWith(color: CustomColors.primary),
+                ).textTheme.bodySmall!.copyWith(color: Colors.white),
               ),
 
               GestureDetector(
@@ -171,6 +179,8 @@ class WalletDetails extends StatelessWidget {
               ),
             ],
           ),
+
+          const SizedBox(height: Sizes.sm + 2),
         ],
       ),
     );

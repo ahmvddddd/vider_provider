@@ -37,15 +37,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final List<Map<String, dynamic>> pageTexts = [
     {
       'pageText':
-          'Clients can search for you on the map. Make sure to switch on your location in profile settings. Set up your profile so it is attractive to clients',
+          'Clients can search for you on the map. Make sure to switch on your location and set up an attractive profile to boost visibility',
     },
     {
       'pageText':
-          'Clients can message you to get more information on services you provide. Check your messages regularly so you do not miss potential clients',
+          'Send and receive messages from clients. Check your messages regularly so you do not miss potential clients',
     },
     {
       'pageText':
-          'Your payments reflect in your wallet as soon as a job is completed. Withrawals are auto credited to your crypto wallet. Make sure to provide correct wallet address when submitting in your details',
+          'Your payments reflect in your wallet as soon as a job is completed. Withdrawals can be made to external wallets of your choice',
     },
   ];
 
