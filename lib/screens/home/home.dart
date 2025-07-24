@@ -1,8 +1,6 @@
 import 'package:vider_provider/controllers/services/firebase_service.dart';
-import '../../controllers/notifications/send_fcm_controller.dart';
 import '../../controllers/services/notification_badge_service.dart';
 import '../../controllers/user/save_location_controller.dart';
-import '../../models/notification/add_notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../controllers/jobs/jobs_dashboard_controller.dart';
@@ -111,6 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         RecentTransactionsShimmer(),
                       ],
                     ),
+
                   ProviderDashboardScreen(
                     onPressed: refreshProvider,
                     dashboardAsync: dashboardAsync,
@@ -122,35 +121,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class SendNotificationButton extends ConsumerWidget {
-  final AddNotificationModel model;
-
-  const SendNotificationButton({super.key, required this.model});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(sendNotificationProvider);
-
-    return ElevatedButton(
-      onPressed:
-          state is AsyncLoading
-              ? null
-              : () async {
-                await ref
-                    .read(sendNotificationProvider.notifier)
-                    .sendNotification(model);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Notification sent')),
-                );
-              },
-      child:
-          state is AsyncLoading
-              ? const CircularProgressIndicator(color: Colors.white)
-              : const Text('Send Notification'),
     );
   }
 }

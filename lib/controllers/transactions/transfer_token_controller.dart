@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
-
 import '../../common/widgets/pop_up/custom_snackbar.dart';
+import '../../nav_menu.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/helpers/connectivity_helper.dart';
 import '../../utils/helpers/helper_function.dart';
@@ -67,6 +67,10 @@ class TransferTokenController extends StateNotifier<AsyncValue<void>> {
         HelperFunction.navigateScreen(
           context,
           SuccessScreen(
+            onPressed: () {
+              ref.read(selectedIndexProvider.notifier).state = 0;
+              HelperFunction.navigateScreen(context, NavigationMenu());
+            },
             title: 'Transfer Successful',
             subtitle: 'Your transfer of $amount USDC has been initiated.',
           ),

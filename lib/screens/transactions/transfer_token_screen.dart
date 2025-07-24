@@ -162,4 +162,3 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
     );
   }
 }
-// '0x69f89aced55f6438e7dd94675608d13f6bc258d1';

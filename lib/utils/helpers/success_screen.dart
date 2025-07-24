@@ -7,20 +7,16 @@ import '../constants/image_strings.dart';
 import '../constants/sizes.dart';
 
 class SuccessScreen extends StatelessWidget {
+  final VoidCallback onPressed;
   final String title;
   final String subtitle;
 
-  const SuccessScreen({super.key, required this.title, required this.subtitle});
+  const SuccessScreen({super.key, required this.onPressed, required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: ButtonContainer(
-        text: 'Done',
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+      bottomNavigationBar: ButtonContainer(text: 'Done', onPressed: onPressed),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),

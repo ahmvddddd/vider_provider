@@ -44,7 +44,7 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
             : WalletDetails(
               onPressed: () async {
                 setState(() => isRefreshing = true);
-                await Future.wait([Future(() => ref.refresh(walletProvider))]);
+                await ref.read(walletProvider.notifier).fetchBalance();
                 setState(() => isRefreshing = false);
               },
               balance:
@@ -75,7 +75,7 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
           (err, _) => WalletDetails(
             onPressed: () async {
               setState(() => isRefreshing = true);
-              await Future.wait([Future(() => ref.refresh(walletProvider))]);
+              await ref.read(walletProvider.notifier).fetchBalance();
               setState(() => isRefreshing = false);
             },
             balance: 'Could not fetch balance',
@@ -133,7 +133,7 @@ class WalletDetails extends StatelessWidget {
                     balance,
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineSmall!.copyWith(color: Colors.white),
+                    ).textTheme.headlineMedium!.copyWith(color: Colors.white),
                   ),
                 ],
               ),

@@ -8,6 +8,7 @@ import '../../utils/constants/sizes.dart';
 import 'components/account_info.dart';
 import '../user_profile_settings/update_user_profile_screen.dart';
 import 'components/account_settings.dart';
+
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -30,42 +31,43 @@ class SettingsScreen extends ConsumerWidget {
           child: Column(
             children: [
               AccountInfo(),
-        
-                    
-              const SizedBox(height: Sizes.spaceBtwSections,),
+
+              const SizedBox(height: Sizes.spaceBtwSections),
               TSectionHeading(
                 title: 'User Profile Settings',
                 showActionButton: false,
               ),
               const SizedBox(height: Sizes.sm),
               UpdateUserProfilePage(),
-        
-              const SizedBox(height: Sizes.spaceBtwSections,),
+
+              const SizedBox(height: Sizes.spaceBtwSections),
               TSectionHeading(
                 title: 'General Settings',
                 showActionButton: false,
               ),
               const SizedBox(height: Sizes.sm),
               AccountSettingsPage(),
-    
-              const SizedBox(
-                height: Sizes.spaceBtwSections,
-              ),
+
+              const SizedBox(height: Sizes.spaceBtwSections),
               SizedBox(
                 width: screenWidth * 0.90,
                 child: ElevatedButton(
-                    onPressed: () {
-                      
-    signoutController.signOut(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.primary),
-                    child: Text('Signout',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: Colors.white))),
+                  onPressed: () {
+                    signoutController.signOut(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColors.primary,
+                  ),
+                  child: Text(
+                    'Signout',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelSmall!.copyWith(color: Colors.white),
+                  ),
+                ),
               ),
+
+              const SizedBox(height: Sizes.sm),
             ],
           ),
         ),
