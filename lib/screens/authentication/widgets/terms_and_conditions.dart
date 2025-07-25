@@ -26,17 +26,17 @@ Provide accurate and up-to-date info, and secure your credentials.
 Use Vider lawfully. No spam, fraud, or abuse.
 
 4. Provider & Client Responsibilities
-Providers: Deliver on time and communicate.
-Clients: Provide clear requirements and understand providers' trems.
+Providers: Deliver on time, jobs are time sensitive.
+Clients: Read and understand job descriptions of providers before hiring them.
 
 5. Payments and Fees
-Fees apply. Payments are processed securely. Non-refundable unless stated.
+Fees apply. Percentage cuts are taken from every job payment you receive. Review your subscription plan to choose the right plan.
 
 6. Dispute Resolution
-Try to resolve disputes directly. Contact support if needed.
+Contact support to resolve disputed cases.
 
 7. Termination
-Accounts may be suspended for violations or fraud.
+Accounts may be suspended for violations.
 
 8. Intellectual Property
 Our content is protected. Don not copy or misuse it.
