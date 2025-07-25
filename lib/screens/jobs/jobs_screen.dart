@@ -285,9 +285,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                         setState(() {
                           isRefreshing = true;
                         });
-                        await Future.wait([
-                          Future(() => ref.refresh(jobsFutureProvider)),
-                        ]);
+                        ref.refresh(jobsFutureProvider.future);
                         setState(() {
                           isRefreshing = false;
                         });
