@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-
 import '../../../../utils/constants/sizes.dart';
 
 class GlassContainer extends StatelessWidget {

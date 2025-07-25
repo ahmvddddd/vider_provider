@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../utils/helpers/helper_function.dart';
 
 class CustomAlertDialog extends StatelessWidget {

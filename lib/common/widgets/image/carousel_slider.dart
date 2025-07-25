@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-
 import '../../../utils/constants/image_strings.dart';
 
 class SwitchScreen extends StatefulWidget {

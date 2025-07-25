@@ -8,7 +8,7 @@ class CustomSnackbar {
     required String title,
     required String message,
     required Color backgroundColor,
-    required IconData icon, //  icons_check_circle icons_error_outline
+    required IconData icon,
     int durationInSeconds = 4,
   }) {
     ScaffoldMessenger.of(context).showSnackBar(

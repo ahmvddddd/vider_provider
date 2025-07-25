@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -58,12 +56,12 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
       );
 
       if (response.statusCode == 200) {
-        print('success');
+        debugPrint('success');
       } else {
-        print(response.body);
+        debugPrint(response.body);
       }
     } catch (error) {
-      print(error.toString());
+      debugPrint(error.toString());
     }
   }
 
@@ -312,12 +310,12 @@ class _MessageState extends State<Message> {
     );
 
     socket.onConnect((_) {
-      print('Connected to Socket.IO server');
+      debugPrint('Connected to Socket.IO server');
       // _fetchMessages();
     });
 
     socket.onDisconnect((_) {
-      print('Disconnected from Socket.IO server');
+      debugPrint('Disconnected from Socket.IO server');
       attemptReconnect();
     });
 
@@ -347,7 +345,7 @@ class _MessageState extends State<Message> {
   void attemptReconnect() {
     Future.delayed(const Duration(seconds: 2), () {
       if (!socket.connected) {
-        print('Attempting to reconnect...');
+        debugPrint('Attempting to reconnect...');
         socket.connect();
       }
     });

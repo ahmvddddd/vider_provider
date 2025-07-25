@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../utils/constants/custom_colors.dart';
-import '../images/t_circular_image.dart';
+import '../images/circular_image.dart';
 
 
 class TUserProfileTile extends StatelessWidget {
