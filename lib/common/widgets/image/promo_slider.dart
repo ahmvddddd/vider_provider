@@ -1,8 +1,5 @@
-// ignore_for_file: library_private_types_in_public_api, depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 
@@ -12,10 +9,10 @@ class PromoSlider extends StatefulWidget {
   const PromoSlider({super.key, required this.imageList});
 
   @override
-  _ImageSliderState createState() => _ImageSliderState();
+  ImageSliderState createState() => ImageSliderState();
 }
 
-class _ImageSliderState extends State<PromoSlider> {
+class ImageSliderState extends State<PromoSlider> {
   int _currentIndex = 0;
 
   @override

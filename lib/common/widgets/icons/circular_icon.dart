@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
+
 class CircularIcon extends StatelessWidget {
   const CircularIcon({
     super.key, this.width,

@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import '../../../utils/constants/custom_colors.dart';
-import 'containers/circular_container.dart';
+import '../../../../utils/constants/custom_colors.dart';
+import 'circular_container.dart';
 
-class TSecondaryHeaderContainer extends StatelessWidget {
-  const TSecondaryHeaderContainer({
+class SecondaryHeaderContainer extends StatelessWidget {
+  const SecondaryHeaderContainer({
     super.key, required this.child,
   });
 

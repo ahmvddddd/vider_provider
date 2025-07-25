@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_if_null_operators
-
 import 'package:flutter/material.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/helpers/helper_function.dart';

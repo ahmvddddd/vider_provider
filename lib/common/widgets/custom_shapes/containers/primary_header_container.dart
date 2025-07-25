@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import '../../../../utils/constants/custom_colors.dart';
 import '../../curved_edges/curved_edges_widget.dart';
