@@ -28,9 +28,8 @@ class _RecentTransactionsState extends ConsumerState<RecentTransactions> {
         }
         return Column(
           children: [
-
             const SizedBox(height: Sizes.spaceBtwItems),
-            TSectionHeading(
+            SectionHeading(
               title: 'Recent Transactions',
               showActionButton: true,
               onPressed: () {

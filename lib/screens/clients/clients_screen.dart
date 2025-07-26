@@ -38,28 +38,27 @@ class ClientsScreen extends StatelessWidget {
         showBackArrow: true,
       ),
       bottomNavigationBar: ButtonContainer(
-      text: 'Report',
-      onPressed: () async {
-        final confirm = await showDialog<bool>(
-    context: context,
-    builder: (BuildContext context) {
-      return CustomAlertDialog(
-        title: 'Report User',
-        message: 'Are you sure you want to report this user?',
-        onCancel: () => Navigator.of(context).pop(false),
-        onConfirm: () => Navigator.of(context).pop(true),
-    
-      );
-    },
-        );
-    
-        if (confirm == true) {
-    ReportIssueController.launchGmailCompose('Report $employerName');
-        }
-      },
-      backgroundColor: const Color.fromARGB(255, 206, 26, 13),
-    ),
-    
+        text: 'Report',
+        onPressed: () async {
+          final confirm = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomAlertDialog(
+                title: 'Report User',
+                message: 'Are you sure you want to report this user?',
+                onCancel: () => Navigator.of(context).pop(false),
+                onConfirm: () => Navigator.of(context).pop(true),
+              );
+            },
+          );
+
+          if (confirm == true) {
+            ReportIssueController.launchGmailCompose('Report $employerName');
+          }
+        },
+        backgroundColor: const Color.fromARGB(255, 206, 26, 13),
+      ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Sizes.spaceBtwItems),
@@ -79,11 +78,11 @@ class ClientsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: Sizes.spaceBtwItems),
-              const TSectionHeading(
+              const SectionHeading(
                 title: 'Recent Transactions',
                 showActionButton: false,
               ),
-    
+
               const SizedBox(height: Sizes.spaceBtwItems),
               HomeListView(
                 seperatorBuilder:

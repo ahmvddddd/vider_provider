@@ -20,19 +20,17 @@ class UpdateUserProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dark = HelperFunction.isDarkMode(context);
     final isLocationEnabled = ref.watch(persistentLocationSwitchProvider);
     final switchController = ref.read(
       persistentLocationSwitchProvider.notifier,
     );
     final locationController = ref.read(saveLocationProvider);
-
+    final dark = HelperFunction.isDarkMode(context);
     return RoundedContainer(
       backgroundColor:
           dark
               ? Colors.white.withValues(alpha: 0.1)
               : Colors.black.withValues(alpha: 0.1),
-      radius: Sizes.cardRadiusSm,
       child: Column(
         children: [
           const SizedBox(height: Sizes.xs),
@@ -61,7 +59,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
 
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconMd,
             icon: Icons.change_circle,
             title: ' ChangeSubscription Plan',
             subTitle: '',
@@ -73,7 +70,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconMd,
             icon: Icons.image,
             title: 'Update Portfolio Images',
             subTitle: '',
@@ -85,7 +81,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconMd,
             icon: Iconsax.user,
             title: 'Update Bio',
             subTitle: '',
@@ -93,7 +88,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconMd,
             icon: Icons.timelapse,
             title: 'Update Hourly Rate',
             subTitle: '',
@@ -103,7 +97,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconMd,
             icon: Icons.shape_line,
             title: 'Update Skills',
             subTitle: '',
@@ -111,7 +104,6 @@ class UpdateUserProfilePage extends ConsumerWidget {
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconM,
             icon: Icons.list,
             title: 'Update Category & Service',
             subTitle: '',
