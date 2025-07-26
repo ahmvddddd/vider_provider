@@ -19,7 +19,11 @@ import '../widgets/total_earnings.dart';
 class ProviderDashboardScreen extends ConsumerWidget {
   final AsyncValue dashboardAsync;
   final VoidCallback onPressed;
-  const ProviderDashboardScreen({super.key, required this.dashboardAsync, required this.onPressed});
+  const ProviderDashboardScreen({
+    super.key,
+    required this.dashboardAsync,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -127,7 +131,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
             const SizedBox(height: Sizes.spaceBtwItems),
             dashboard.topEmployers.isEmpty
                 ? const SizedBox.shrink()
-                : TSectionHeading(
+                : SectionHeading(
                   title: 'Clients',
                   showActionButton: true,
                   onPressed: () {
@@ -213,7 +217,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: Sizes.sm,),
+              const SizedBox(height: Sizes.sm),
               IconButton(
                 onPressed: onPressed,
                 style: TextButton.styleFrom(

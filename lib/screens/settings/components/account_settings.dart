@@ -14,17 +14,14 @@ class AccountSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
-
     return RoundedContainer(
       backgroundColor:
           dark
               ? Colors.white.withValues(alpha: 0.1)
               : Colors.black.withValues(alpha: 0.1),
-      radius: Sizes.cardRadiusSm,
       child: Column(
         children: [
           SettingsMenuTile(
-            iconSize: Sizes.iconMd,
             onTap:
                 () => HelperFunction.navigateScreen(
                   context,
@@ -37,7 +34,6 @@ class AccountSettingsPage extends StatelessWidget {
 
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconM,
             onTap:
                 () => HelperFunction.navigateScreen(context, ChangePinPage()),
             icon: Iconsax.security_card,
@@ -47,7 +43,6 @@ class AccountSettingsPage extends StatelessWidget {
 
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
-            iconSize: Sizes.iconMd,
             onTap: () async {
               ReportIssueController.launchGmailCompose('Report An Issue');
             },

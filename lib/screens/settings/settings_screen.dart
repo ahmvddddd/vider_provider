@@ -29,11 +29,12 @@ class SettingsScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(Sizes.spaceBtwItems),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AccountInfo(),
 
               const SizedBox(height: Sizes.spaceBtwSections),
-              TSectionHeading(
+              SectionHeading(
                 title: 'User Profile Settings',
                 showActionButton: false,
               ),
@@ -41,7 +42,7 @@ class SettingsScreen extends ConsumerWidget {
               UpdateUserProfilePage(),
 
               const SizedBox(height: Sizes.spaceBtwSections),
-              TSectionHeading(
+              SectionHeading(
                 title: 'General Settings',
                 showActionButton: false,
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../utils/constants/custom_colors.dart';
+import '../../../utils/constants/sizes.dart';
 
 class SettingsMenuTile extends StatelessWidget {
   const SettingsMenuTile({
@@ -7,7 +8,7 @@ class SettingsMenuTile extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subTitle,
-    required this.iconSize,
+    this.iconSize = Sizes.iconSm,
     this.trailing,
     this.onTap,
   });
@@ -23,8 +24,8 @@ class SettingsMenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon, size: iconSize, color: CustomColors.primary),
-      title: Text(title, style:  Theme.of(context).textTheme.labelSmall,),
-      subtitle: Text(subTitle, style: Theme.of(context).textTheme.labelMedium),
+      title: Text(title, style:  Theme.of(context).textTheme.labelMedium!.copyWith(color: CustomColors.primary),),
+      subtitle: Text(subTitle, style: Theme.of(context).textTheme.labelSmall),
       trailing: trailing,
       onTap: onTap,
     );

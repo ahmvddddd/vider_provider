@@ -189,7 +189,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                       padding: EdgeInsets.all(Sizes.spaceBtwItems),
                     ),
 
-                    const TSectionHeading(
+                    const SectionHeading(
                       title: 'Certifications',
                       showActionButton: false,
                     ),
