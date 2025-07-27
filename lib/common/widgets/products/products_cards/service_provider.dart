@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../../../controllers/services/user_id_controller.dart';
-import '../../../../../screens/service/widgets/services.dart';
+import '../../../../screens/service_profile/widgets/services.dart';
 import '../../../../../utils/constants/custom_colors.dart';
 import '../../../../../utils/constants/image_strings.dart';
 import '../../../../../utils/constants/sizes.dart';

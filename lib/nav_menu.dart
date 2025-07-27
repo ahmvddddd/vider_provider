@@ -8,7 +8,7 @@ import 'controllers/services/notification_badge_service.dart';
 import 'screens/home/home.dart';
 import 'screens/jobs/jobs_screen.dart';
 import 'screens/messages/chat.dart';
-import 'screens/service/service_profile.dart';
+import 'screens/service_profile/servce_profile_screen.dart';
 import 'utils/constants/custom_colors.dart';
 import 'utils/constants/sizes.dart';
 import 'utils/helpers/helper_function.dart';
