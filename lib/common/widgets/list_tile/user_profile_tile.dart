@@ -4,8 +4,8 @@ import '../../../utils/constants/custom_colors.dart';
 import '../images/circular_image.dart';
 
 
-class TUserProfileTile extends StatelessWidget {
-  const TUserProfileTile({
+class UserProfileTile extends StatelessWidget {
+  const UserProfileTile({
     super.key,
   });
 
