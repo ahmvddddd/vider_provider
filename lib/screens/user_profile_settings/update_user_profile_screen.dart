@@ -42,7 +42,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             ),
             title: Text(
               'Location',
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context).textTheme.labelMedium,
             ),
             trailing: Switch(
               value: isLocationEnabled,

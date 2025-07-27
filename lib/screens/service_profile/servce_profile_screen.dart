@@ -176,7 +176,3 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
     );
   }
 }
-
-
-
-//https://res.cloudinary.com/dueykz4hi/image/upload/v1750296090/profile_images/wazxd1rgmdark6w1ktaz.jpg

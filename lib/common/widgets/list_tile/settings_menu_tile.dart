@@ -24,7 +24,7 @@ class SettingsMenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon, size: iconSize, color: CustomColors.primary),
-      title: Text(title, style:  Theme.of(context).textTheme.labelMedium!.copyWith(color: CustomColors.primary),),
+      title: Text(title, style:  Theme.of(context).textTheme.labelMedium),
       subtitle: Text(subTitle, style: Theme.of(context).textTheme.labelSmall),
       trailing: trailing,
       onTap: onTap,
