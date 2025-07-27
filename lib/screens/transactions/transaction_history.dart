@@ -250,12 +250,17 @@ class _TransactionHistoryState extends ConsumerState<TransactionHistory> {
                   ],
                 );
               },
-              loading: () => const JobsScreenShimmer(),
+              loading:
+                  () => SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: const JobsScreenShimmer(),
+                  ),
               error: (error, stack) {
                 return Column(
                   children: [
                     SizedBox(height: 200),
-                    Text(error.toString().replaceAll('Exception:', '').trim(),
+                    Text(
+                      error.toString().replaceAll('Exception:', '').trim(),
                       style: Theme.of(context).textTheme.bodySmall,
                       softWrap: true,
                       textAlign: TextAlign.center,
@@ -271,10 +276,10 @@ class _TransactionHistoryState extends ConsumerState<TransactionHistory> {
                         setState(() {
                           isRefreshing = true;
                         });
-                        await Future.wait([ref.refresh(transactionProvider(null).future)]);
+                        ref.refresh(transactionProvider(null).future);
                         setState(() {
-                        isRefreshing = false;
-                      });
+                          isRefreshing = false;
+                        });
                       },
                     ),
                   ],
