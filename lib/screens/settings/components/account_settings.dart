@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../../common/styles/shadows.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../../controllers/user/report_issue_controller.dart';
@@ -15,10 +16,8 @@ class AccountSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     return RoundedContainer(
-      backgroundColor:
-          dark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.1),
+      boxShadow: [ShadowStyle.verticalProductShadow],
+      backgroundColor: dark ? Colors.black : Colors.white,
       child: Column(
         children: [
           SettingsMenuTile(
@@ -30,6 +29,7 @@ class AccountSettingsPage extends StatelessWidget {
             icon: Iconsax.password_check,
             title: 'Password',
             subTitle: 'Change password.',
+            trailing: Icon(Icons.arrow_right),
           ),
 
           const SizedBox(height: Sizes.sm),
@@ -39,6 +39,7 @@ class AccountSettingsPage extends StatelessWidget {
             icon: Iconsax.security_card,
             title: 'Change Pin',
             subTitle: 'Change your transaction pin',
+            trailing: Icon(Icons.arrow_right),
           ),
 
           const SizedBox(height: Sizes.sm),
@@ -49,6 +50,7 @@ class AccountSettingsPage extends StatelessWidget {
             icon: Iconsax.security_safe,
             title: 'Safety',
             subTitle: 'Report a failed transaction or a problem.',
+            trailing: Icon(Icons.arrow_right),
           ),
         ],
       ),

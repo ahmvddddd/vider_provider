@@ -183,7 +183,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
             },
             loading:
                 () => SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: MediaQuery.of(context).size.height,
                   child: const ChatShimmer(),
                 ),
             error:
