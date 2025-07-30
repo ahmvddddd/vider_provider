@@ -116,7 +116,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                               dark
                                   ? CustomColors.white.withValues(alpha: 0.1)
                                   : CustomColors.black.withValues(alpha: 0.1),
-                          boxShadow: [TShadowStyle.horizontalProductShadow],
+                          boxShadow: [ShadowStyle.horizontalProductShadow],
                           width: screenWidth * 0.90,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

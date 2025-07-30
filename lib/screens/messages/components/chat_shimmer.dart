@@ -34,7 +34,7 @@ class ChatShimmer extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 seperatorBuilder:
                     (context, index) => const SizedBox(height: Sizes.sm),
-                itemCount: 5,
+                itemCount: 8,
                 itemBuilder: (context, index) {
                   return RoundedContainer(
                     padding: const EdgeInsets.all(Sizes.sm),
@@ -60,13 +60,13 @@ class ChatShimmer extends StatelessWidget {
                           children: [
                             ShimmerWidget(
                               width: screenWidth * 0.40,
-                              height: screenHeight * 0.01,
+                              height: screenHeight * 0.02,
                               radius: 50,
                             ),
                             const SizedBox(height: Sizes.xs),
                             ShimmerWidget(
                               width: screenWidth * 0.60,
-                              height: screenHeight * 0.01,
+                              height: screenHeight * 0.02,
                               radius: 50,
                             ),
                           ],

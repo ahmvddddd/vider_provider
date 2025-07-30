@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../common/styles/shadows.dart';
 import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../controllers/user/save_location_controller.dart';
 import '../../repository/user/location_state_storage.dart';
-import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
 import '../settings/components/subscription_plan_screen.dart';
@@ -28,10 +28,8 @@ class UpdateUserProfilePage extends ConsumerWidget {
     final locationController = ref.read(saveLocationProvider);
     final dark = HelperFunction.isDarkMode(context);
     return RoundedContainer(
-      backgroundColor:
-          dark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.1),
+      boxShadow: [ShadowStyle.verticalProductShadow],
+      backgroundColor: dark ? Colors.black : Colors.white,
       child: Column(
         children: [
           const SizedBox(height: Sizes.xs),
@@ -45,15 +43,12 @@ class UpdateUserProfilePage extends ConsumerWidget {
                   context,
                   TransactionHistory(),
                 ),
+            trailing: Icon(Icons.arrow_right),
           ),
 
           const SizedBox(height: Sizes.sm),
           ListTile(
-            leading: Icon(
-              Icons.location_on,
-              color: CustomColors.primary,
-              size: Sizes.iconM,
-            ),
+            leading: Icon(Icons.location_on, size: Sizes.iconM),
             title: Text(
               'Location',
               style: Theme.of(context).textTheme.labelMedium,
@@ -81,6 +76,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
                   context,
                   SubscriptionPlanScreen(),
                 ),
+            trailing: Icon(Icons.arrow_right),
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
@@ -92,6 +88,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
                   context,
                   UpdateProfileImagesPage(),
                 ),
+            trailing: Icon(Icons.arrow_right),
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
@@ -99,6 +96,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             title: 'Update Bio',
             subTitle: '',
             onTap: () => HelperFunction.navigateScreen(context, UpdateBio()),
+            trailing: Icon(Icons.arrow_right),
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
@@ -108,6 +106,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             onTap:
                 () =>
                     HelperFunction.navigateScreen(context, UpdateHourlyRate()),
+            trailing: Icon(Icons.arrow_right),
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
@@ -115,6 +114,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             title: 'Update Skills',
             subTitle: '',
             onTap: () => HelperFunction.navigateScreen(context, UpdateSkills()),
+            trailing: Icon(Icons.arrow_right),
           ),
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
@@ -126,6 +126,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
                   context,
                   UpdateCategoryAndService(),
                 ),
+            trailing: Icon(Icons.arrow_right),
           ),
         ],
       ),

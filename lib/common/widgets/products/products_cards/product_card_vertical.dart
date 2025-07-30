@@ -23,7 +23,7 @@ class TProductCardVertical extends StatelessWidget {
         width: 180,
         padding: const EdgeInsets.all(1),
         decoration: BoxDecoration(
-          boxShadow: [TShadowStyle.verticalProductShadow],
+          boxShadow: [ShadowStyle.verticalProductShadow],
           borderRadius: BorderRadius.circular(Sizes.productImageRadius),
           color: dark ? CustomColors.darkerGrey : CustomColors.white,
         ),
