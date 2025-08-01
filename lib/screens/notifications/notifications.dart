@@ -12,6 +12,7 @@ import '../../nav_menu.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/helpers/helper_function.dart';
 import '../messages/components/chat_shimmer.dart';
+import '../transactions/transaction_history.dart';
 import 'notification_view_screen.dart';
 import 'widgets/job_request_notification.dart';
 import 'widgets/notification_card.dart';
@@ -153,6 +154,29 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                           }
                         }
                       },
+                    );
+                  }
+
+                  if (notif.type == 'transaction') {
+                    return NotificationCard(
+                      borderColor:
+                          notif.isRead
+                              ? Colors.transparent
+                              : CustomColors.primary,
+                      onTap: () async {
+                        await ref.read(
+                          readNotificationProvider(notif.id).future,
+                        );
+                        HelperFunction.navigateScreen(
+                          context,
+                          TransactionHistory(),
+                        );
+                      },
+                      iconColor:
+                          notif.isRead ? Colors.white : CustomColors.primary,
+                      title: notif.title,
+                      message: notif.message,
+                      date: notif.createdAt,
                     );
                   }
 

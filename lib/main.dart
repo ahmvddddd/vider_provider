@@ -40,6 +40,7 @@ Future<void> main() async {
           importance: NotificationImportance.High,
           defaultColor: Colors.blue,
           ledColor: Colors.white,
+          channelShowBadge: true, 
         ),
       ]);
 
@@ -52,7 +53,9 @@ Future<void> main() async {
       // 🔓 Ask for permission if not already granted
       final isAllowed = await AwesomeNotifications().isNotificationAllowed();
       if (!isAllowed) {
-        await AwesomeNotifications().requestPermissionToSendNotifications();
+        await AwesomeNotifications().requestPermissionToSendNotifications(
+          permissions: [NotificationPermission.Badge],
+        );
       }
 
       await FirebaseMessaging.instance.requestPermission();
