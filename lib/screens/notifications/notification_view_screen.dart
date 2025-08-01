@@ -25,22 +25,23 @@ class NotificationViewScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(Sizes.spaceBtwItems),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title,
               style: Theme.of(context).textTheme.labelMedium,),
 
-              const SizedBox(height: Sizes.spaceBtwItems),
+              const SizedBox(height: Sizes.sm),
               Text(message,
-              style: Theme.of(context).textTheme.bodyMedium,),
+              style: Theme.of(context).textTheme.bodyMedium,
+              softWrap: true,),
               
-              const SizedBox(height: Sizes.sm,),
+              const SizedBox(height: Sizes.spaceBtwSections,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                 DateFormat('dd/MM/yy HH:mm:ss').format(date),
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),

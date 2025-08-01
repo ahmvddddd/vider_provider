@@ -153,7 +153,7 @@ class _TransactionHistoryState extends ConsumerState<TransactionHistory> {
                                   ),
 
                                   Text(
-                                    '\u20A6$amount',
+                                    '\$$amount',
                                     style: Theme.of(
                                       context,
                                     ).textTheme.labelMedium!.copyWith(

@@ -83,12 +83,21 @@ class _TransferTokenPageState extends ConsumerState<TransferTokenScreen> {
           padding: const EdgeInsets.all(Sizes.spaceBtwItems),
           child:
               transferState.isLoading
-                  ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                      strokeWidth: 4.0,
-                      backgroundColor: isDark ? Colors.white : Colors.black,
-                    ),
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.30),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                            strokeWidth: 4.0,
+                            backgroundColor: isDark ? Colors.white : Colors.black,
+                          ),
+                        ],
+                      ),
+                    ],
                   )
                   : Form(
                     key: _formKey,
