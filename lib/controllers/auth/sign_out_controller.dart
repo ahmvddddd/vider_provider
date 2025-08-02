@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../../screens/authentication/auth_screen.dart';
 
@@ -23,9 +22,6 @@ class SignoutController extends StateNotifier<SignoutState> {
       // Delete token from secure storage
       await _secureStorage.delete(key: 'token');
 
-      // Remove saved username from shared preferences
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('saved_username');
 
       state = state.copyWith(isLoading: false);
 

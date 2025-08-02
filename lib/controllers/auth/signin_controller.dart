@@ -41,20 +41,19 @@ class LoginController extends StateNotifier<LoginState> {
   }
 
   static Future<bool> isUserStillLoggedIn() async {
-  final token = await _secureStorage.read(key: 'token');
-  final timestampStr = await _secureStorage.read(key: 'loginTimestamp');
+    final token = await _secureStorage.read(key: 'token');
+    final timestampStr = await _secureStorage.read(key: 'loginTimestamp');
 
-  if (token == null || timestampStr == null) return false;
+    if (token == null || timestampStr == null) return false;
 
-  final loginTime = DateTime.tryParse(timestampStr);
-  if (loginTime == null) return false;
+    final loginTime = DateTime.tryParse(timestampStr);
+    if (loginTime == null) return false;
 
-  final now = DateTime.now();
-  final difference = now.difference(loginTime);
+    final now = DateTime.now();
+    final difference = now.difference(loginTime);
 
-  return difference.inDays < 7;
-}
-
+    return difference.inDays < 7;
+  }
 
   Future<void> login(
     BuildContext context,
@@ -81,9 +80,9 @@ class LoginController extends StateNotifier<LoginState> {
         await Future.wait([
           _secureStorage.write(key: 'token', value: responseData['token']),
           _secureStorage.write(
-    key: 'loginTimestamp',
-    value: DateTime.now().toIso8601String(),
-  ),
+            key: 'loginTimestamp',
+            value: DateTime.now().toIso8601String(),
+          ),
           UsernameLocalStorage.saveUsername(username),
         ]);
 
@@ -95,6 +94,7 @@ class LoginController extends StateNotifier<LoginState> {
         state = state.copyWith(isLoading: false, user: user);
 
         // Navigate to the main screen
+        ref.read(selectedIndexProvider.notifier).state = 0;
         HelperFunction.navigateScreenReplacement(context, NavigationMenu());
 
         // Fetch user profile via UserController
