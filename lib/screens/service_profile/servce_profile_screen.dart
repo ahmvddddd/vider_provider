@@ -84,7 +84,29 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                     hourlyRate: 100,
                   ),
 
-                  const SizedBox(height: Sizes.sm),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceBtwItems),
+                    child: HomeListView(
+                            sizedBoxHeight:
+                                MediaQuery.of(context).size.height * 0.06,
+                            scrollDirection: Axis.horizontal,
+                            seperatorBuilder:
+                                (context, index) =>
+                                    Padding(
+                                      padding: const EdgeInsets.all(Sizes.sm),
+                                      child: const VerticalDivider(
+                                        color: CustomColors.primary,
+                                      ),
+                                    ),
+                            itemCount: user.skills.length,
+                            itemBuilder:
+                                (context, index) => Services(
+                                  service: user.skills[index],
+                                )
+                          ),
+                  ),
+
+                  const SizedBox(height: Sizes.spaceBtwItems),
                   Container(
                     padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                     decoration: BoxDecoration(
@@ -99,21 +121,7 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                     ),
                     child: Column(
                       children: [
-                        HomeListView(
-                          sizedBoxHeight:
-                              MediaQuery.of(context).size.height * 0.06,
-                          scrollDirection: Axis.horizontal,
-                          seperatorBuilder:
-                              (context, index) =>
-                                  const SizedBox(width: Sizes.sm),
-                          itemCount: user.skills.length,
-                          itemBuilder:
-                              (context, index) => Services(
-                                service: user.skills[index],
-                              )
-                        ),
-
-                        const SizedBox(height: Sizes.spaceBtwSections),
+                        const SizedBox(height: Sizes.spaceBtwItems),
                         SectionHeading(title: 'About', showActionButton: false),
                         const SizedBox(height: Sizes.sm),
                         Text(

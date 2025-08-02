@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../../common/styles/shadows.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../../controllers/user/report_issue_controller.dart';
+import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../transactions/change_pin.dart';
@@ -16,7 +16,14 @@ class AccountSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     return RoundedContainer(
-      boxShadow: [ShadowStyle.verticalProductShadow],
+      boxShadow: [
+        BoxShadow(
+          color: dark ? CustomColors.darkerGrey : CustomColors.darkGrey,
+          blurRadius: 5,
+          spreadRadius: 0.5,
+          offset: const Offset(0, 1),
+        ),
+      ],
       backgroundColor: dark ? Colors.black : Colors.white,
       child: Column(
         children: [

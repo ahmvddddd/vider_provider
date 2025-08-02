@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../common/styles/shadows.dart';
 import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../controllers/user/save_location_controller.dart';
 import '../../repository/user/location_state_storage.dart';
+import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
 import '../settings/components/subscription_plan_screen.dart';
@@ -28,7 +28,14 @@ class UpdateUserProfilePage extends ConsumerWidget {
     final locationController = ref.read(saveLocationProvider);
     final dark = HelperFunction.isDarkMode(context);
     return RoundedContainer(
-      boxShadow: [ShadowStyle.verticalProductShadow],
+      boxShadow: [
+        BoxShadow(
+          color: dark ? CustomColors.darkerGrey : CustomColors.darkGrey,
+          blurRadius: 5,
+          spreadRadius: 0.5,
+          offset: const Offset(0, 1),
+        ),
+      ],
       backgroundColor: dark ? Colors.black : Colors.white,
       child: Column(
         children: [
