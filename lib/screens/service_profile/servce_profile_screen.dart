@@ -127,7 +127,9 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                         Text(
                           user.bio,
                           style: Theme.of(context).textTheme.bodySmall!
-                              .copyWith(fontWeight: FontWeight.bold),
+                              .copyWith(
+                              color: dark ? Colors.white : Colors.black
+                              ),
                           softWrap: true,
                         ),
 
@@ -153,7 +155,7 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                               child: Image.network(
                                 user.portfolioImages[index],
                                 width:
-                                    MediaQuery.of(context).size.height * 0.40,
+                                    MediaQuery.of(context).size.width * 0.55,
                                 height:
                                     MediaQuery.of(context).size.height * 0.30,
                                 fit: BoxFit.cover,

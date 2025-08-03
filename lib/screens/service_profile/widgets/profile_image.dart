@@ -68,14 +68,14 @@ class ProfileImage extends StatelessWidget {
             const SizedBox(width: Sizes.sm),
             RoundedContainer(
               backgroundColor: ratingColor,
-              radius: 40,
+              radius: Sizes.cardRadiusXs,
               padding: const EdgeInsets.symmetric(horizontal: Sizes.xs + 2, vertical: 2),
               child: Center(
                 child: Text(
                   rating.toString(),
                   style: Theme.of(
                     context,
-                  ).textTheme.bodySmall!.copyWith(color: Colors.white),
+                  ).textTheme.labelMedium!.copyWith(color: Colors.white),
                 ),
               ),
             ),

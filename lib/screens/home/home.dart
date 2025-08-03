@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:vider_provider/controllers/services/firebase_service.dart';
 import '../../controllers/services/notification_badge_service.dart';
 import '../../controllers/user/save_location_controller.dart';
@@ -11,7 +12,6 @@ import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
 import '../jobs/components/job_dashboard_shimmer.dart';
 import '../jobs/components/jobs_dashboard.dart';
-import '../transactions/components/recent_transactions_shimmer.dart';
 import '../transactions/recent_transactions.dart';
 import 'widgets/home_appbar.dart';
 
@@ -45,6 +45,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       final container = ProviderScope.containerOf(context);
       _badgeService = NotificationBadgeService(container: container);
       _badgeService!.init();
+
+      FirebaseMessaging.instance.getInitialMessage().then((message) async {
+      if (message != null) {
+        debugPrint('🟨 getInitialMessage: App was opened by a notification: ${message.messageId}');
+        await _badgeService!.handleIncomingMessage(message);
+      }
+    });
     }
 
     saveFcmTokenToBackend();
@@ -105,8 +112,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Column(
                       children: [
                         JobsDashBoardShimmer(),
-                        const SizedBox(height: Sizes.spaceBtwItems),
-                        RecentTransactionsShimmer(),
                       ],
                     ),
 
