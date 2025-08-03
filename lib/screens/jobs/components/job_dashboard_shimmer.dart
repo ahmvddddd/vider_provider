@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
-import '../../../common/widgets/layouts/grid_layout.dart';
 import '../../../common/widgets/layouts/listvew.dart';
 import '../../../common/widgets/shimmer/shimmer_widget.dart';
 import '../../../utils/constants/sizes.dart';
@@ -19,7 +18,7 @@ class JobsDashBoardShimmer extends StatelessWidget {
         //total earnings
         RoundedContainer(
           width: screenWidth * 0.90,
-          height: screenHeight * 0.10,
+          height: screenHeight * 0.12,
           backgroundColor:
               dark
                   ? Colors.white.withValues(alpha: 0.1)
@@ -47,35 +46,39 @@ class JobsDashBoardShimmer extends StatelessWidget {
 
         //avg duration and chart
         const SizedBox(height: Sizes.spaceBtwItems),
-        GridLayout(
-          crossAxisCount: 2,
-          mainAxisExtent: screenHeight * 0.20,
-          itemCount: 2,
-          itemBuilder: (context, index) {
-            return RoundedContainer(
-              width: screenWidth * 0.28,
-              height: screenHeight * 0.20,
-              backgroundColor:
-                  dark
-                      ? Colors.white.withValues(alpha: 0.1)
-                      : Colors.black.withValues(alpha: 0.1),
-              radius: Sizes.cardRadiusSm,
-              child: Center(
-                child: ShimmerWidget(
-                  width: screenWidth * 0.20,
-                  height: screenHeight * 0.12,
-                  radius: Sizes.cardRadiusSm,
-                ),
+        RoundedContainer(
+          width: screenWidth * 0.90,
+          height: screenHeight * 0.15,
+          backgroundColor:
+              dark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
+          radius: Sizes.cardRadiusSm,
+          padding: const EdgeInsets.all(Sizes.sm),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerWidget(
+                width: screenWidth * 0.30,
+                height: screenHeight * 0.01,
+                radius: 50,
               ),
-            );
-          },
+              const SizedBox(height: Sizes.spaceBtwItems),
+              ShimmerWidget(
+                width: screenWidth * 0.20,
+                height: screenHeight * 0.08,
+                radius: Sizes.cardRadiusSm,
+              ),
+            ],
+          ),
         ),
 
         //heatmap
         const SizedBox(height: Sizes.spaceBtwItems),
         ShimmerWidget(
             width: screenWidth * 0.90,
-            height: screenHeight * 0.15,
+            height: screenHeight * 0.20,
             radius: Sizes.cardRadiusSm,
         ),
 

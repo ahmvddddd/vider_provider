@@ -135,6 +135,8 @@ class UpdateUserProfilePage extends ConsumerWidget {
                 ),
             trailing: Icon(Icons.arrow_right),
           ),
+          
+          const SizedBox(height: Sizes.spaceBtwItems,)
         ],
       ),
     );

@@ -121,7 +121,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: Sizes.sm),
             Text(
-              'Heatmap for jobs and completion dates.',
+              'Heatmap job completion dates.',
               style: Theme.of(
                 context,
               ).textTheme.labelSmall!.copyWith(fontSize: 10),

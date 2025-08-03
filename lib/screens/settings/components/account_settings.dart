@@ -59,6 +59,8 @@ class AccountSettingsPage extends StatelessWidget {
             subTitle: 'Report a failed transaction or a problem.',
             trailing: Icon(Icons.arrow_right),
           ),
+          
+          const SizedBox(height: Sizes.spaceBtwItems,)
         ],
       ),
     );

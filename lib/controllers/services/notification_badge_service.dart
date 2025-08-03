@@ -17,13 +17,13 @@ class NotificationBadgeService {
     // ✅ Foreground FCM handler
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       debugPrint("🟥 Foreground FCM received: ${message.messageId}");
-      await _handleIncomingMessage(message);
+      await handleIncomingMessage(message);
     });
 
     // ✅ Notification tap when app in background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       debugPrint('🟧 FCM Tap - App Opened: ${message.data}');
-      await _handleIncomingMessage(message);
+      await handleIncomingMessage(message);
     });
 
     // ✅ Local Notification tap listener
@@ -33,7 +33,7 @@ class NotificationBadgeService {
   }
 
   /// ✅ Update badge counters and state refresh
-  Future<void> _handleIncomingMessage(RemoteMessage message) async {
+  Future<void> handleIncomingMessage(RemoteMessage message) async {
     final type = message.data['type'];
     final unreadMsg = container.read(unreadMessageProvider.notifier);
     final unreadNotifs = container.read(unreadNotificationsProvider.notifier);

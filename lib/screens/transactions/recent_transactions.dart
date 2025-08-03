@@ -36,8 +36,6 @@ class _RecentTransactionsState extends ConsumerState<RecentTransactions> {
                 HelperFunction.navigateScreen(context, TransactionHistory());
               },
             ),
-
-            const SizedBox(height: Sizes.spaceBtwItems),
             HomeListView(
               seperatorBuilder:
                   (context, index) => const SizedBox(height: Sizes.xs),
