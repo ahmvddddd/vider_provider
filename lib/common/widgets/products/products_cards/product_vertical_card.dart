@@ -8,11 +8,11 @@ import '../../custom_shapes/containers/rounded_container.dart';
 import '../../icons/circular_icon.dart';
 import '../../images/rounded_image.dart';
 import '../../texts/product_title_text.dart';
-import '../../texts/t_brand_title_text_with_verified_icon.dart';
+import '../../texts/brand_title_text_with_verified_icon.dart';
 import 'product_price_text.dart';
 
-class TProductCardVertical extends StatelessWidget {
-  const TProductCardVertical({super.key});
+class TProductVerticalCard extends StatelessWidget {
+  const TProductVerticalCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +86,9 @@ class TProductCardVertical extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TProductTitleText(title: 'Nice Kicks', smallSize: true),
+                  ProductTitleText(title: 'Nice Kicks', smallSize: true),
                   SizedBox(height: Sizes.spaceBtwItems / 2),
-                  TBrandTitleTextWithVerifiedIcon(title: 'Nike'),
+                  BrandTitleTextWithVerifiedIcon(title: 'Nike'),
                 ],
               ),
             ),

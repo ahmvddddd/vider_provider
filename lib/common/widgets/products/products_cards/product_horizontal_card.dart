@@ -7,11 +7,11 @@ import '../../custom_shapes/containers/rounded_container.dart';
 import '../../icons/circular_icon.dart';
 import '../../images/rounded_image.dart';
 import '../../texts/product_title_text.dart';
-import '../../texts/t_brand_title_text_with_verified_icon.dart';
+import '../../texts/brand_title_text_with_verified_icon.dart';
 import 'product_price_text.dart';
 
-class TProductCardHorizontal extends StatelessWidget {
-  const TProductCardHorizontal({super.key});
+class ProductHorizontalCard extends StatelessWidget {
+  const ProductHorizontalCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +83,12 @@ class TProductCardHorizontal extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TProductTitleText(
+                      ProductTitleText(
                         title: 'Nike Air Jordans, quality branded footwear',
                         smallSize: true,
                       ),
                       SizedBox(height: Sizes.spaceBtwItems / 2),
-                      TBrandTitleTextWithVerifiedIcon(title: 'Nike'),
+                      BrandTitleTextWithVerifiedIcon(title: 'Nike'),
                     ],
                   ),
 
