@@ -3,17 +3,17 @@ import 'package:iconsax/iconsax.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/enums.dart';
 import '../../../utils/constants/sizes.dart';
-import 't_brand_title_text.dart';
+import 'brand_title_text.dart';
 
-class TBrandTitleTextWithVerifiedIcon extends StatelessWidget {
-  const TBrandTitleTextWithVerifiedIcon({
+class BrandTitleTextWithVerifiedIcon extends StatelessWidget {
+  const BrandTitleTextWithVerifiedIcon({
     super.key,
     this.textColor,
     this.maxLines = 1,
     required this.title,
     this.iconColor = CustomColors.primary,
     this.textAlign = TextAlign.center,
-    this.brandTextSize = TextSizes.small
+    this.brandTextSize = TextSizes.small,
   });
 
   final String title;
@@ -27,17 +27,17 @@ class TBrandTitleTextWithVerifiedIcon extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Flexible(child: 
-        TBrandTitleText(
-          title: title,
-          color: textColor,
-          maxLines: maxLines,
-          textAlign: textAlign,
-          brandTextSize: brandTextSize,
+        Flexible(
+          child: BrandTitleText(
+            title: title,
+            color: textColor,
+            maxLines: maxLines,
+            textAlign: textAlign,
+            brandTextSize: brandTextSize,
           ),
         ),
-        const SizedBox(width: Sizes.xs,),
-        Icon(Iconsax.verify5, color:  iconColor, size: Sizes.iconXs)
+        const SizedBox(width: Sizes.xs),
+        Icon(Iconsax.verify5, color: iconColor, size: Sizes.iconXs),
       ],
     );
   }
