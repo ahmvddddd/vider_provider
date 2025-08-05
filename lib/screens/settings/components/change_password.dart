@@ -70,119 +70,125 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final dark = HelperFunction.isDarkMode(context);
 
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'Change Password',
-          style: Theme.of(context).textTheme.headlineSmall,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text(
+            'Change Password',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          showBackArrow: true,
         ),
-        showBackArrow: true,
-      ),
-      bottomNavigationBar: SizedBox(
-        width: double.infinity,
-        child: Container(
-          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-          color:
-              dark
-                  ? CustomColors.white.withValues(alpha: 0.1)
-                  : CustomColors.black.withValues(alpha: 0.1),
-          child: SizedBox(
-            width: double.infinity,
-            height: screenHeight * 0.06,
-            child:  GestureDetector(
-              onTap: state.isLoading ? null : _handleChangePassword,
-              child:
-                  RoundedContainer(
-                          height: screenHeight * 0.06,
-                          padding: const EdgeInsets.all(Sizes.sm),
-                          backgroundColor:CustomColors.primary,
-                    child: Center(
-                      child: state.isLoading
-                          ? Text(
-                            'Saving Password...',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.labelSmall!.copyWith(color: Colors.white),
-                          )
-                          : Text(
-                            'Change Password',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.labelSmall!.copyWith(color: Colors.white),
-                          ),
-                    ),
+        bottomNavigationBar: SizedBox(
+          width: double.infinity,
+          child: Container(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            color:
+                dark
+                    ? CustomColors.white.withValues(alpha: 0.1)
+                    : CustomColors.black.withValues(alpha: 0.1),
+            child: SizedBox(
+              width: double.infinity,
+              height: screenHeight * 0.06,
+              child: GestureDetector(
+                onTap: state.isLoading ? null : _handleChangePassword,
+                child: RoundedContainer(
+                  height: screenHeight * 0.06,
+                  padding: const EdgeInsets.all(Sizes.sm),
+                  backgroundColor: CustomColors.primary,
+                  child: Center(
+                    child:
+                        state.isLoading
+                            ? Text(
+                              'Saving Password...',
+                              style: Theme.of(context).textTheme.labelSmall!
+                                  .copyWith(color: Colors.white),
+                            )
+                            : Text(
+                              'Change Password',
+                              style: Theme.of(context).textTheme.labelSmall!
+                                  .copyWith(color: Colors.white),
+                            ),
                   ),
+                ),
+              ),
             ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(Sizes.spaceBtwItems),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Enter current password',
-                    description:
-                        'Enter your current password bellow, ensure the textfield is filled correctly',
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  ValueListenableBuilder<bool>(
-                    valueListenable: hideCurrentPassword,
-                    builder: (context, value, child) {
-                      return TextFormField(
-                        controller: _currentController,
-                        obscureText: value,
-                        decoration: InputDecoration(
-                          hintText: 'Current Password',
-                          hintStyle: Theme.of(context).textTheme.labelSmall,
-                          suffixIcon: IconButton(
-                            onPressed: () => hideCurrentPassword.value = !value,
-                            icon: Icon(value ? Iconsax.eye_slash : Iconsax.eye),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(Sizes.spaceBtwItems),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleAndDescription(
+                      textAlign: TextAlign.left,
+                      title: 'Enter current password',
+                      description:
+                          'Enter your current password bellow, ensure the textfield is filled correctly',
+                    ),
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: hideCurrentPassword,
+                      builder: (context, value, child) {
+                        return TextFormField(
+                          controller: _currentController,
+                          obscureText: value,
+                          decoration: InputDecoration(
+                            hintText: 'Current Password',
+                            hintStyle: Theme.of(context).textTheme.labelSmall,
+                            suffixIcon: IconButton(
+                              onPressed:
+                                  () => hideCurrentPassword.value = !value,
+                              icon: Icon(
+                                value ? Iconsax.eye_slash : Iconsax.eye,
+                              ),
+                            ),
                           ),
-                        ),
-                        validator:
-                            (value) =>
-                                value == null || value.isEmpty
-                                    ? 'Enter current password'
-                                    : null,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  TitleAndDescription(
-                    textAlign: TextAlign.left,
-                    title: 'Enter new password ',
-                    description:
-                        'Password must contain at least one uppercase, one lower case one special character and at least 6 characters long',
-                  ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  ValueListenableBuilder<bool>(
-                    valueListenable: hideNewPassword,
-                    builder: (context, value, child) {
-                      return TextFormField(
-                        controller: _newController,
-                        obscureText: value,
-                        decoration: InputDecoration(
-                          hintText: 'Enter New Password',
-                          hintStyle: Theme.of(context).textTheme.labelSmall,
-                          suffixIcon: IconButton(
-                            onPressed: () => hideNewPassword.value = !value,
-                            icon: Icon(value ? Iconsax.eye_slash : Iconsax.eye),
+                          validator:
+                              (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Enter current password'
+                                      : null,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    TitleAndDescription(
+                      textAlign: TextAlign.left,
+                      title: 'Enter new password ',
+                      description:
+                          'Password must contain at least one uppercase, one lower case one special character and at least 6 characters long',
+                    ),
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: hideNewPassword,
+                      builder: (context, value, child) {
+                        return TextFormField(
+                          controller: _newController,
+                          obscureText: value,
+                          decoration: InputDecoration(
+                            hintText: 'Enter New Password',
+                            hintStyle: Theme.of(context).textTheme.labelSmall,
+                            suffixIcon: IconButton(
+                              onPressed: () => hideNewPassword.value = !value,
+                              icon: Icon(
+                                value ? Iconsax.eye_slash : Iconsax.eye,
+                              ),
+                            ),
                           ),
-                        ),
-                        validator: (value) {
-                          return Validator.validatePassword(value);
-                        },
-                      );
-                    },
-                  ),
-                ],
+                          validator: (value) {
+                            return Validator.validatePassword(value);
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

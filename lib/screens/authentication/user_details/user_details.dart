@@ -149,56 +149,60 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     final dark = HelperFunction.isDarkMode(context);
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text(
-          'User Details',
-          style: Theme.of(context).textTheme.headlineSmall,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text(
+            'User Details',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          showBackArrow: true,
         ),
-        showBackArrow: true,
-      ),
-      bottomNavigationBar: ButtonContainer(
-        text: 'Submit',
-        onPressed: _submitProfile,
-      ),
-      body:
-          isLoading
-              ? Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                  strokeWidth: 4.0,
-                  backgroundColor: dark ? Colors.white : Colors.black,
+        bottomNavigationBar: ButtonContainer(
+          text: 'Submit',
+          onPressed: _submitProfile,
+        ),
+        body:
+            isLoading
+                ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                    strokeWidth: 4.0,
+                    backgroundColor: dark ? Colors.white : Colors.black,
+                  ),
+                )
+                : occupationsAsync.when(
+                  data:
+                      (occupations) => SingleChildScrollView(
+                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                        child: _buildForm(
+                          context,
+                          occupations,
+                          dark,
+                          screenWidth,
+                        ),
+                      ),
+                  loading:
+                      () => const Center(child: CircularProgressIndicator()),
+                  error:
+                      (err, _) => Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Failed to load categories. Please try again.',
+                            ),
+                            const SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: () => ref.refresh(occupationsProvider),
+                              child: const Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      ),
                 ),
-              )
-              : occupationsAsync.when(
-                data:
-                    (occupations) => SingleChildScrollView(
-                      padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-                      child: _buildForm(
-                        context,
-                        occupations,
-                        dark,
-                        screenWidth,
-                      ),
-                    ),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error:
-                    (err, _) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Failed to load categories. Please try again.',
-                          ),
-                          const SizedBox(height: 10),
-                          ElevatedButton(
-                            onPressed: () => ref.refresh(occupationsProvider),
-                            child: const Text('Retry'),
-                          ),
-                        ],
-                      ),
-                    ),
-              ),
+      ),
     );
   }
 
@@ -261,7 +265,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           isDark: dark,
           onDelete: (index) => setState(() => skills.removeAt(index)),
         ),
-        
+
         const SizedBox(height: Sizes.spaceBtwSections),
         const TitleAndDescription(
           textAlign: TextAlign.left,
