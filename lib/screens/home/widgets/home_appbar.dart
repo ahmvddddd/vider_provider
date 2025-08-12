@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../controllers/user/user_controller.dart';
+import '../../../nav_menu.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../notifications/notifications.dart';
@@ -34,23 +35,34 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
             //avatar and greetings
             Row(
               children: [
-                RoundedContainer(
-                  width: screenHeight * 0.050,
-                  height: screenHeight * 0.050,
-                  radius: 100,
-                  backgroundColor:
-                      dark
-                          ? Colors.white.withValues(alpha: 0.1)
-                          : Colors.black.withValues(alpha: 0.1),
-                  padding: const EdgeInsets.all(Sizes.xs),
-                  child: Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        user.profileImage,
-                        fit: BoxFit.cover,
-                        height: screenHeight * 0.045,
-                        width: screenHeight * 0.045,
+                GestureDetector(
+                  onTap: () {
+                    ref.read(selectedIndexProvider.notifier).state = 3;
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NavigationMenu(),
+                      ),
+                    );},
+                  child: RoundedContainer(
+                    width: screenHeight * 0.050,
+                    height: screenHeight * 0.050,
+                    radius: 100,
+                    backgroundColor:
+                        dark
+                            ? Colors.white.withValues(alpha: 0.1)
+                            : Colors.black.withValues(alpha: 0.1),
+                    padding: const EdgeInsets.all(Sizes.xs),
+                    child: Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          user.profileImage,
+                          fit: BoxFit.cover,
+                          height: screenHeight * 0.045,
+                          width: screenHeight * 0.045,
+                        ),
                       ),
                     ),
                   ),
