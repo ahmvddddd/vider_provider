@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-/// Storage and API constants
+
 final _storage = FlutterSecureStorage();
 final logger = Logger();
 String userBioURL = dotenv.env['USER_BIO_URL'] ?? 'https://defaulturl.com/api';
