@@ -120,8 +120,7 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                 icon: Iconsax.user,
                 hint: 'username',
                 validator: (value) {
-                  Validator.validateTextField(value);
-                  return null;
+                  return Validator.validateTextField(value);
                 },
               ),
             ),
@@ -151,8 +150,7 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                       ),
                     ),
                     validator: (value) {
-                      Validator.validateTextField(value);
-                      return null;
+                      return Validator.validateTextField(value);
                     },
                   );
                 },
