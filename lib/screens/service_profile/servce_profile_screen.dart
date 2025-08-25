@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vider_provider/controllers/user/user_controller.dart';
 import 'package:vider_provider/utils/helpers/capitalize_text.dart';
 import '../../common/widgets/appbar/appbar.dart';
+import '../../common/widgets/image/full_screen_image_view.dart';
 import '../../common/widgets/layouts/listvew.dart';
 import '../../common/widgets/texts/section_heading.dart';
 import '../../repository/user/user_local_storage.dart';
@@ -58,15 +59,22 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
             onPressed: () {
               HelperFunction.navigateScreen(context, SettingsScreen());
             },
-            style: IconButton.styleFrom(
-              backgroundColor: CustomColors.primary
-            ),
-            icon: Icon(Icons.settings, size: Sizes.iconM, color: Colors.white,),
+            style: IconButton.styleFrom(backgroundColor: CustomColors.primary),
+            icon: Icon(Icons.settings, size: Sizes.iconM, color: Colors.white),
           ),
         ],
       ),
       body: userProfile.when(
         data: (user) {
+          Color ratingColor = Colors.brown;
+
+          if (user.rating < 1.66) {
+            ratingColor = Colors.brown; // Low rating
+          } else if (user.rating < 3.33) {
+            ratingColor = CustomColors.silver; // Medium rating
+          } else if (user.rating >= 3.33) {
+            ratingColor = CustomColors.gold; // High rating
+          }
           return RefreshIndicator(
             onRefresh: () async {
               await ref.read(userProvider.notifier).fetchUserDetails();
@@ -78,32 +86,31 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                     imageAvatar: user.profileImage,
                     fullname:
                         '${user.firstname.capitalizeEachWord()} ${user.lastname.capitalizeEachWord()}',
-                    ratingColor: Colors.brown,
-                    rating: 2,
+                    ratingColor: ratingColor,
+                    rating: user.rating,
                     service: user.service,
-                    hourlyRate: 100,
+                    hourlyRate: user.hourlyRate,
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceBtwItems),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.spaceBtwItems,
+                    ),
                     child: HomeListView(
-                            sizedBoxHeight:
-                                MediaQuery.of(context).size.height * 0.06,
-                            scrollDirection: Axis.horizontal,
-                            seperatorBuilder:
-                                (context, index) =>
-                                    Padding(
-                                      padding: const EdgeInsets.all(Sizes.sm),
-                                      child: const VerticalDivider(
-                                        color: CustomColors.primary,
-                                      ),
-                                    ),
-                            itemCount: user.skills.length,
-                            itemBuilder:
-                                (context, index) => Services(
-                                  service: user.skills[index],
-                                )
+                      sizedBoxHeight: MediaQuery.of(context).size.height * 0.06,
+                      scrollDirection: Axis.horizontal,
+                      seperatorBuilder:
+                          (context, index) => Padding(
+                            padding: const EdgeInsets.all(Sizes.sm),
+                            child: const VerticalDivider(
+                              color: CustomColors.primary,
+                            ),
                           ),
+                      itemCount: user.skills.length,
+                      itemBuilder:
+                          (context, index) =>
+                              Services(service: user.skills[index]),
+                    ),
                   ),
 
                   const SizedBox(height: Sizes.spaceBtwItems),
@@ -126,10 +133,11 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                         const SizedBox(height: Sizes.sm),
                         Text(
                           user.bio,
-                          style: Theme.of(context).textTheme.bodySmall!
-                              .copyWith(
-                              color: dark ? Colors.white : Colors.black
-                              ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall!.copyWith(
+                            color: dark ? Colors.white : Colors.black,
+                          ),
                           softWrap: true,
                         ),
 
@@ -148,17 +156,33 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                                   const SizedBox(width: Sizes.sm),
                           itemCount: user.portfolioImages.length,
                           itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                Sizes.borderRadiusLg,
-                              ),
-                              child: Image.network(
-                                user.portfolioImages[index],
-                                width:
-                                    MediaQuery.of(context).size.width * 0.55,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.30,
-                                fit: BoxFit.cover,
+                            final images = user.portfolioImages;
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => FullScreenImageView(
+                                          images: images, // Pass all images
+                                          initialIndex:
+                                              index, // Start from tapped image
+                                        ),
+                                  ),
+                                );
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  Sizes.borderRadiusLg,
+                                ),
+                                child: Image.network(
+                                  user.portfolioImages[index],
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.55,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.30,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             );
                           },
