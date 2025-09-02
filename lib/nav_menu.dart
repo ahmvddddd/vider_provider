@@ -86,7 +86,7 @@ class _NavigationMenuState extends ConsumerState<NavigationMenu> {
     Widget currentScreen() {
       switch (selectedIndex) {
         case 0:
-          return const HomeScreen();
+        return HomeScreen();
         case 1:
           return const JobsScreen();
         case 2:
