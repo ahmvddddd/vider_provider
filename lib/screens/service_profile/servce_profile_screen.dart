@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vider_provider/controllers/user/user_controller.dart';
 import 'package:vider_provider/utils/helpers/capitalize_text.dart';
 import '../../common/widgets/appbar/appbar.dart';
+import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../common/widgets/image/full_screen_image_view.dart';
 import '../../common/widgets/layouts/listvew.dart';
 import '../../common/widgets/texts/section_heading.dart';
+import '../../controllers/user/verify_profile_controller.dart';
 import '../../repository/user/user_local_storage.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
@@ -44,6 +46,7 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
   Widget build(BuildContext context) {
     final userProfile = ref.watch(userProvider);
     final dark = HelperFunction.isDarkMode(context);
+    double screenWidth = MediaQuery.of(context).size.width;
 
     if (!_initialized) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -82,6 +85,44 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  user.isIdVerified == true
+                      ? const SizedBox.shrink()
+                      : Column(
+                        children: [
+                          RoundedContainer(
+                            radius: Sizes.cardRadiusMd,
+                            width: screenWidth * 0.90,
+                            padding: const EdgeInsets.all(Sizes.sm),
+                            backgroundColor: Colors.amber,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "You are not verified",
+                                  style: Theme.of(context).textTheme.bodyMedium!
+                                      .copyWith(color: Colors.black),
+                                  textAlign: TextAlign.center,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    VerifyProfileController.launchGmailCompose();
+                                  },
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: Sizes.xs, horizontal: Sizes.md),
+                                    backgroundColor: CustomColors.primary
+                                  ),
+                                  child: Text(
+                                    'Verify Profile',
+                                    style: Theme.of(context).textTheme.labelMedium!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: Sizes.spaceBtwItems,)
+                        ],
+                      ),
                   ProfileImage(
                     imageAvatar: user.profileImage,
                     fullname:

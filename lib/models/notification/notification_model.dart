@@ -9,6 +9,9 @@ class JobDetails {
   final double pay;
   final int duration;
   final DateTime startTime;
+  final double latitude;
+  final double longitude;
+  final String vvid;
 
   JobDetails({
     required this.employerId,
@@ -21,6 +24,9 @@ class JobDetails {
     required this.pay,
     required this.duration,
     required this.startTime,
+    required this.latitude,
+    required this.longitude,
+    required this.vvid
   });
 
   factory JobDetails.fromJson(Map<String, dynamic> json) {
@@ -35,6 +41,9 @@ class JobDetails {
       pay: (json['pay'] ?? 0).toDouble(),
       duration: json['duration'],
       startTime: DateTime.parse(json['startTime']),
+      latitude: (json['latitude'] ?? 0).toDouble(),
+      longitude: (json['longitude'] ?? 0).toDouble(),
+      vvid: json['vvid'],
     );
   }
 }
