@@ -8,7 +8,7 @@ final jobVerifyProvider =
     FutureProvider.family.autoDispose<bool, Map<String, String>>((ref, payload) async {
   const storage = FlutterSecureStorage();
   final token = await storage.read(key: 'authToken');
-  final jobVerificationURL = "${dotenv.env['JOB_VERIFICATION_URL']}/api/jobs/verify-code";
+  String jobVerificationURL = dotenv.env['JOB_VERIFICATION_URL'] ?? "https://defaulturl.com/api";
 
   final response = await http.post(
     Uri.parse(jobVerificationURL),
