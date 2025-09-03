@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../utils/constants/sizes.dart';
 
 class TitleAndDescription extends StatelessWidget {
@@ -18,7 +19,7 @@ class TitleAndDescription extends StatelessWidget {
           width: screenWidth * 0.70,  
         child: Text(
           title,
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.labelLarge,
           textAlign: textAlign,
         ),
       ),
@@ -37,4 +38,3 @@ class TitleAndDescription extends StatelessWidget {
     );
   }
 }
-

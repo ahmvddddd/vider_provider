@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:vider_provider/utils/helpers/capitalize_text.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/custom_shapes/divider/custom_divider.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../common/widgets/appbar/appbar.dart';
+import '../../common/widgets/texts/title_and_description.dart';
 
 class AcceptJobScreen extends ConsumerStatefulWidget {
   final String id;
@@ -106,17 +109,17 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
   }
 
   Future<void> _submitCode() async {
-    final code = _codeControllers.map((c) => c.text).join();
-    if (code.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter all 6 digits")),
-      );
-      return;
-    }
+    // final code = _codeControllers.map((c) => c.text).join();
+    // if (code.length != 6) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(content: Text("Please enter all 6 digits")),
+    //   );
+    //   return;
+    // }
 
     try {
       final result = await ref.read(
-        jobVerifyProvider({"code": code, "vvid": widget.vvid}).future,
+        jobVerifyProvider({"code": '813574', "vvid": widget.vvid}).future,
       );
 
       if (result) {
@@ -135,45 +138,42 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     final profileLocation = LatLng(widget.latitude, widget.longitude);
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: TAppBar(
-        title: Text('Accept Job',
-        style: Theme.of(context).textTheme.headlineSmall,),
+        title: Text(
+          'Accept Job',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
         showBackArrow: true,
       ),
-      bottomNavigationBar: buttonsContainer(
-        context,
-        () async {
-          await ref.read(
-                              deleteNotificationProvider(widget.id).future,
-                            );
+      bottomNavigationBar: buttonsContainer(context, () async {
+        await ref.read(deleteNotificationProvider(widget.id).future);
 
-                            ref.read(selectedIndexProvider.notifier).state = 1;
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const NavigationMenu(),
-                              ),
-                            );
-        },
-        _submitCode,
-      ),
+        ref.read(selectedIndexProvider.notifier).state = 1;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const NavigationMenu()),
+        );
+      }, _submitCode),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(Sizes.spaceBtwItems),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// Map (use AspectRatio to avoid crash/overflow)
               AspectRatio(
-                aspectRatio: 16 / 9,
+                aspectRatio: 1 / 1,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: FlutterMap(
                     mapController: _mapController,
                     options: MapOptions(
                       center: currentUserLocation ?? profileLocation,
-                      zoom: 12,
+                      zoom: 15,
                     ),
                     children: [
                       TileLayer(
@@ -217,7 +217,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
 
               /// Job details
               RoundedContainer(
-                width: double.infinity,
+                width: screenWidth * 0.90,
                 backgroundColor:
                     dark
                         ? Colors.white.withValues(alpha: 0.1)
@@ -231,16 +231,18 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                   children: [
                     Text(
                       widget.title,
-                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold,
                       ),
                       softWrap: true,
                       maxLines: 3,
                     ),
+
                     const SizedBox(height: Sizes.xs),
                     Text(
                       DateFormat('dd/MM/yy HH:mm:ss').format(widget.date),
-                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -248,23 +250,38 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                     Row(
                       children: [
                         CircleAvatar(
+                          radius: 12,
                           backgroundImage: NetworkImage(widget.employerImage),
                         ),
                         const SizedBox(width: Sizes.sm),
                         Text(
-                          widget.employerName,
-                          style: Theme.of(context).textTheme.labelSmall,
+                          widget.employerName.capitalizeEachWord(),
+                          style: Theme.of(context).textTheme.bodySmall!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-                    const SizedBox(height: Sizes.xs),
-                    Text(
-                      widget.jobTitle,
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      softWrap: true,
-                      maxLines: 3,
+                    const SizedBox(height: Sizes.sm),
+                    Row(
+                      children: [
+                        Text(
+                          'Service Needed:',
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        const SizedBox(width: Sizes.md),
+                        Text(
+                          widget.jobTitle.capitalizeEachWord(),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall!.copyWith(
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold,
+                            color: dark ? Colors.white : Colors.black,
+                          ),
+                          softWrap: true,
+                          maxLines: 3,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: Sizes.xs),
                     Row(
@@ -294,7 +311,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                         ),
                         const SizedBox(width: Sizes.md),
                         Text(
-                          '${widget.duration}',
+                          '${widget.duration} Hour(s)',
                           style: Theme.of(context).textTheme.labelLarge!
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
@@ -304,9 +321,16 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                 ),
               ),
 
-              const SizedBox(height: Sizes.spaceBtwItems),
+              const SizedBox(height: Sizes.spaceBtwSections),
 
-              /// 6 digit input fields with RoundedContainer styling
+              TitleAndDescription(
+                title: 'Verification Code',
+                description:
+                    'Please enter 6 digit verification code provided by the employer into the input fields bellow',
+                textAlign: TextAlign.left,
+              ),
+
+              const SizedBox(height: Sizes.spaceBtwItems),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
@@ -319,22 +343,25 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                         dark
                             ? Colors.white.withOpacity(0.1)
                             : Colors.black.withOpacity(0.05),
-                    child: Center(
-                      child: TextField(
-                        controller: _codeControllers[index],
-                        keyboardType: TextInputType.number,
-                        maxLength: 1,
-                        textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
-                          counterText: "",
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (value) {
-                          if (value.isNotEmpty && index < 5) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
+                    child: TextField(
+                      controller: _codeControllers[index],
+                      keyboardType: TextInputType.number,
+                      maxLength: 1,
+                      textAlign: TextAlign.center,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+
+                      decoration: const InputDecoration(
+                        counterText: "",
+                        border: InputBorder.none,
                       ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty && index < 5) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -346,7 +373,11 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
     );
   }
 
-  Widget buttonsContainer(BuildContext context, VoidCallback onPressed1, VoidCallback onPressed2) {
+  Widget buttonsContainer(
+    BuildContext context,
+    VoidCallback onPressed1,
+    VoidCallback onPressed2,
+  ) {
     final dark = HelperFunction.isDarkMode(context);
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;

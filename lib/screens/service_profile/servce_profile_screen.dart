@@ -92,16 +92,28 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                           RoundedContainer(
                             radius: Sizes.cardRadiusMd,
                             width: screenWidth * 0.90,
-                            padding: const EdgeInsets.all(Sizes.sm),
-                            backgroundColor: Colors.amber,
+                            padding: const EdgeInsets.all(Sizes.xs),
+                            backgroundColor: CustomColors.warning,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "You are not verified",
-                                  style: Theme.of(context).textTheme.bodyMedium!
-                                      .copyWith(color: Colors.black),
-                                  textAlign: TextAlign.center,
+                                Row(
+                                  children: [
+                                    RoundedContainer(
+                                      radius: 100,
+                                      padding: const EdgeInsets.all(Sizes.xs),
+                                      backgroundColor: Colors.white.withValues(alpha: 0.3),
+                                      child: Center(child: Icon(Icons.warning, size: Sizes.iconM, color: Colors.white,)),
+                                    ),
+
+                                    const SizedBox(width: Sizes.sm,),
+                                    Text(
+                                      "You are not verified",
+                                      style: Theme.of(context).textTheme.bodySmall!
+                                          .copyWith(color: Colors.black),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -109,12 +121,12 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
                                   },
                                   style: TextButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(vertical: Sizes.xs, horizontal: Sizes.md),
-                                    backgroundColor: CustomColors.primary
+                                    backgroundColor: Colors.white.withValues(alpha: 0.2),
                                   ),
                                   child: Text(
                                     'Verify Profile',
-                                    style: Theme.of(context).textTheme.labelMedium!
-                                        .copyWith(color: Colors.white),
+                                    style: Theme.of(context).textTheme.labelSmall!
+                                        .copyWith(color: Colors.black),
                                   ),
                                 ),
                               ],
