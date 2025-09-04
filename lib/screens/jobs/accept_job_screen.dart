@@ -14,16 +14,22 @@ import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-
 import '../../common/widgets/appbar/appbar.dart';
+import '../../common/widgets/pop_up/custom_alert_dialog.dart';
+import '../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../common/widgets/texts/title_and_description.dart';
+import '../../controllers/jobs/accept_job_controller.dart';
 
 class AcceptJobScreen extends ConsumerStatefulWidget {
   final String id;
   final Color borderColor;
   final String title;
+  final String employerId;
+  final String providerId;
   final String employerImage;
+  final String providerImage;
   final String employerName;
+  final String providerName;
   final String jobTitle;
   final double pay;
   final int duration;
@@ -37,8 +43,12 @@ class AcceptJobScreen extends ConsumerStatefulWidget {
     required this.id,
     required this.borderColor,
     required this.title,
+    required this.employerId,
+    required this.providerId,
     required this.employerImage,
+    required this.providerImage,
     required this.employerName,
+    required this.providerName,
     required this.jobTitle,
     required this.pay,
     required this.duration,
@@ -109,29 +119,101 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
   }
 
   Future<void> _submitCode() async {
-    // final code = _codeControllers.map((c) => c.text).join();
-    // if (code.length != 6) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text("Please enter all 6 digits")),
-    //   );
-    //   return;
-    // }
+    FocusScope.of(context).unfocus();
+    final code = _codeControllers.map((c) => c.text).join();
+    if (code.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter all 6 digits")),
+      );
+      return;
+    }
 
     try {
       final result = await ref.read(
-        jobVerifyProvider({"code": '813574', "vvid": widget.vvid}).future,
+        jobVerifyProvider({"code": code, "vvid": widget.vvid}).future,
       );
 
       if (result) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Code verified successfully!")),
+        await ref
+            .read(addJobControllerProvider.notifier)
+            .addJob(
+              context: context,
+              employerId: widget.employerId,
+              providerId: widget.providerId,
+              employerImage: widget.employerImage,
+              providerImage: widget.providerImage,
+              employerName: widget.employerName,
+              providerName: widget.providerName,
+              jobTitle: widget.jobTitle,
+              pay: widget.pay,
+              duration: widget.duration,
+            );
+        CustomSnackbar.show(
+          context: context,
+          title: 'Success',
+          message: 'Job accepted and countdown started',
+          icon: Icons.check_circle,
+          backgroundColor: CustomColors.success,
         );
+        ref.read(selectedIndexProvider.notifier).state = 1;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const NavigationMenu()),
+          );
+        });
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Verification failed: $e")));
+      CustomSnackbar.show(
+        context: context,
+        title: 'An error occurred. ',
+        message: 'Verification failed: $e',
+        icon: Icons.error_outline,
+        backgroundColor: CustomColors.error,
+      );
     }
+  }
+
+  void _showAcceptDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (ctx) => CustomAlertDialog(
+            title: "Accept Job",
+            message:
+                "Are you sure you want to accept this job? Failure to fulfill the job requirements may result in job cancellation and could lead to account suspension.",
+            confirmText: "Yes",
+            cancelText: "No",
+            onConfirm: () {
+              Navigator.of(ctx).pop(); // close dialog
+              _submitCode();
+            },
+            onCancel: () => Navigator.of(ctx).pop(),
+          ),
+    );
+  }
+
+  void _showDeclineDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (ctx) => CustomAlertDialog(
+            title: "Decline Job",
+            message: "Are you sure you want to decline this job?",
+            confirmText: "Yes",
+            cancelText: "No",
+            onConfirm: () async {
+              Navigator.of(ctx).pop(); // close dialog
+              await ref.read(deleteNotificationProvider(widget.id).future);
+              ref.read(selectedIndexProvider.notifier).state = 0;
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const NavigationMenu()),
+              );
+            },
+            onCancel: () => Navigator.of(ctx).pop(),
+          ),
+    );
   }
 
   @override
@@ -139,6 +221,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
     final dark = HelperFunction.isDarkMode(context);
     final profileLocation = LatLng(widget.latitude, widget.longitude);
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -149,224 +232,222 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
         ),
         showBackArrow: true,
       ),
-      bottomNavigationBar: buttonsContainer(context, () async {
-        await ref.read(deleteNotificationProvider(widget.id).future);
-
-        ref.read(selectedIndexProvider.notifier).state = 1;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const NavigationMenu()),
-        );
-      }, _submitCode),
+      bottomNavigationBar: buttonsContainer(
+        context,
+        _showDeclineDialog,
+        _showAcceptDialog,
+      ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Map (use AspectRatio to avoid crash/overflow)
-              AspectRatio(
-                aspectRatio: 1 / 1,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: FlutterMap(
-                    mapController: _mapController,
-                    options: MapOptions(
-                      center: currentUserLocation ?? profileLocation,
-                      zoom: 15,
-                    ),
-                    children: [
-                      TileLayer(
-                        urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName: 'com.example.myapp',
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(Sizes.cardRadiusMd),
+                    child: FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                        center: currentUserLocation ?? profileLocation,
+                        zoom: 15,
                       ),
-                      MarkerLayer(
-                        markers: [
-                          Marker(
-                            point: profileLocation,
-                            width: 40,
-                            height: 40,
-                            builder:
-                                (ctx) => const Icon(
-                                  Icons.location_on,
-                                  color: CustomColors.primary,
-                                  size: 30,
-                                ),
-                          ),
-                          if (currentUserLocation != null)
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'com.example.myapp',
+                        ),
+                        MarkerLayer(
+                          markers: [
                             Marker(
-                              point: currentUserLocation!,
+                              point: profileLocation,
                               width: 40,
                               height: 40,
                               builder:
                                   (ctx) => const Icon(
                                     Icons.location_on,
-                                    color: Colors.red,
+                                    color: CustomColors.primary,
                                     size: 30,
                                   ),
                             ),
+                            if (currentUserLocation != null)
+                              Marker(
+                                point: currentUserLocation!,
+                                width: 40,
+                                height: 40,
+                                builder:
+                                    (ctx) => const Icon(
+                                      Icons.location_on,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: Sizes.spaceBtwItems),
+
+                /// Job details
+                RoundedContainer(
+                  width: screenWidth * 0.90,
+                  backgroundColor:
+                      dark
+                          ? Colors.white.withValues(alpha: 0.1)
+                          : Colors.black.withValues(alpha: 0.1),
+                  padding: const EdgeInsets.all(Sizes.sm),
+                  showBorder: true,
+                  borderColor: widget.borderColor,
+                  radius: Sizes.cardRadiusMd,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        softWrap: true,
+                        maxLines: 3,
+                      ),
+
+                      const SizedBox(height: Sizes.xs),
+                      Text(
+                        DateFormat('dd/MM/yy HH:mm:ss').format(widget.date),
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const CustomDivider(padding: EdgeInsets.all(Sizes.sm)),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 12,
+                            backgroundImage: NetworkImage(widget.employerImage),
+                          ),
+                          const SizedBox(width: Sizes.sm),
+                          Text(
+                            widget.employerName.capitalizeEachWord(),
+                            style: Theme.of(context).textTheme.bodySmall!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: Sizes.sm),
+                      Row(
+                        children: [
+                          Text(
+                            'Service Needed:',
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          const SizedBox(width: Sizes.md),
+                          Text(
+                            widget.jobTitle.capitalizeEachWord(),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall!.copyWith(
+                              overflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.bold,
+                              color: dark ? Colors.white : Colors.black,
+                            ),
+                            softWrap: true,
+                            maxLines: 3,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: Sizes.xs),
+                      Row(
+                        children: [
+                          Text(
+                            'PAY:',
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          const SizedBox(width: Sizes.md),
+                          Text(
+                            '\$${widget.pay}',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: Sizes.xs),
+                      Row(
+                        children: [
+                          Text(
+                            'Duration:',
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          const SizedBox(width: Sizes.md),
+                          Text(
+                            '${widget.duration} Hour(s)',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
-              ),
 
-              const SizedBox(height: Sizes.spaceBtwItems),
+                const SizedBox(height: Sizes.spaceBtwSections),
 
-              /// Job details
-              RoundedContainer(
-                width: screenWidth * 0.90,
-                backgroundColor:
-                    dark
-                        ? Colors.white.withValues(alpha: 0.1)
-                        : Colors.black.withValues(alpha: 0.1),
-                padding: const EdgeInsets.all(Sizes.sm),
-                showBorder: true,
-                borderColor: widget.borderColor,
-                radius: Sizes.cardRadiusSm,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.title,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      softWrap: true,
-                      maxLines: 3,
-                    ),
-
-                    const SizedBox(height: Sizes.xs),
-                    Text(
-                      DateFormat('dd/MM/yy HH:mm:ss').format(widget.date),
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const CustomDivider(padding: EdgeInsets.all(Sizes.sm)),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 12,
-                          backgroundImage: NetworkImage(widget.employerImage),
-                        ),
-                        const SizedBox(width: Sizes.sm),
-                        Text(
-                          widget.employerName.capitalizeEachWord(),
-                          style: Theme.of(context).textTheme.bodySmall!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: Sizes.sm),
-                    Row(
-                      children: [
-                        Text(
-                          'Service Needed:',
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        const SizedBox(width: Sizes.md),
-                        Text(
-                          widget.jobTitle.capitalizeEachWord(),
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodySmall!.copyWith(
-                            overflow: TextOverflow.ellipsis,
-                            fontWeight: FontWeight.bold,
-                            color: dark ? Colors.white : Colors.black,
-                          ),
-                          softWrap: true,
-                          maxLines: 3,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: Sizes.xs),
-                    Row(
-                      children: [
-                        Text(
-                          'PAY:',
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        const SizedBox(width: Sizes.md),
-                        Text(
-                          '\$${widget.pay}',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.labelLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: Sizes.xs),
-                    Row(
-                      children: [
-                        Text(
-                          'Duration:',
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        const SizedBox(width: Sizes.md),
-                        Text(
-                          '${widget.duration} Hour(s)',
-                          style: Theme.of(context).textTheme.labelLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ],
+                TitleAndDescription(
+                  title: 'Verification Code',
+                  description:
+                      'Please enter 6 digit verification code provided by the employer into the input fields bellow',
+                  textAlign: TextAlign.left,
                 ),
-              ),
 
-              const SizedBox(height: Sizes.spaceBtwSections),
+                const SizedBox(height: Sizes.spaceBtwItems),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    6,
+                    (index) => RoundedContainer(
+                      width: screenWidth * 0.12,
+                      height: screenHeight * 0.08,
+                      radius: Sizes.cardRadiusMd,
+                      backgroundColor:
+                          dark
+                              ? Colors.white.withOpacity(0.1)
+                              : Colors.black.withOpacity(0.1),
+                      child: TextField(
+                        controller: _codeControllers[index],
+                        keyboardType: TextInputType.phone,
+                        maxLength: 1,
+                        textAlign: TextAlign.center,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
 
-              TitleAndDescription(
-                title: 'Verification Code',
-                description:
-                    'Please enter 6 digit verification code provided by the employer into the input fields bellow',
-                textAlign: TextAlign.left,
-              ),
-
-              const SizedBox(height: Sizes.spaceBtwItems),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(
-                  6,
-                  (index) => RoundedContainer(
-                    width: 50,
-                    height: 60,
-                    radius: Sizes.cardRadiusSm,
-                    backgroundColor:
-                        dark
-                            ? Colors.white.withOpacity(0.1)
-                            : Colors.black.withOpacity(0.05),
-                    child: TextField(
-                      controller: _codeControllers[index],
-                      keyboardType: TextInputType.number,
-                      maxLength: 1,
-                      textAlign: TextAlign.center,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-
-                      decoration: const InputDecoration(
-                        counterText: "",
-                        border: InputBorder.none,
+                        decoration: const InputDecoration(
+                          counterText: "",
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          if (value.isNotEmpty && index < 5) {
+                            FocusScope.of(context).nextFocus();
+                          }
+                        },
                       ),
-                      onChanged: (value) {
-                        if (value.isNotEmpty && index < 5) {
-                          FocusScope.of(context).nextFocus();
-                        }
-                      },
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
