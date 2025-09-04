@@ -72,14 +72,18 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                           context,
                           AcceptJobScreen(
                             id: notif.id,
+                            employerId: job.employerId,
+                            providerId: job.providerId,
+                            employerImage: job.employerImage,
+                            providerImage: job.providerImage,
                             date: notif.createdAt,
                             borderColor:
                                 notif.isRead
                                     ? Colors.transparent
                                     : CustomColors.primary,
                             title: notif.title,
-                            employerImage: job.employerImage,
                             employerName: job.employerName,
+                            providerName: job.providerName,
                             jobTitle: job.jobTitle,
                             pay: job.pay * job.duration,
                             duration: job.duration,
