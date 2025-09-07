@@ -6,27 +6,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
-import '../../screens/authentication/verification/verify_email.dart';
 import '../../utils/constants/custom_colors.dart';
-import '../../utils/helpers/helper_function.dart';
 
 class VerifyIdController {
   static const _secureStorage = FlutterSecureStorage();
   static var identificationCardURL =
       dotenv.env['IDENTIFICATION_CARD_URL'] ?? 'https://defaulturl.com/api';
   static var logger = Logger();
-
-//   static String? _parseErrorMessage(String responseBody) {
-//   try {
-//     final decoded = jsonDecode(responseBody);
-//     if (decoded is Map<String, dynamic> && decoded['message'] != null) {
-//       return decoded['message'];
-//     }
-//   } catch (_) {
-//     // If parsing fails, just return null
-//   }
-//   return null;
-// }
 
 
   static Future<void> uploadIdentificationCard({
@@ -61,7 +47,6 @@ class VerifyIdController {
           icon: Icons.check_circle,
           backgroundColor: CustomColors.success,
         );
-        HelperFunction.navigateScreen(context, VerifyEmailScreen());
       } else {
         try {
           await FirebaseCrashlytics.instance.recordError(

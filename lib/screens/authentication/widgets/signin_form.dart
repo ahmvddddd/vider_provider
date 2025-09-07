@@ -7,7 +7,7 @@ import '../../../repository/user/username_local_storage.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
-import '../../../controllers/auth/signin_controller.dart';
+import '../../../controllers/auth/sign_in_controller.dart';
 import '../../../utils/validators/validation.dart';
 import '../reset_password/enter_email.dart';
 import 'build_textfield.dart';
@@ -24,6 +24,7 @@ class _SigninFormState extends ConsumerState<SigninForm> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final hidePassword = ValueNotifier<bool>(true);
+  bool _dialogShown = false;
 
   @override
   void initState() {
@@ -47,59 +48,25 @@ class _SigninFormState extends ConsumerState<SigninForm> {
     final username = usernameController.text.trim();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (loginState.error != null &&
-          loginState.error!.toLowerCase().contains('suspended')) {
-        showDialog(
-          context: context,
-          builder:
-              (context) => AlertDialog(
-                title: Text(
-                  'Account Suspended',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: CustomColors.error,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                content: Text(
-                  'Your account @$username has been suspended due to multiple failed authentication attempts. '
-                  'File a complaint via email, to regain access to your account.',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () async {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: 'mailto',
-                        path: 'vider_support@gmail.com',
-                        query: Uri.encodeQueryComponent(
-                          'subject=Account Suspension Appeal&body=Hello, my account @$username was suspended and I would like to appeal.',
-                        ),
-                      );
-                      await launchUrl(emailLaunchUri);
-                    },
-                    child: Text(
-                      'File Complaint',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text(
-                      'Close',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-        );
-      }
-    });
+    if (!_dialogShown &&
+        loginState.error != null &&
+        loginState.error!.toLowerCase().contains('suspended')) {
+      _dialogShown = true; // ✅ prevent reopening
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Account @$username Suspended",
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: CustomColors.error, fontWeight: FontWeight.bold),),
+          content: Text(loginState.error!,
+          style: Theme.of(context).textTheme.bodySmall,),
+          actions: [
+            TextButton( onPressed: () async { final Uri emailLaunchUri = Uri( scheme: 'mailto', path: 'vider_support@gmail.com', query: Uri.encodeQueryComponent( 'subject=Account Suspension Appeal&body=Hello, my account @$username was suspended and I would like to appeal.', ), ); await launchUrl(emailLaunchUri); }, child: Text( 'File Complaint', style: Theme.of(context).textTheme.bodySmall!.copyWith( fontWeight: FontWeight.bold, ), ), ),
+          ],
+        ),
+      );
+      ref.read(loginControllerProvider.notifier).clearError();
+    }
+  });
 
     return Form(
       key: formKey,

@@ -11,6 +11,7 @@ import '../../../controllers/uploads/upload_id_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../../utils/helpers/token_secure_storage.dart';
+import '../verification/verify_email.dart';
 
 class UploadIdScreen extends ConsumerStatefulWidget {
   const UploadIdScreen({super.key});
@@ -39,44 +40,44 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
   }
 
   Future<void> _uploadImage() async {
-  setState(() {
-    isLoading = true;
-  });
+    setState(() {
+      isLoading = true;
+    });
 
-  try {
-    if (idImage == null) {
+    try {
+      if (idImage == null) {
+        CustomSnackbar.show(
+          context: context,
+          title: 'No image selected',
+          message: 'Select an image first',
+          icon: Icons.error_outline,
+          backgroundColor: CustomColors.error,
+        );
+        return;
+      }
+
+      await TokenSecureStorage.checkToken(context: context, ref: ref);
+
+      await VerifyIdController.uploadIdentificationCard(
+        context: context,
+        idImage: File(idImage!.path),
+        idType: selectedOption,
+      );
+      HelperFunction.navigateScreen(context, VerifyEmailScreen());
+    } catch (e) {
       CustomSnackbar.show(
         context: context,
-        title: 'No image selected',
-        message: 'Select an image first',
-        icon: Icons.error_outline,
+        title: 'Upload Failed',
+        message: e.toString(),
+        icon: Icons.error,
         backgroundColor: CustomColors.error,
       );
-      return;
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
-
-    await TokenSecureStorage.checkToken(context: context, ref: ref);
-
-    await VerifyIdController.uploadIdentificationCard(
-      context: context,
-      idImage: File(idImage!.path),
-      idType: selectedOption,
-    );
-  } catch (e) {
-    CustomSnackbar.show(
-      context: context,
-      title: 'Upload Failed',
-      message: e.toString(),
-      icon: Icons.error,
-      backgroundColor: CustomColors.error,
-    );
-  } finally {
-    setState(() {
-      isLoading = false;
-    });
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +147,7 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
                   description:
                       'Tap the button below to upload an image of your Identity card. Make sure your photo is clear and ensure your names match with no spelling error.',
                 ),
-          
+
                 const SizedBox(height: Sizes.spaceBtwItems),
                 idImage == null
                     ? Text(
@@ -156,10 +157,14 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
                     : Container(
                       height: screenHeight * 0.20,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Sizes.borderRadiusMd),
+                        borderRadius: BorderRadius.circular(
+                          Sizes.borderRadiusMd,
+                        ),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Sizes.borderRadiusMd),
+                        borderRadius: BorderRadius.circular(
+                          Sizes.borderRadiusMd,
+                        ),
                         child: Image.file(
                           File(idImage!.path),
                           height: screenHeight * 0.20,
@@ -167,7 +172,7 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
                       ),
                     ),
                 const SizedBox(height: Sizes.spaceBtwItems),
-          
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -177,7 +182,8 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
                             Colors.blue,
                           ), // color
                           strokeWidth: 4.0, // thickness of the line
-                          backgroundColor: dark ? Colors.white : Colors.black, //
+                          backgroundColor:
+                              dark ? Colors.white : Colors.black, //
                         )
                         : TextButton(
                           style: TextButton.styleFrom(
@@ -187,9 +193,8 @@ class _UploadIdScreenState extends ConsumerState<UploadIdScreen> {
                           onPressed: getImage,
                           child: Text(
                             'Select Image',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                            style: Theme.of(context).textTheme.labelMedium!
+                                .copyWith(color: Colors.white),
                           ),
                         ),
                   ],

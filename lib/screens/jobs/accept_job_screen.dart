@@ -19,6 +19,8 @@ import '../../common/widgets/pop_up/custom_alert_dialog.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../common/widgets/texts/title_and_description.dart';
 import '../../controllers/jobs/accept_job_controller.dart';
+import '../../controllers/notifications/add_notification_controller.dart';
+import '../../models/notification/add_notification_model.dart';
 
 class AcceptJobScreen extends ConsumerStatefulWidget {
   final String id;
@@ -148,6 +150,16 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
               pay: widget.pay,
               duration: widget.duration,
             );
+
+            await ref.read(addNotificationControllerProvider.notifier).addNotification(
+        AddNotificationModel(
+          type: 'generic',
+          title: 'Job Accepted',
+          message: 'Your job has been accepted by the employer and timer has started',
+          recipientId: widget.employerId,
+          // add other fields from your model
+        ),
+      );
         CustomSnackbar.show(
           context: context,
           title: 'Success',

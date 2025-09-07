@@ -38,10 +38,10 @@
 // }
 
 import 'package:flutter/material.dart';
-import '../../controllers/auth/signin_controller.dart';
+import '../../controllers/auth/sign_in_controller.dart';
 import '../../utils/helpers/helper_function.dart';
-import 'signin.dart';
-import 'signup.dart';
+import 'sign_in.dart';
+import 'sign_up.dart';
 import '../../../nav_menu.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -102,8 +102,8 @@ class _AuthScreenState extends State<AuthScreen> {
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         children: <Widget>[
-          SigninScreen(toggleScreen: toggleScreen),
-          SignupScreen(toggleScreen: toggleScreen),
+          SignInScreen(toggleScreen: toggleScreen),
+          SignUpScreen(toggleScreen: toggleScreen),
         ],
       ),
     );
