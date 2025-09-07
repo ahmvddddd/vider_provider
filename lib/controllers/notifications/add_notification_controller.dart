@@ -7,48 +7,59 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 import '../../models/notification/add_notification_model.dart';
 
-final addNotificationProvider = FutureProvider.family
-    .autoDispose<void, AddNotificationModel>((ref, model) async {
-      const storage = FlutterSecureStorage();
-      final logger = Logger();
-      String addNotificationURL =
-          dotenv.env['ADD_NOTIFICATION_URL'] ?? 'https://defaulturl.com/api';
+final addNotificationControllerProvider =
+    StateNotifierProvider<AddNotificationController, AsyncValue<void>>(
+  (ref) => AddNotificationController(),
+);
 
-      try {
-        final token = await storage.read(key: 'token');
-        final response = await http.post(
-          Uri.parse(addNotificationURL),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode(model.toJson()),
-        );
+class AddNotificationController extends StateNotifier<AsyncValue<void>> {
+  AddNotificationController() : super(const AsyncValue.data(null));
 
-        if (response.statusCode != 201) {
-          final exception = 'An error occurred';
-          try {
-            await FirebaseCrashlytics.instance.recordError(
-              Exception("Failed to add notifications: ${response.body}"),
-              null,
-              reason:
-                  'Add notifications API returned error ${response.statusCode}',
-            );
-          } catch (e) {
-            logger.i('Crashlytics add notifications API response failed');
-          }
-          throw exception;
-        }
-      } catch (error, stackTrace) {
+  final storage = const FlutterSecureStorage();
+  final logger = Logger();
+  final String addNotificationURL =
+      dotenv.env['ADD_NOTIFICATION_URL'] ?? 'https://defaulturl.com/api';
+
+  Future<void> addNotification(AddNotificationModel model) async {
+    state = const AsyncValue.loading();
+    try {
+      final token = await storage.read(key: 'token');
+      final response = await http.post(
+        Uri.parse(addNotificationURL),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(model.toJson()),
+      );
+
+      if (response.statusCode != 201) {
+        final exception = 'An error occurred';
         try {
           await FirebaseCrashlytics.instance.recordError(
-            error,
-            stackTrace,
-            reason: 'Add notifications controller failed',
+            Exception("Failed to add notifications: ${response.body}"),
+            null,
+            reason: 'Add notifications API returned error ${response.statusCode}',
           );
         } catch (e) {
-          logger.i('Crashlytics add notifications controller failed $e');
+          logger.i('Crashlytics add notifications API response failed');
         }
-        throw Exception('An error occurred');
+        throw exception;
       }
-    });
+
+      state = const AsyncValue.data(null);
+    } catch (error, stackTrace) {
+      try {
+        await FirebaseCrashlytics.instance.recordError(
+          error,
+          stackTrace,
+          reason: 'Add notifications controller failed',
+        );
+      } catch (e) {
+        logger.i('Crashlytics add notifications controller failed $e');
+      }
+      state = AsyncValue.error(error, stackTrace);
+      rethrow;
+    }
+  }
+}
