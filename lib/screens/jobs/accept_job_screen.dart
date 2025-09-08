@@ -15,6 +15,7 @@ import '../../../utils/helpers/helper_function.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../common/widgets/appbar/appbar.dart';
+import '../../common/widgets/image/full_screen_image_view.dart';
 import '../../common/widgets/pop_up/custom_alert_dialog.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../common/widgets/texts/title_and_description.dart';
@@ -155,15 +156,16 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
         AddNotificationModel(
           type: 'generic',
           title: 'Job Accepted',
-          message: 'Your job has been accepted by the employer and timer has started',
+          message: 'Your job has been accepted by the employer and countdown timer has started',
           recipientId: widget.employerId,
           // add other fields from your model
         ),
       );
+      ref.read(deleteNotificationProvider(widget.id));
         CustomSnackbar.show(
           context: context,
           title: 'Success',
-          message: 'Job accepted and countdown started',
+          message: 'Job accepted and countdown timer has started',
           icon: Icons.check_circle,
           backgroundColor: CustomColors.success,
         );
@@ -341,9 +343,22 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                       const CustomDivider(padding: EdgeInsets.all(Sizes.sm)),
                       Row(
                         children: [
-                          CircleAvatar(
-                            radius: 12,
-                            backgroundImage: NetworkImage(widget.employerImage),
+                          GestureDetector(onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (_) => FullScreenImageView(
+                                images: [widget.employerImage], // Pass all images
+                                initialIndex: 0, // Start from tapped image
+                              ),
+                        ),
+                      );
+                    },
+                            child: CircleAvatar(
+                              radius: 18,
+                              backgroundImage: NetworkImage(widget.employerImage),
+                            ),
                           ),
                           const SizedBox(width: Sizes.sm),
                           Text(
