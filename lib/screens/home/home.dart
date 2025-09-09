@@ -10,9 +10,7 @@ import '../../controllers/transactions/fetch_transactions_controller.dart';
 import '../../repository/user/location_state_storage.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
-import '../jobs/components/job_dashboard_shimmer.dart';
 import '../jobs/components/jobs_dashboard.dart';
-import '../transactions/recent_transactions.dart';
 import 'widgets/home_appbar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -68,8 +66,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         }
       });
     }
-    final dashboardAsync = ref.watch(providerDashboardProvider);
-    final transactionsAsync = ref.watch(transactionProvider(3));
     double screenHeight = MediaQuery.of(context).size.height;
     final unreadCount = ref.watch(unreadNotificationsProvider);
     final dark = HelperFunction.isDarkMode(context);
@@ -96,30 +92,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
         body: RefreshIndicator(
           onRefresh: () async {
-            setState(() => isRefreshing = true);
             await Future.wait([
               ref.refresh(providerDashboardProvider.future),
               ref.refresh(transactionProvider(4).future),
             ]);
-            setState(() => isRefreshing = false);
           },
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.all(Sizes.spaceBtwItems),
               child: Column(
                 children: [
-                  if (isRefreshing)
-                    Column(
-                      children: [
-                        JobsDashBoardShimmer(),
-                      ],
-                    ),
-
-                  ProviderDashboardScreen(
-                    onPressed: refreshProvider,
-                    dashboardAsync: dashboardAsync,
-                  ),
-                  RecentTransactions(transactionsAsync: transactionsAsync),
+                  ProviderDashboardScreen(),
                 ],
               ),
             ),

@@ -7,6 +7,7 @@ import '../../../common/widgets/layouts/grid_layout.dart';
 import '../../../common/widgets/layouts/listvew.dart';
 import '../../../common/widgets/products/products_cards/client_card.dart';
 import '../../../common/widgets/texts/section_heading.dart';
+import '../../../controllers/jobs/jobs_dashboard_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
@@ -17,18 +18,13 @@ import '../widgets/job_duration_and_status.dart';
 import '../widgets/total_earnings.dart';
 
 class ProviderDashboardScreen extends ConsumerWidget {
-  final AsyncValue dashboardAsync;
-  final VoidCallback onPressed;
-  const ProviderDashboardScreen({
-    super.key,
-    required this.dashboardAsync,
-    required this.onPressed,
-  });
+  const ProviderDashboardScreen({super.key,});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     double screenHeight = MediaQuery.of(context).size.height;
     final isDark = HelperFunction.isDarkMode(context);
+    final dashboardAsync = ref.watch(providerDashboardProvider);
 
     return dashboardAsync.when(
       data: (dashboard) {
@@ -107,7 +103,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
                 showColorTip: true,
                 defaultColor:
                     isDark
-                        ? Colors.blue.withValues(alpha: 0.15)
+                        ? CustomColors.alternate.withValues(alpha: 0.25)
                         : CustomColors.primary.withValues(alpha: 0.25),
                 textColor: isDark ? Colors.white : Colors.black,
                 colorsets: {
@@ -219,7 +215,9 @@ class ProviderDashboardScreen extends ConsumerWidget {
 
               const SizedBox(height: Sizes.sm),
               IconButton(
-                onPressed: onPressed,
+                onPressed: () async {
+                  await ref.refresh(providerDashboardProvider.future);
+                },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.all(Sizes.sm),
                   backgroundColor: CustomColors.primary,

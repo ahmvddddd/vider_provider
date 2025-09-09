@@ -53,7 +53,7 @@ class ClientsScreen extends StatelessWidget {
           );
 
           if (confirm == true) {
-            ReportIssueController.launchGmailCompose('Report $employerName');
+            ReportIssueController.launchGmailCompose(context, 'Report $employerName');
           }
         },
         backgroundColor: const Color.fromARGB(255, 206, 26, 13),
