@@ -231,7 +231,7 @@ class _TransactionHistoryState extends ConsumerState<TransactionHistory> {
                                   ),
                                   SizedBox(
                                     width: screenWidth * 0.60,
-                                    child: Text(
+                                    child: SelectableText(
                                       transaction.transactionId,
                                       style: Theme.of(
                                         context,
@@ -256,34 +256,35 @@ class _TransactionHistoryState extends ConsumerState<TransactionHistory> {
                     child: const JobsScreenShimmer(),
                   ),
               error: (error, stack) {
-                return Column(
-                  children: [
-                    SizedBox(height: 200),
-                    Text(
-                      error.toString().replaceAll('Exception:', '').trim(),
-                      style: Theme.of(context).textTheme.bodySmall,
-                      softWrap: true,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: Sizes.spaceBtwItems),
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: CustomColors.primary,
-                        padding: const EdgeInsets.all(Sizes.sm),
+                return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment:
+                        CrossAxisAlignment.center, // 👈 center horizontally
+                    children: [
+                      Text(
+                        error.toString().replaceAll('Exception:', '').trim(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                        softWrap: true,
+                        textAlign: TextAlign.center, // 👈 center text content
                       ),
-                      icon: Icon(Icons.refresh, color: Colors.white),
-                      onPressed: () async {
-                        setState(() {
-                          isRefreshing = true;
-                        });
-                        ref.refresh(transactionProvider(null).future);
-                        setState(() {
-                          isRefreshing = false;
-                        });
-                      },
-                    ),
-                  ],
-                );
+                      const SizedBox(height: Sizes.spaceBtwItems),
+                      IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: CustomColors.primary,
+                          padding: const EdgeInsets.all(Sizes.sm),
+                        ),
+                        icon: const Icon(Icons.refresh, color: Colors.white),
+                        onPressed: () {
+                          ref.refresh(transactionProvider(null).future);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
               },
             ),
           ),

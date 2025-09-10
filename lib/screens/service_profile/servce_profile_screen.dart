@@ -83,7 +83,7 @@ class _ServiceProfileScreenState extends ConsumerState<ServiceProfileScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  user.isIdVerified == true
+                  user.verificationStatus == 'pending'
                       ? const SizedBox.shrink()
                       : Column(
                         children: [

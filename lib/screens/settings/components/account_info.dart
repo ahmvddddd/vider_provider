@@ -78,7 +78,7 @@ class _AccountInfoState extends ConsumerState<AccountInfo> {
               await ref.read(walletProvider.notifier).fetchBalance();
               setState(() => isRefreshing = false);
             },
-            balance: 'Could not fetch balance',
+            balance: '\$0.00',
             backgroundColor: CustomColors.darkerGrey,
             subscriptionPlan: '',
           ),
@@ -164,7 +164,7 @@ class WalletDetails extends StatelessWidget {
                 child: RoundedContainer(
                   width: MediaQuery.of(context).size.width * 0.30,
                   height: MediaQuery.of(context).size.height * 0.05,
-                  radius: Sizes.cardRadiusSm,
+                  radius: Sizes.cardRadiusLg,
                   padding: const EdgeInsets.all(Sizes.sm),
                   backgroundColor: backgroundColor,
                   child: Center(

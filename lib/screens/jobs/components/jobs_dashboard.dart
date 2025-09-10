@@ -18,7 +18,7 @@ import '../widgets/job_duration_and_status.dart';
 import '../widgets/total_earnings.dart';
 
 class ProviderDashboardScreen extends ConsumerWidget {
-  const ProviderDashboardScreen({super.key,});
+  const ProviderDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -124,79 +124,89 @@ class ProviderDashboardScreen extends ConsumerWidget {
               softWrap: true,
             ),
 
-            const SizedBox(height: Sizes.spaceBtwItems),
             dashboard.topEmployers.isEmpty
                 ? const SizedBox.shrink()
-                : SectionHeading(
-                  title: 'Clients',
-                  showActionButton: true,
-                  onPressed: () {
-                    HelperFunction.navigateScreen(
-                      context,
-                      AllClientsScreen(
-                        childWidget: GridLayout(
-                          mainAxisExtent: screenHeight * 0.25,
-                          itemCount: dashboard.topEmployers.length,
-                          itemBuilder: (context, index) {
-                            final employer = dashboard.topEmployers[index];
-                            return ClientCard(
-                              profileImage: employer.employerImage,
-                              profileName: employer.employerName,
-                              jobsLength: employer.totalJobs,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (_) => ClientsScreen(
-                                          employerName: employer.employerName,
-                                          employerImage: employer.employerImage,
-                                          jobs: employer.jobs,
-                                        ),
-                                  ),
+                : Column(
+                  children: [
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                    SectionHeading(
+                      title: 'Clients',
+                      showActionButton: true,
+                      onPressed: () {
+                        HelperFunction.navigateScreen(
+                          context,
+                          AllClientsScreen(
+                            childWidget: GridLayout(
+                              mainAxisExtent: screenHeight * 0.25,
+                              itemCount: dashboard.topEmployers.length,
+                              itemBuilder: (context, index) {
+                                final employer = dashboard.topEmployers[index];
+                                return ClientCard(
+                                  profileImage: employer.employerImage,
+                                  profileName: employer.employerName,
+                                  jobsLength: employer.totalJobs,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (_) => ClientsScreen(
+                                              employerName:
+                                                  employer.employerName,
+                                              employerImage:
+                                                  employer.employerImage,
+                                              jobs: employer.jobs,
+                                            ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                ),
-
-            const SizedBox(height: Sizes.sm),
-            dashboard.topEmployers.isEmpty
-                ? const SizedBox.shrink()
-                : HomeListView(
-                  sizedBoxHeight: screenHeight * 0.25,
-                  scrollDirection: Axis.horizontal,
-                  seperatorBuilder:
-                      (context, index) => const SizedBox(width: Sizes.sm),
-                  itemCount:
-                      dashboard.topEmployers.length > 3
-                          ? 3
-                          : dashboard.topEmployers.length,
-                  itemBuilder: (context, index) {
-                    final employer = dashboard.topEmployers[index];
-                    return ClientCard(
-                      profileImage: employer.employerImage,
-                      profileName: employer.employerName,
-                      jobsLength: employer.totalJobs,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (_) => ClientsScreen(
-                                  employerName: employer.employerName,
-                                  employerImage: employer.employerImage,
-                                  jobs: employer.jobs,
-                                ),
+                            ),
                           ),
                         );
                       },
-                    );
-                  },
+                    ),
+                  ],
+                ),
+
+            dashboard.topEmployers.isEmpty
+                ? const SizedBox.shrink()
+                : Column(
+                  children: [
+                    const SizedBox(height: Sizes.sm),
+                    HomeListView(
+                      sizedBoxHeight: screenHeight * 0.25,
+                      scrollDirection: Axis.horizontal,
+                      seperatorBuilder:
+                          (context, index) => const SizedBox(width: Sizes.sm),
+                      itemCount:
+                          dashboard.topEmployers.length > 3
+                              ? 3
+                              : dashboard.topEmployers.length,
+                      itemBuilder: (context, index) {
+                        final employer = dashboard.topEmployers[index];
+                        return ClientCard(
+                          profileImage: employer.employerImage,
+                          profileName: employer.employerName,
+                          jobsLength: employer.totalJobs,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (_) => ClientsScreen(
+                                      employerName: employer.employerName,
+                                      employerImage: employer.employerImage,
+                                      jobs: employer.jobs,
+                                    ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
           ],
         );
