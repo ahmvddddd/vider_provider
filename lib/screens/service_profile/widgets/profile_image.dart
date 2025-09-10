@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/image/full_screen_image_view.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
@@ -29,18 +28,18 @@ class ProfileImage extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (_) => FullScreenImageView(
-                                images: [imageAvatar], // Pass all images
-                                initialIndex: 0, // Start from tapped image
-                              ),
-                        ),
-                      );
-                    },
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (_) => FullScreenImageView(
+                      images: [imageAvatar], // Pass all images
+                      initialIndex: 0, // Start from tapped image
+                    ),
+              ),
+            );
+          },
           child: Container(
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.height * 0.15,
@@ -52,7 +51,7 @@ class ProfileImage extends StatelessWidget {
                 color: dark ? CustomColors.darkGrey : CustomColors.darkGrey,
                 width: 2,
               ),
-              shape: BoxShape.circle
+              shape: BoxShape.circle,
             ),
             child: Center(
               child: ClipRRect(
@@ -67,7 +66,7 @@ class ProfileImage extends StatelessWidget {
             ),
           ),
         ),
-    
+
         const SizedBox(height: Sizes.sm),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,27 +78,28 @@ class ProfileImage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-    
+
             const SizedBox(width: Sizes.sm),
-            RoundedContainer(
-              backgroundColor: ratingColor,
-              radius: Sizes.cardRadiusXs,
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.xs + 2, vertical: 2),
-              child: Center(
-                child: Text(
+            Row(
+              children: [
+                Icon(Icons.star, color: ratingColor, size: Sizes.iconMd),
+                Text(
                   rating.toString(),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelMedium!.copyWith(color: Colors.black),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: dark ? Colors.white : Colors.black,
+                    fontFamily: 'JosefinSans',
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
-        Text(service, style: Theme.of(context).textTheme.labelLarge!.copyWith(
-          color: dark ? CustomColors.darkGrey : CustomColors.darkerGrey,
-          fontWeight: FontWeight.bold,
-        ),
+        Text(
+          service,
+          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+            color: dark ? CustomColors.darkGrey : CustomColors.darkerGrey,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         Text(
           '\$$hourlyRate/hr',
@@ -108,7 +108,7 @@ class ProfileImage extends StatelessWidget {
             fontFamily: 'JosefinSans',
           ),
         ),
-    
+
         const SizedBox(height: Sizes.sm),
       ],
     );

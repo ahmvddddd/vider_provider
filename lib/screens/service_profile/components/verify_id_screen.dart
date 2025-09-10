@@ -104,6 +104,14 @@ class _UploadIdScreenState extends ConsumerState<VerifyIdScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                'ID verification is compulsory for all users. Unverified accounts can not hire providers and would end up being suspended',
+                style: Theme.of(context).textTheme.bodyMedium,
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: Sizes.spaceBtwSections),
               const TitleAndDescription(
                 textAlign: TextAlign.left,
                 title: 'Id Type',
@@ -148,11 +156,16 @@ class _UploadIdScreenState extends ConsumerState<VerifyIdScreen> {
                     'Tap the button below to upload an image of your Identity card. Make sure your photo is clear and ensure your names match with no spelling error.',
               ),
 
-              const SizedBox(height: Sizes.spaceBtwItems),
+              const SizedBox(height: Sizes.spaceBtwSections),
               idImage == null
-                  ? Text(
-                    'No Image Selected',
-                    style: Theme.of(context).textTheme.labelLarge,
+                  ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'No Image Selected',
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                    ],
                   )
                   : Container(
                     height: screenHeight * 0.20,
@@ -194,14 +207,7 @@ class _UploadIdScreenState extends ConsumerState<VerifyIdScreen> {
                       ),
                 ],
               ),
-
-              const SizedBox(height: Sizes.spaceBtwSections),
-              Text(
-                'ID verification is compulsory for all users. Unverified accounts can not hire providers and would end up being suspended',
-                style: Theme.of(context).textTheme.bodyMedium,
-                softWrap: true,
-                textAlign: TextAlign.center,
-              ),
+              
             ],
           ),
         ),

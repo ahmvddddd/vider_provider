@@ -14,7 +14,13 @@ import 'app.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-final Int64List highVibrationPattern = Int64List.fromList([0, 500, 1000, 500, 2000]);
+final Int64List highVibrationPattern = Int64List.fromList([
+  0,
+  500,
+  1000,
+  500,
+  2000,
+]);
 
 Future<void> main() async {
   runZonedGuarded(
@@ -37,20 +43,19 @@ Future<void> main() async {
       // 🔔 Initialize Awesome Notifications with FCM
       AwesomeNotifications().initialize(null, [
         NotificationChannel(
-  channelKey: 'basic_channel',
-  channelName: 'Basic Notifications',
-  channelDescription: 'Channel for general alerts',
-  importance: NotificationImportance.Max, // 🔥 highest
-  playSound: true,
-  enableVibration: true,
-  vibrationPattern: highVibrationPattern, // custom strong vibration
-  criticalAlerts: true, // iOS critical alerts
-  defaultColor: Colors.blue,
-  ledColor: Colors.white,
-  channelShowBadge: true,
-),
-
-      ]);
+          channelKey: 'basic_channel',
+          channelName: 'Basic Notifications',
+          channelDescription: 'Channel for general alerts',
+          importance: NotificationImportance.Max, // 🔥 highest
+          playSound: true,
+          enableVibration: true,
+          vibrationPattern: highVibrationPattern, // custom strong vibration
+          criticalAlerts: true, // iOS critical alerts
+          defaultColor: Colors.blue,
+          ledColor: Colors.white,
+          channelShowBadge: true,
+        ),
+      ], debug: false);
 
       // 🔑 FCM + Awesome Notifications
       await AwesomeNotificationsFcm().initialize(
@@ -62,14 +67,14 @@ Future<void> main() async {
       final isAllowed = await AwesomeNotifications().isNotificationAllowed();
       if (!isAllowed) {
         await AwesomeNotifications().requestPermissionToSendNotifications(
-  permissions: [
-    NotificationPermission.Alert,
-    NotificationPermission.Sound,
-    NotificationPermission.Vibration,
-    NotificationPermission.CriticalAlert,
-    NotificationPermission.Badge,
-  ],
-);
+          permissions: [
+            NotificationPermission.Alert,
+            NotificationPermission.Sound,
+            NotificationPermission.Vibration,
+            NotificationPermission.CriticalAlert,
+            NotificationPermission.Badge,
+          ],
+        );
       }
 
       await FirebaseMessaging.instance.requestPermission();

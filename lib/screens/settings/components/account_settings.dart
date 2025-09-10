@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/list_tile/settings_menu_tile.dart';
-import '../../../controllers/user/report_issue_controller.dart';
+import '../../../common/widgets/pop_up/custom_snackbar.dart';
+import '../../../controllers/user/user_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../transactions/change_pin.dart';
 import 'change_password.dart';
 
-class AccountSettingsPage extends StatelessWidget {
+class AccountSettingsPage extends ConsumerStatefulWidget {
   const AccountSettingsPage({super.key});
+
+  @override
+  ConsumerState<AccountSettingsPage> createState() =>
+      _AccountSettingsPageState();
+}
+
+class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(userProvider.notifier).fetchUserDetails());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +67,37 @@ class AccountSettingsPage extends StatelessWidget {
           const SizedBox(height: Sizes.sm),
           SettingsMenuTile(
             onTap: () async {
-              ReportIssueController.launchGmailCompose(context, 'Report An Issue');
+              final userState = ref.watch(userProvider);
+              userState.when(
+                data: (user) async {
+                  final Uri emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: 'vider_support@gmail.com',
+                    query: Uri.encodeQueryComponent(
+                      'subject=I @${user.username} want to report an issue',
+                    ),
+                  );
+                  await launchUrl(emailLaunchUri);
+                },
+                loading: () {},
+                error: (error, st) {
+                  return CustomSnackbar.show(
+                    title: 'An error occured',
+                    message: 'Unable to send report at this time',
+                    context: context,
+                    icon: Icons.error_outline,
+                    backgroundColor: CustomColors.error,
+                  );
+                },
+              );
             },
             icon: Iconsax.security_safe,
             title: 'Safety',
             subTitle: 'Report a failed transaction or a problem.',
             trailing: Icon(Icons.arrow_right),
           ),
-          
-          const SizedBox(height: Sizes.spaceBtwItems,)
+
+          const SizedBox(height: Sizes.spaceBtwItems),
         ],
       ),
     );
