@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
-import '../../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
@@ -31,6 +30,7 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     return RoundedContainer(
+      padding: const EdgeInsets.symmetric(vertical: Sizes.spaceBtwItems),
       boxShadow: [
         BoxShadow(
           color: dark ? CustomColors.darkerGrey : CustomColors.darkGrey,
@@ -42,31 +42,43 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
       backgroundColor: dark ? Colors.black : Colors.white,
       child: Column(
         children: [
-          SettingsMenuTile(
-            onTap:
-                () => HelperFunction.navigateScreen(
-                  context,
-                  ChangePasswordPage(),
-                ),
-            icon: Iconsax.password_check,
-            title: 'Password',
-            subTitle: 'Change password.',
-            trailing: Icon(Icons.arrow_right),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(context, ChangePasswordPage()),
+            Iconsax.password_check,
+            'Password',
+            'Change password.',
           ),
 
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            onTap:
-                () => HelperFunction.navigateScreen(context, ChangePinPage()),
-            icon: Iconsax.security_card,
-            title: 'Change Pin',
-            subTitle: 'Change your transaction pin',
-            trailing: Icon(Icons.arrow_right),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
+          ),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(context, ChangePinPage()),
+            Iconsax.security_card,
+            'Change PIN',
+            'Change your transaction pin.',
           ),
 
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            onTap: () async {
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
+          ),
+          _settingsTile(
+            context,
+            () async {
               final userState = ref.watch(userProvider);
               userState.when(
                 data: (user) async {
@@ -91,14 +103,60 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
                 },
               );
             },
-            icon: Iconsax.security_safe,
-            title: 'Safety',
-            subTitle: 'Report a failed transaction or a problem.',
-            trailing: Icon(Icons.arrow_right),
+            Iconsax.security_safe,
+            'Safety',
+            'Report a failed transaction or a problem.',
           ),
 
           const SizedBox(height: Sizes.spaceBtwItems),
         ],
+      ),
+    );
+  }
+
+  Widget _settingsTile(
+    BuildContext context,
+    VoidCallback onTap,
+    IconData icon,
+    String title,
+    String subTitle,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: Sizes.xs,
+          horizontal: Sizes.spaceBtwItems,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(icon, size: Sizes.iconM),
+
+                const SizedBox(width: Sizes.spaceBtwItems),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: Theme.of(context).textTheme.bodyMedium),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.50,
+                      child: Text(
+                        subTitle,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          overflow: TextOverflow.ellipsis
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            Icon(Iconsax.arrow_right_1, size: Sizes.iconM),
+          ],
+        ),
       ),
     );
   }
