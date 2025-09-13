@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
@@ -29,7 +28,7 @@ class MessagePreview extends StatelessWidget {
       child: RoundedContainer(
         padding: const EdgeInsets.all(Sizes.sm),
         radius: Sizes.borderRadiusMd,
-        backgroundColor: Colors.transparent,
+        backgroundColor: dark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.1),
         width: screenWidth * 0.90,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,11 +73,6 @@ class MessagePreview extends StatelessWidget {
                         const SizedBox(
                           width: 2,
                         ),
-                        const Icon(
-                          Iconsax.verify,
-                          color: Colors.amber,
-                          size: Sizes.iconSm,
-                        )
                       ],
                     ),
                     const SizedBox(

@@ -20,6 +20,7 @@ import '../../common/widgets/pop_up/custom_alert_dialog.dart';
 import '../../common/widgets/pop_up/custom_snackbar.dart';
 import '../../common/widgets/texts/title_and_description.dart';
 import '../../controllers/jobs/accept_job_controller.dart';
+import '../../controllers/jobs/pending_jobs_controller.dart';
 import '../../controllers/notifications/add_notification_controller.dart';
 import '../../models/notification/add_notification_model.dart';
 
@@ -124,6 +125,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
   Future<void> _submitCode() async {
     FocusScope.of(context).unfocus();
     final code = _codeControllers.map((c) => c.text).join();
+
     if (code.length != 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter all 6 digits")),
@@ -132,11 +134,29 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
     }
 
     try {
+      final jobCheck = await ref.read(
+        pendingJobsProvider(widget.providerId).future,
+      );
+
+      if (jobCheck.hasPendingJob) {
+        CustomSnackbar.show(
+          context: context,
+          title: 'Pending Job',
+          message:
+              'You already have a job in progress. Complete it before accepting a new one.',
+          icon: Icons.warning_amber_outlined,
+          backgroundColor: CustomColors.error,
+        );
+        return; // 🚫 stop execution
+      }
+
+      // 2️⃣ If no pending job, proceed with verification
       final result = await ref.read(
         jobVerifyProvider({"code": code, "vvid": widget.vvid}).future,
       );
 
       if (result) {
+        // 3️⃣ Add job if verification passed
         await ref
             .read(addJobControllerProvider.notifier)
             .addJob(
@@ -152,16 +172,22 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
               duration: widget.duration,
             );
 
-            await ref.read(addNotificationControllerProvider.notifier).addNotification(
-        AddNotificationModel(
-          type: 'generic',
-          title: 'Job Accepted',
-          message: 'Your job has been accepted by the employer and countdown timer has started',
-          recipientId: widget.employerId,
-          // add other fields from your model
-        ),
-      );
-      ref.read(deleteNotificationProvider(widget.id));
+        // 4️⃣ Send notification
+        await ref
+            .read(addNotificationControllerProvider.notifier)
+            .addNotification(
+              AddNotificationModel(
+                type: 'generic',
+                title: 'Job Accepted',
+                message:
+                    'Your job has been accepted by the employer and countdown timer has started',
+                recipientId: widget.employerId,
+              ),
+            );
+
+        // 5️⃣ Delete notification
+        ref.read(deleteNotificationProvider(widget.id));
+
         CustomSnackbar.show(
           context: context,
           title: 'Success',
@@ -169,6 +195,8 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
           icon: Icons.check_circle,
           backgroundColor: CustomColors.success,
         );
+
+        // 6️⃣ Navigate to home
         ref.read(selectedIndexProvider.notifier).state = 1;
         Future.delayed(const Duration(milliseconds: 500), () {
           Navigator.pushReplacement(
@@ -180,7 +208,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
     } catch (e) {
       CustomSnackbar.show(
         context: context,
-        title: 'An error occurred. ',
+        title: 'An error occurred.',
         message: 'Verification failed: $e',
         icon: Icons.error_outline,
         backgroundColor: CustomColors.error,
@@ -343,21 +371,27 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                       const CustomDivider(padding: EdgeInsets.all(Sizes.sm)),
                       Row(
                         children: [
-                          GestureDetector(onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (_) => FullScreenImageView(
-                                images: [widget.employerImage], // Pass all images
-                                initialIndex: 0, // Start from tapped image
-                              ),
-                        ),
-                      );
-                    },
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (_) => FullScreenImageView(
+                                        images: [
+                                          widget.employerImage,
+                                        ], // Pass all images
+                                        initialIndex:
+                                            0, // Start from tapped image
+                                      ),
+                                ),
+                              );
+                            },
                             child: CircleAvatar(
                               radius: 18,
-                              backgroundImage: NetworkImage(widget.employerImage),
+                              backgroundImage: NetworkImage(
+                                widget.employerImage,
+                              ),
                             ),
                           ),
                           const SizedBox(width: Sizes.sm),

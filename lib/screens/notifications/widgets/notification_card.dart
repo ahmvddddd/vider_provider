@@ -8,6 +8,7 @@ import '../../../utils/helpers/helper_function.dart';
 class NotificationCard extends StatelessWidget {
   final Color borderColor;
   final VoidCallback onTap;
+  final IconData icon;
   final Color iconColor;
   final String title;
   final String message;
@@ -16,6 +17,7 @@ class NotificationCard extends StatelessWidget {
     super.key,
     required this.borderColor,
     required this.onTap,
+    required this.icon,
     required this.iconColor,
     required this.title,
     required this.message,
@@ -43,9 +45,12 @@ class NotificationCard extends StatelessWidget {
           children: [
             Row(
               children: [
-            Icon(Icons.notifications, color: iconColor),
+            CircleAvatar(
+                  backgroundColor: borderColor,
+                  radius: 20,
+                  child: Icon(icon, color: iconColor)),
       
-            const SizedBox(width: Sizes.xs),
+            const SizedBox(width: Sizes.sm),
                 SizedBox(
               width: screenWidth * 0.60,
               child: Text(title, style: Theme.of(context).textTheme.labelMedium!.copyWith(

@@ -125,7 +125,7 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: Sizes.xs,
+          vertical: Sizes.sm,
           horizontal: Sizes.spaceBtwItems,
         ),
         child: Row(
@@ -139,12 +139,12 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: Theme.of(context).textTheme.bodyMedium),
+                    Text(title, style: Theme.of(context).textTheme.labelMedium),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.50,
                       child: Text(
                         subTitle,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
                           overflow: TextOverflow.ellipsis
                         ),
                       ),
