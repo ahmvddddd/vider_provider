@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import '../../screens/jobs/components/jobs_screen_shimmer.dart';
 import '../../common/widgets/appbar/appbar.dart';
 import '../../common/widgets/layouts/listvew.dart';
 import '../../controllers/notifications/notification_controller.dart';
@@ -7,7 +9,6 @@ import '../../controllers/notifications/read_notification_controller.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/helpers/helper_function.dart';
 import '../jobs/accept_job_screen.dart';
-import '../messages/components/chat_shimmer.dart';
 import '../transactions/transaction_history.dart';
 import 'notification_view_screen.dart';
 import 'widgets/notification_card.dart';
@@ -27,7 +28,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     final notificationsAsync = ref.watch(notificationsProvider);
-
+    final dark = HelperFunction.isDarkMode(context);
     return Scaffold(
       appBar: TAppBar(
         title: Text(
@@ -55,14 +56,17 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                 itemBuilder: (context, index) {
                   final notif = notifications[index];
 
-                  if (isRefreshing) const ChatShimmer();
+                  if (isRefreshing) const JobsScreenShimmer();
 
                   if (notif.type == 'job_request' && notif.jobDetails != null) {
                     final job = notif.jobDetails!;
                     return NotificationCard(
+                      icon: Icons.cases_rounded,
                       borderColor:
                           notif.isRead
-                              ? Colors.transparent
+                              ? CustomColors.darkGrey
+                              : dark
+                              ? CustomColors.alternate
                               : CustomColors.primary,
                       onTap: () async {
                         await ref.read(
@@ -94,96 +98,22 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                         );
                       },
                       iconColor:
-                          notif.isRead ? Colors.white : CustomColors.primary,
+                          notif.isRead ?  Colors.white
+                          : dark ? CustomColors.primary : CustomColors.alternate,
                       title: notif.title,
                       message: notif.message,
                       date: notif.createdAt,
                     );
                   }
-                      // onDecline: () async {
-                      //   final confirm = await showDialog<bool>(
-                      //     context: context,
-                      //     builder: (BuildContext context) {
-                      //       return CustomAlertDialog(
-                      //         title: 'Decline Job Request',
-                      //         message:
-                      //             'Are you sure you want to decline this job request ?',
-                      //         onCancel: () => Navigator.of(context).pop(false),
-                      //         onConfirm: () => Navigator.of(context).pop(true),
-                      //       );
-                      //     },
-                      //   );
-
-                      //   if (confirm == true) {
-                      //     ref.read(deleteNotificationProvider(notif.id));
-                      //   }
-                      // },
-                      // onAccept: () async {
-                      //   final confirm = await showDialog<bool>(
-                      //     context: context,
-                      //     builder: (BuildContext context) {
-                      //       return CustomAlertDialog(
-                      //         title: 'Accept Job',
-                      //         message:
-                      //             'The job timer starts immediately you click on accept. You must finish the job before the timer ends to avoid violating the job contract.',
-                      //         onCancel: () => Navigator.of(context).pop(false),
-                      //         onConfirm: () => Navigator.of(context).pop(true),
-                      //       );
-                      //     },
-                      //   );
-
-                      //   if (confirm == true) {
-                      //     final now = DateTime.now();
-                      //     final jobStartTime = job.startTime;
-
-                      //     if (now.isAfter(
-                      //       jobStartTime.add(const Duration(minutes: 10)),
-                      //     )) {
-                      //       CustomSnackbar.show(
-                      //         context: context,
-                      //         title: 'Could not accept job request',
-                      //         message:
-                      //             'The job has expired after 10 minutes of no response',
-                      //         backgroundColor: CustomColors.error,
-                      //         icon: Icons.cancel,
-                      //       );
-                      //       ref.read(deleteNotificationProvider(notif.id));
-                      //     } else {
-                      //       await ref
-                      //           .read(addJobControllerProvider.notifier)
-                      //           .addJob(
-                      //             context: context,
-                      //             employerId: job.employerId,
-                      //             providerId: job.providerId,
-                      //             employerImage: job.employerImage,
-                      //             providerImage: job.providerImage,
-                      //             employerName: job.employerName,
-                      //             providerName: job.providerName,
-                      //             jobTitle: job.jobTitle,
-                      //             pay: job.pay,
-                      //             duration: job.duration,
-                      //           );
-
-                      //       await ref.read(
-                      //         deleteNotificationProvider(notif.id).future,
-                      //       );
-
-                      //       ref.read(selectedIndexProvider.notifier).state = 1;
-                      //       Navigator.pushReplacement(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => const NavigationMenu(),
-                      //         ),
-                      //       );
-                      //     }
-                      //   }
-                      // },
 
                   if (notif.type == 'transaction') {
                     return NotificationCard(
+                      icon: Iconsax.bank,
                       borderColor:
                           notif.isRead
-                              ? Colors.transparent
+                              ? CustomColors.darkGrey
+                              : dark
+                              ? CustomColors.alternate
                               : CustomColors.primary,
                       onTap: () async {
                         await ref.read(
@@ -195,7 +125,8 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                         );
                       },
                       iconColor:
-                          notif.isRead ? Colors.white : CustomColors.primary,
+                          notif.isRead ?  Colors.white
+                          : dark ? CustomColors.primary : CustomColors.alternate,
                       title: notif.title,
                       message: notif.message,
                       date: notif.createdAt,
@@ -203,9 +134,12 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                   }
 
                   return NotificationCard(
+                    icon: Icons.notifications,
                     borderColor:
                         notif.isRead
-                            ? Colors.transparent
+                            ? CustomColors.darkGrey
+                            : dark
+                            ? CustomColors.alternate
                             : CustomColors.primary,
                     onTap: () async {
                       await ref.read(readNotificationProvider(notif.id).future);
@@ -218,8 +152,9 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                         ),
                       );
                     },
-                    iconColor:
-                        notif.isRead ? Colors.white : CustomColors.primary,
+                      iconColor:
+                          notif.isRead ?  Colors.white
+                          : dark ? CustomColors.primary : CustomColors.alternate,
                     title: notif.title,
                     message: notif.message,
                     date: notif.createdAt,
@@ -230,7 +165,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
             loading:
                 () => SizedBox(
                   height: MediaQuery.of(context).size.height,
-                  child: const ChatShimmer(),
+                  child: const JobsScreenShimmer(),
                 ),
             error:
                 (err, _) => Padding(
