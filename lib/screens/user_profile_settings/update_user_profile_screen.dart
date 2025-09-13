@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
-import '../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../controllers/user/save_location_controller.dart';
 import '../../repository/user/location_state_storage.dart';
 import '../../utils/constants/custom_colors.dart';
@@ -28,6 +27,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
     final locationController = ref.read(saveLocationProvider);
     final dark = HelperFunction.isDarkMode(context);
     return RoundedContainer(
+      padding: const EdgeInsets.symmetric(vertical: Sizes.spaceBtwItems),
       boxShadow: [
         BoxShadow(
           color: dark ? CustomColors.darkerGrey : CustomColors.darkGrey,
@@ -39,21 +39,24 @@ class UpdateUserProfilePage extends ConsumerWidget {
       backgroundColor: dark ? Colors.black : Colors.white,
       child: Column(
         children: [
-          const SizedBox(height: Sizes.xs),
-
-          SettingsMenuTile(
-            icon: Iconsax.bank,
-            title: 'Transactions',
-            subTitle: '',
-            onTap:
-                () => HelperFunction.navigateScreen(
-                  context,
-                  TransactionHistory(),
-                ),
-            trailing: Icon(Icons.arrow_right),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(context, TransactionHistory()),
+            Iconsax.bank,
+            'Transactions',
+            'View all recent transactions',
           ),
 
-          const SizedBox(height: Sizes.sm),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
+          ),
+
           ListTile(
             leading: Icon(Icons.location_on, size: Sizes.iconM),
             title: Text(
@@ -73,71 +76,166 @@ class UpdateUserProfilePage extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            icon: Icons.change_circle,
-            title: ' ChangeSubscription Plan',
-            subTitle: '',
-            onTap:
-                () => HelperFunction.navigateScreen(
-                  context,
-                  SubscriptionPlanScreen(),
-                ),
-            trailing: Icon(Icons.arrow_right),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
           ),
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            icon: Icons.image,
-            title: 'Update Portfolio Images',
-            subTitle: '',
-            onTap:
-                () => HelperFunction.navigateScreen(
-                  context,
-                  UpdateProfileImagesPage(),
-                ),
-            trailing: Icon(Icons.arrow_right),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(
+              context,
+              SubscriptionPlanScreen(),
+            ),
+            Icons.change_circle,
+            'Subscription Plan',
+            'Revew and change your subscription plan',
           ),
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            icon: Iconsax.user,
-            title: 'Update Bio',
-            subTitle: '',
-            onTap: () => HelperFunction.navigateScreen(context, UpdateBio()),
-            trailing: Icon(Icons.arrow_right),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
           ),
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            icon: Icons.timelapse,
-            title: 'Update Hourly Rate',
-            subTitle: '',
-            onTap:
-                () =>
-                    HelperFunction.navigateScreen(context, UpdateHourlyRate()),
-            trailing: Icon(Icons.arrow_right),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(
+              context,
+              UpdateProfileImagesPage(),
+            ),
+            Icons.image,
+            'Portfolio Images',
+            'Update your portfoliomages',
           ),
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            icon: Icons.shape_line,
-            title: 'Update Skills',
-            subTitle: '',
-            onTap: () => HelperFunction.navigateScreen(context, UpdateSkills()),
-            trailing: Icon(Icons.arrow_right),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
           ),
-          const SizedBox(height: Sizes.sm),
-          SettingsMenuTile(
-            icon: Icons.list,
-            title: 'Update Category & Service',
-            subTitle: '',
-            onTap:
-                () => HelperFunction.navigateScreen(
-                  context,
-                  UpdateCategoryAndService(),
-                ),
-            trailing: Icon(Icons.arrow_right),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(context, UpdateBio()),
+            Iconsax.user,
+            'Update Bio',
+            'Review and update your bio',
           ),
-          
-          const SizedBox(height: Sizes.spaceBtwItems,)
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
+          ),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(context, UpdateHourlyRate()),
+            Icons.timelapse,
+            'Update Hourly Rate',
+            'Review and update your hourly rate',
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
+          ),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(context, UpdateSkills()),
+            Icons.shape_line,
+            'Update Skills',
+            'Review and update your skills',
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.sm,
+              horizontal: Sizes.spaceBtwSections,
+            ),
+            child: Divider(
+              color: dark ? CustomColors.alternate : CustomColors.primary,
+            ),
+          ),
+          _settingsTile(
+            context,
+            () => HelperFunction.navigateScreen(
+              context,
+              UpdateCategoryAndService(),
+            ),
+            Icons.list,
+            'Update Category & Service',
+            'Review and update your category and skills',
+          ),
+
+          const SizedBox(height: Sizes.spaceBtwItems),
         ],
+      ),
+    );
+  }
+
+  Widget _settingsTile(
+    BuildContext context,
+    VoidCallback onTap,
+    IconData icon,
+    String title,
+    String subTitle,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: Sizes.xs,
+          horizontal: Sizes.spaceBtwItems,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(icon, size: Sizes.iconM),
+
+                const SizedBox(width: Sizes.spaceBtwItems),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: Theme.of(context).textTheme.bodyMedium),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.50,
+                      child: Text(
+                        subTitle,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          overflow: TextOverflow.ellipsis
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            Icon(Iconsax.arrow_right_1, size: Sizes.iconM),
+          ],
+        ),
       ),
     );
   }

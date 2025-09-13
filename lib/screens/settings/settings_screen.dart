@@ -38,7 +38,7 @@ class SettingsScreen extends ConsumerWidget {
                 title: 'User Profile Settings',
                 showActionButton: false,
               ),
-              const SizedBox(height: Sizes.sm),
+              const SizedBox(height: Sizes.spaceBtwItems),
               UpdateUserProfilePage(),
 
               const SizedBox(height: Sizes.spaceBtwSections),
@@ -46,7 +46,7 @@ class SettingsScreen extends ConsumerWidget {
                 title: 'General Settings',
                 showActionButton: false,
               ),
-              const SizedBox(height: Sizes.sm),
+              const SizedBox(height: Sizes.spaceBtwItems),
               AccountSettingsPage(),
 
               const SizedBox(height: Sizes.spaceBtwSections),
