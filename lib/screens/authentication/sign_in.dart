@@ -3,7 +3,7 @@ import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import 'widgets/form_divider.dart';
-import 'widgets/signin_form.dart';
+import 'widgets/sign_in_form.dart';
 
 class SignInScreen extends StatelessWidget {
   final VoidCallback toggleScreen;
@@ -40,7 +40,7 @@ class SignInScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: Sizes.spaceBtwItems),
-                const SigninForm(),
+                const SignInForm(),
 
                 const SizedBox(height: Sizes.spaceBtwItems),
                 const FormDivider(dividerText: 'Create an account'),
