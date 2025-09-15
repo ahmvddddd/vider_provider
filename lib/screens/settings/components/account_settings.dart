@@ -50,15 +50,7 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
             'Change password.',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
           _settingsTile(
             context,
             () => HelperFunction.navigateScreen(context, ChangePinPage()),
@@ -67,15 +59,7 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
             'Change your transaction pin.',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
           _settingsTile(
             context,
             () async {
@@ -154,7 +138,7 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
               ],
             ),
 
-            Icon(Iconsax.arrow_right_1, size: Sizes.iconM),
+            Icon(Iconsax.arrow_right_1, size: Sizes.iconSm),
           ],
         ),
       ),

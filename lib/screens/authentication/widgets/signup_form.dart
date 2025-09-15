@@ -11,11 +11,18 @@ import '../../../utils/validators/validation.dart';
 import 'build_textfield.dart';
 import 'terms_and_conditions.dart';
 
-class SignupUserForm extends ConsumerWidget {
+class SignupUserForm extends ConsumerStatefulWidget {
   const SignupUserForm({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SignupUserForm> createState() => _SignupUserFormState();
+}
+
+class _SignupUserFormState extends ConsumerState<SignupUserForm> {
+  bool _submitted = false;
+  
+  @override
+  Widget build(BuildContext context,) {
     final signupState = ref.watch(signupControllerProvider);
     final signupController = ref.read(signupControllerProvider.notifier);
 
@@ -167,6 +174,12 @@ class SignupUserForm extends ConsumerWidget {
                       );
                       return;
                     }
+
+                    if (mounted) {
+                          setState(() {
+                            _submitted = true; // 👈 hide old error immediately
+                          });
+                        }
       
                     if (formKey.currentState!.validate()) {
                       signupController.signup(
@@ -178,6 +191,12 @@ class SignupUserForm extends ConsumerWidget {
                         passwordController.text.trim(),
                       );
                     }
+
+                    if (mounted) {
+                          setState(() {
+                            _submitted = false; // 👈 allow error again
+                          });
+                        }
                   },
                   child: RoundedContainer(
                     height: screenHeight * 0.06,
@@ -195,7 +214,7 @@ class SignupUserForm extends ConsumerWidget {
                 ),
               ),
       
-          if (signupState.error != null)
+          if (!_submitted && signupState.error != null)
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(

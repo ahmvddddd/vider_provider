@@ -218,7 +218,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
               SizedBox(height: 200),
               Text(
                 "Could not load screen. Please check your internet connection",
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.labelMedium,
                 softWrap: true,
                 textAlign: TextAlign.center,
               ),

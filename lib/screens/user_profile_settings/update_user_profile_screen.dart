@@ -47,16 +47,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             'View all recent transactions',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
-
+          const SizedBox(height: Sizes.sm),
           ListTile(
             leading: Icon(Icons.location_on, size: Sizes.iconM),
             title: Text(
@@ -76,15 +67,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.sm),
           _settingsTile(
             context,
             () => HelperFunction.navigateScreen(
@@ -96,15 +79,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             'Revew and change your subscription plan',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
           _settingsTile(
             context,
             () => HelperFunction.navigateScreen(
@@ -116,15 +91,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             'Update your portfoliomages',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
           _settingsTile(
             context,
             () => HelperFunction.navigateScreen(context, UpdateBio()),
@@ -133,15 +100,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             'Review and update your bio',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
           _settingsTile(
             context,
             () => HelperFunction.navigateScreen(context, UpdateHourlyRate()),
@@ -150,15 +109,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             'Review and update your hourly rate',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
           _settingsTile(
             context,
             () => HelperFunction.navigateScreen(context, UpdateSkills()),
@@ -167,15 +118,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
             'Review and update your skills',
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.sm,
-              horizontal: Sizes.spaceBtwSections,
-            ),
-            child: Divider(
-              color: dark ? CustomColors.alternate : CustomColors.primary,
-            ),
-          ),
+          const SizedBox(height: Sizes.spaceBtwItems),
           _settingsTile(
             context,
             () => HelperFunction.navigateScreen(
@@ -233,7 +176,7 @@ class UpdateUserProfilePage extends ConsumerWidget {
               ],
             ),
 
-            Icon(Iconsax.arrow_right_1, size: Sizes.iconM),
+            Icon(Iconsax.arrow_right_1, size: Sizes.iconSm),
           ],
         ),
       ),
