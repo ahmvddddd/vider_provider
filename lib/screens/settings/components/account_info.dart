@@ -108,7 +108,7 @@ class WalletDetails extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.90,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(Images.bg2),
+          image: AssetImage(Images.bg1),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(Sizes.cardRadiusMd),

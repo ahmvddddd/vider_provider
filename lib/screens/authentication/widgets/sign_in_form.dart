@@ -12,14 +12,14 @@ import '../../../utils/validators/validation.dart';
 import '../reset_password/enter_email.dart';
 import 'build_textfield.dart';
 
-class SigninForm extends ConsumerStatefulWidget {
-  const SigninForm({super.key});
+class SignInForm extends ConsumerStatefulWidget {
+  const SignInForm({super.key});
 
   @override
-  ConsumerState<SigninForm> createState() => _SigninFormState();
+  ConsumerState<SignInForm> createState() => _SigninFormState();
 }
 
-class _SigninFormState extends ConsumerState<SigninForm> {
+class _SigninFormState extends ConsumerState<SignInForm> {
   final formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -49,25 +49,50 @@ class _SigninFormState extends ConsumerState<SigninForm> {
     final username = usernameController.text.trim();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (!_dialogShown &&
-        loginState.error != null &&
-        loginState.error!.toLowerCase().contains('suspended')) {
-      _dialogShown = true; // ✅ prevent reopening
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Account @$username Suspended",
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: CustomColors.error, fontWeight: FontWeight.bold),),
-          content: Text(loginState.error!,
-          style: Theme.of(context).textTheme.bodySmall,),
-          actions: [
-            TextButton( onPressed: () async { final Uri emailLaunchUri = Uri( scheme: 'mailto', path: 'vider_support@gmail.com', query: Uri.encodeQueryComponent( 'subject=Account Suspension Appeal&body=Hello, my account @$username was suspended and I would like to appeal.', ), ); await launchUrl(emailLaunchUri); }, child: Text( 'File Complaint', style: Theme.of(context).textTheme.bodySmall!.copyWith( fontWeight: FontWeight.bold, ), ), ),
-          ],
-        ),
-      );
-      ref.read(loginControllerProvider.notifier).clearError();
-    }
-  });
+      if (!_dialogShown &&
+          loginState.error != null &&
+          loginState.error!.toLowerCase().contains('suspended')) {
+        _dialogShown = true; // ✅ prevent reopening
+        showDialog(
+          context: context,
+          builder:
+              (context) => AlertDialog(
+                title: Text(
+                  "Account @$username Suspended",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: CustomColors.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: Text(
+                  loginState.error!,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () async {
+                      final Uri emailLaunchUri = Uri(
+                        scheme: 'mailto',
+                        path: 'vider_support@gmail.com',
+                        query: Uri.encodeQueryComponent(
+                          'subject=Account Suspension Appeal&body=Hello, my account @$username was suspended and I would like to appeal.',
+                        ),
+                      );
+                      await launchUrl(emailLaunchUri);
+                    },
+                    child: Text(
+                      'File Complaint',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+        );
+        ref.read(loginControllerProvider.notifier).clearError();
+      }
+    });
 
     return Form(
       key: formKey,
@@ -197,7 +222,9 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                 },
                 child: Text(
                   'Forgot Password?',
-                  style: Theme.of(context).textTheme.labelMedium,
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: CustomColors.primary,
+                  ),
                 ),
               ),
             ),

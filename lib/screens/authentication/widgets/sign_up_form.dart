@@ -11,18 +11,18 @@ import '../../../utils/validators/validation.dart';
 import 'build_textfield.dart';
 import 'terms_and_conditions.dart';
 
-class SignupUserForm extends ConsumerStatefulWidget {
-  const SignupUserForm({super.key});
+class SignUpForm extends ConsumerStatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  ConsumerState<SignupUserForm> createState() => _SignupUserFormState();
+  ConsumerState<SignUpForm> createState() => _SignupUserFormState();
 }
 
-class _SignupUserFormState extends ConsumerState<SignupUserForm> {
+class _SignupUserFormState extends ConsumerState<SignUpForm> {
   bool _submitted = false;
-  
+
   @override
-  Widget build(BuildContext context,) {
+  Widget build(BuildContext context) {
     final signupState = ref.watch(signupControllerProvider);
     final signupController = ref.read(signupControllerProvider.notifier);
 
@@ -74,7 +74,7 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
             validator: (value) => Validator.validateEmail(value),
           ),
           const SizedBox(height: Sizes.spaceBtwItems),
-      
+
           /// Password
           _buildPasswordField(
             context,
@@ -84,7 +84,7 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
             isDark: isDark,
           ),
           const SizedBox(height: Sizes.spaceBtwItems),
-      
+
           /// Confirm Password
           _buildPasswordField(
             context,
@@ -99,9 +99,9 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
               return null;
             },
           ),
-      
+
           const SizedBox(height: Sizes.spaceBtwItems),
-      
+
           /// Terms & Conditions Checkbox
           ValueListenableBuilder<bool>(
             valueListenable: termsAccepted,
@@ -130,7 +130,8 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
                             children: [
                               TextSpan(
                                 text: 'Terms and Conditions',
-                                style: Theme.of(context).textTheme.labelMedium!.copyWith(color: CustomColors.primary)
+                                style: Theme.of(context).textTheme.labelMedium!
+                                    .copyWith(color: CustomColors.primary),
                               ),
                             ],
                           ),
@@ -143,12 +144,12 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
               );
             },
           ),
-      
+
           const SizedBox(height: Sizes.spaceBtwItems),
-      
+
           /// Sign Up Button
           signupState.isLoading
-              ?  Center(
+              ? Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
                     Colors.blue,
@@ -170,17 +171,17 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
                         title: 'Accept Terms and conditions',
                         message: 'Please accept the terms and conditions',
                         backgroundColor: CustomColors.error,
-                        icon: Icons.error_outline
+                        icon: Icons.error_outline,
                       );
                       return;
                     }
 
                     if (mounted) {
-                          setState(() {
-                            _submitted = true; // 👈 hide old error immediately
-                          });
-                        }
-      
+                      setState(() {
+                        _submitted = true; // 👈 hide old error immediately
+                      });
+                    }
+
                     if (formKey.currentState!.validate()) {
                       signupController.signup(
                         context,
@@ -193,10 +194,10 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
                     }
 
                     if (mounted) {
-                          setState(() {
-                            _submitted = false; // 👈 allow error again
-                          });
-                        }
+                      setState(() {
+                        _submitted = false; // 👈 allow error again
+                      });
+                    }
                   },
                   child: RoundedContainer(
                     height: screenHeight * 0.06,
@@ -213,7 +214,7 @@ class _SignupUserFormState extends ConsumerState<SignupUserForm> {
                   ),
                 ),
               ),
-      
+
           if (!_submitted && signupState.error != null)
             Padding(
               padding: const EdgeInsets.only(top: 20),

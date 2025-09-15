@@ -3,7 +3,7 @@ import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import 'widgets/form_divider.dart';
-import 'widgets/signup_form.dart';
+import 'widgets/sign_up_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   final VoidCallback toggleScreen;
@@ -39,7 +39,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: Sizes.spaceBtwItems),
-                const SignupUserForm(),
+                const SignUpForm(),
 
                 const SizedBox(height: Sizes.spaceBtwItems),
                 const FormDivider(dividerText: 'Already a user ?'),
