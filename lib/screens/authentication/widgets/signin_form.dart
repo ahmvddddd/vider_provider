@@ -25,6 +25,7 @@ class _SigninFormState extends ConsumerState<SigninForm> {
   final passwordController = TextEditingController();
   final hidePassword = ValueNotifier<bool>(true);
   bool _dialogShown = false;
+  bool _submitted = false;
 
   @override
   void initState() {
@@ -141,11 +142,22 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                     onTap: () async {
                       FocusScope.of(context).unfocus();
                       if (formKey.currentState!.validate()) {
+                        if (mounted) {
+                          setState(() {
+                            _submitted = true;
+                          });
+                        }
                         await loginController.login(
                           context,
                           usernameController.text.trim(),
                           passwordController.text,
                         );
+
+                        if (mounted) {
+                          setState(() {
+                            _submitted = false;
+                          });
+                        }
                       }
                     },
                     child: RoundedContainer(
@@ -164,7 +176,7 @@ class _SigninFormState extends ConsumerState<SigninForm> {
                   ),
                 ),
 
-            if (loginState.error != null)
+            if (!_submitted && loginState.error != null)
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
