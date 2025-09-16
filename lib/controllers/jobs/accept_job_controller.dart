@@ -62,6 +62,7 @@ class AddJobController extends StateNotifier<AsyncValue<void>> {
           icon: Icons.check_circle,
         );
       } else {
+        print(response.body);
         CustomSnackbar.show(
           context: context,
           title: 'An error occurred',
@@ -82,6 +83,7 @@ class AddJobController extends StateNotifier<AsyncValue<void>> {
         throw exception;
       }
     } catch (error, stackTrace) {
+      print(error.toString());
       CustomSnackbar.show(
         context: context,
         title: 'An error occurred',

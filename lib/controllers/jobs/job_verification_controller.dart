@@ -22,6 +22,6 @@ final jobVerifyProvider =
   if (response.statusCode == 200) {
     return true;
   } else {
-    throw Exception("Verification failed: ${response.body}");
+    throw Exception("Verification failed");
   }
 });

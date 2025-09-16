@@ -30,7 +30,7 @@ class ProviderDashboardScreen extends ConsumerWidget {
       data: (dashboard) {
         final Map<DateTime, int> heatmapData = {};
         for (var earning in dashboard.earningsByDay) {
-          final date = DateTime.parse(earning.date);
+          final date = DateTime.parse(earning.date!);
           heatmapData[date] = earning.count;
         }
 
@@ -142,8 +142,8 @@ class ProviderDashboardScreen extends ConsumerWidget {
                               itemBuilder: (context, index) {
                                 final employer = dashboard.topEmployers[index];
                                 return ClientCard(
-                                  profileImage: employer.employerImage,
-                                  profileName: employer.employerName,
+                                  profileImage: employer.employerImage!,
+                                  profileName: employer.employerName!,
                                   jobsLength: employer.totalJobs,
                                   onTap: () {
                                     Navigator.push(
@@ -152,9 +152,9 @@ class ProviderDashboardScreen extends ConsumerWidget {
                                         builder:
                                             (_) => ClientsScreen(
                                               employerName:
-                                                  employer.employerName,
+                                                  employer.employerName!,
                                               employerImage:
-                                                  employer.employerImage,
+                                                  employer.employerImage!,
                                               jobs: employer.jobs,
                                             ),
                                       ),
@@ -187,8 +187,8 @@ class ProviderDashboardScreen extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         final employer = dashboard.topEmployers[index];
                         return ClientCard(
-                          profileImage: employer.employerImage,
-                          profileName: employer.employerName,
+                          profileImage: employer.employerImage!,
+                          profileName: employer.employerName!,
                           jobsLength: employer.totalJobs,
                           onTap: () {
                             Navigator.push(
@@ -196,8 +196,8 @@ class ProviderDashboardScreen extends ConsumerWidget {
                               MaterialPageRoute(
                                 builder:
                                     (_) => ClientsScreen(
-                                      employerName: employer.employerName,
-                                      employerImage: employer.employerImage,
+                                      employerName: employer.employerName!,
+                                      employerImage: employer.employerImage!,
                                       jobs: employer.jobs,
                                     ),
                               ),
