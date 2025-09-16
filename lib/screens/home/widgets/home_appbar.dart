@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:vider_provider/utils/helpers/capitalize_text.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../nav_menu.dart';
@@ -70,7 +71,9 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
 
                 const SizedBox(width: Sizes.sm),
                 Text(
-                  'Hi, ${user.username}',
+                  'Hi, ${user.firstname.capitalizeEachWord()} ${
+                    user.lastname.capitalizeEachWord()
+                  }',
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],
