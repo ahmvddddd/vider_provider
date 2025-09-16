@@ -40,24 +40,35 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 - Sign In and Sign Up screens include all required form fields.  
 - All input values are validated before submission.  
 - Authentication tokens are stored securely.
-| ![Sign In](assets/screenshots/sign_in.png) | ![Sign Up](assets/screenshots/sign_up.png) |
+
+<p align="center">
+<img src="assets/screenshots/sign_in.png)" alt="Chats" width="220" height="500"/>
+<img src="assets/screenshots/sign_up.png)" alt="Message" width="220" height="500"/>
+</p>
 
 ### 📊 Dashboard
 - Displayed after login.  
 - Shows the **total amount earned** by the provider since joining.  
 - Includes a **job heatmap** and **average job duration** statistics.
-| ![Dashboard](assets/screenshots/dashboard.png) | 
+
+<img src="assets/screenshots/dashboard.png)" alt="Chats" width="220" height="500"/>
 
 ### 🛠 Jobs
 - Displays all jobs, with **active jobs pinned at the top**.  
 - Includes a **timer indicator** to show remaining time for active jobs.
-| ![Jobs](assets/screenshots/jobs.png) | 
+
+<img src="assets/screenshots/jobs.png)" alt="Dashboard Screenshot" width="220" height="500"/>
+
 
 ### 💬 Chat & Messaging
 - Chat screen lists all client conversations with **unread indicators**.  
 - Instant messaging powered by **sockets**.  
 - Integrated with **Firebase Cloud Messaging (FCM)** so providers never miss messages or job updates.  
-| ![Chats](assets/screenshots/chats.png) | ![Message](assets/screenshots/message.gif) |
+
+<p align="center">
+<img src="assets/screenshots/chats.png)" alt="Chats" width="220" height="500"/>
+<img src="assets/screenshots/message.gif)" alt="Message" width="220" height="500"/>
+</p>
 
 ### 👤 Profile & Settings
 - Profile screen previews how the provider’s portfolio appears to clients.  
@@ -65,8 +76,11 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
   - Wallet (balance + token withdrawals).  
   - Location toggle (visible/invisible to clients).  
   - App and profile customization options.  
-  | ![Profile](assets/screenshots/profile.png) | ![Sign Up](assets/screenshots/settings.png) |
 
+<p align="center">
+<img src="assets/screenshots/profile.png)" alt="Profile" width="220" height="500"/>
+<img src="assets/screenshots/settings.png)" alt="Settings" width="220" height="500"/>
+</p>
 ---
 
 ## 🛠 Tech Stack
