@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:vider_provider/utils/helpers/capitalize_text.dart';
+import '../../utils/helpers/capitalize_text.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../common/widgets/custom_shapes/divider/custom_divider.dart';
 import 'package:intl/intl.dart';
@@ -127,8 +127,12 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
     final code = _codeControllers.map((c) => c.text).join();
 
     if (code.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter all 6 digits")),
+      CustomSnackbar.show(
+        context: context,
+        title: 'Invalid code',
+        message: 'Please enter all 6 digits',
+        icon: Icons.error_outline,
+        backgroundColor: CustomColors.error
       );
       return;
     }
@@ -180,7 +184,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                 type: 'generic',
                 title: 'Job Accepted',
                 message:
-                    'Your job has been accepted by the employer and countdown timer has started',
+                    'Your job has been accepted by the provider and countdown timer has started',
                 recipientId: widget.employerId,
               ),
             );
@@ -209,7 +213,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
       CustomSnackbar.show(
         context: context,
         title: 'An error occurred.',
-        message: 'Verification failed: $e',
+        message: 'Verification failed',
         icon: Icons.error_outline,
         backgroundColor: CustomColors.error,
       );
@@ -263,7 +267,6 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
     final dark = HelperFunction.isDarkMode(context);
     final profileLocation = LatLng(widget.latitude, widget.longitude);
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -478,31 +481,32 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                     6,
                     (index) => RoundedContainer(
                       width: screenWidth * 0.12,
-                      height: screenHeight * 0.08,
                       radius: Sizes.cardRadiusMd,
                       backgroundColor:
                           dark
                               ? Colors.white.withOpacity(0.1)
                               : Colors.black.withOpacity(0.1),
-                      child: TextField(
-                        controller: _codeControllers[index],
-                        keyboardType: TextInputType.phone,
-                        maxLength: 1,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-
-                        decoration: const InputDecoration(
-                          counterText: "",
-                          border: InputBorder.none,
+                      child: Center(
+                        child: TextField(
+                          controller: _codeControllers[index],
+                          keyboardType: TextInputType.phone,
+                          maxLength: 1,
+                          textAlign: TextAlign.center,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(1),
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                        
+                          decoration: const InputDecoration(
+                            counterText: "",
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (value) {
+                            if (value.isNotEmpty && index < 5) {
+                              FocusScope.of(context).nextFocus();
+                            }
+                          },
                         ),
-                        onChanged: (value) {
-                          if (value.isNotEmpty && index < 5) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                        },
                       ),
                     ),
                   ),
