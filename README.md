@@ -42,8 +42,8 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 - Authentication tokens are stored securely.
 
 <p align="center">
-<img src="assets/screenshots/sign_in.png)" alt="Chats" width="220" height="500"/>
-<img src="assets/screenshots/sign_up.png)" alt="Message" width="220" height="500"/>
+<img src="assets/screenshots/sign_in.png" alt="Sign In" width="220" height="500"/>
+<img src="assets/screenshots/sign_up.png" alt="Sign Up" width="220" height="500"/>
 </p>
 
 ### 📊 Dashboard
@@ -51,13 +51,13 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 - Shows the **total amount earned** by the provider since joining.  
 - Includes a **job heatmap** and **average job duration** statistics.
 
-<img src="assets/screenshots/dashboard.png)" alt="Chats" width="220" height="500"/>
+<img src="assets/screenshots/dashboard.png" alt="Dashboard" width="220" height="500"/>
 
 ### 🛠 Jobs
 - Displays all jobs, with **active jobs pinned at the top**.  
 - Includes a **timer indicator** to show remaining time for active jobs.
 
-<img src="assets/screenshots/jobs.png)" alt="Dashboard Screenshot" width="220" height="500"/>
+<img src="assets/screenshots/jobs.png" alt="Jobs" width="220" height="500"/>
 
 
 ### 💬 Chat & Messaging
@@ -66,8 +66,8 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 - Integrated with **Firebase Cloud Messaging (FCM)** so providers never miss messages or job updates.  
 
 <p align="center">
-<img src="assets/screenshots/chats.png)" alt="Chats" width="220" height="500"/>
-<img src="assets/screenshots/message.gif)" alt="Message" width="220" height="500"/>
+<img src="assets/screenshots/chats.png" alt="Chats" width="220" height="500"/>
+<img src="assets/screenshots/message.gif" alt="Message" width="220" height="500"/>
 </p>
 
 ### 👤 Profile & Settings
@@ -78,8 +78,8 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
   - App and profile customization options.  
 
 <p align="center">
-<img src="assets/screenshots/profile.png)" alt="Profile" width="220" height="500"/>
-<img src="assets/screenshots/settings.png)" alt="Settings" width="220" height="500"/>
+<img src="assets/screenshots/profile.png" alt="Profile" width="220" height="500"/>
+<img src="assets/screenshots/settings.png" alt="Settings" width="220" height="500"/>
 </p>
 ---
 
