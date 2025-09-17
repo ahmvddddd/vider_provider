@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:vider_provider/utils/helpers/capitalize_text.dart';
 import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../controllers/messages/message_socket_controller.dart';
 import '../../controllers/services/user_id_controller.dart';
@@ -119,7 +120,7 @@ class _MessageState extends ConsumerState<MessageScreen> {
           'participants': widget.participants,
           'senderId': currentUserId,
           'receiverId': receiverId,
-          'senderName': user.username,
+          'senderName': '${user.firstname.capitalizeEachWord()} ${user.lastname.capitalizeEachWord()}',
           'senderImage': user.profileImage,
           'receiverName': widget.receiverName,
           'receiverImage': widget.receiverImage,
