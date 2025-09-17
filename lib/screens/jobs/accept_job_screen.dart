@@ -399,7 +399,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                           ),
                           const SizedBox(width: Sizes.sm),
                           Text(
-                            widget.employerName.capitalizeEachWord(),
+                            widget.providerName.capitalizeEachWord(),
                             style: Theme.of(context).textTheme.bodySmall!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
