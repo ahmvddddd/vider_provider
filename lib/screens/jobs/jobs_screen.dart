@@ -162,9 +162,9 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                               ),
 
                               //description
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.all(Sizes.xs),
-                                child: Divider(color: CustomColors.primary),
+                                child: Divider(color: dark ? CustomColors.alternate: CustomColors.primary),
                               ),
                               Row(
                                 mainAxisAlignment:

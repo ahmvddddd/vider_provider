@@ -371,7 +371,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const CustomDivider(padding: EdgeInsets.all(Sizes.sm)),
+                      CustomDivider(padding: EdgeInsets.all(Sizes.sm)),
                       Row(
                         children: [
                           GestureDetector(
