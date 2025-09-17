@@ -149,7 +149,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
           message:
               'You already have a job in progress. Complete it before accepting a new one.',
           icon: Icons.warning_amber_outlined,
-          backgroundColor: CustomColors.error,
+          backgroundColor: CustomColors.warning,
         );
         return; // 🚫 stop execution
       }

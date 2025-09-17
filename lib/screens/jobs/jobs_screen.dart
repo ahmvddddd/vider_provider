@@ -176,7 +176,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                         Theme.of(context).textTheme.labelMedium,
                                   ),
                                   Text(
-                                    '${job['duration']} hrs',
+                                    '${job['duration']} hr(s)',
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelMedium!
