@@ -56,7 +56,7 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 ###  Jobs
 - Displays all jobs, with **active jobs pinned at the top**.  
 - Includes a **timer indicator** to show remaining time for active jobs.
-- Accept job screen requires displays the location where the service would be rendered and all job details.
+- Accept job screen displays the location where the service would be rendered and all job details.
 
 <p align="center">
 <img src="assets/screenshots/jobs.png" alt="Jobs" width="220" height="500"/>
