@@ -12,7 +12,7 @@ The app is built with **Flutter** for the frontend, **Node.js** for the backend,
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 The app follows a **Model–View–Controller (MVC)** software architecture:
 
@@ -30,13 +30,13 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
   Handle user input, process requests, and decide what data from the Model goes to the View.  
   Example: `transaction_controller` fetches transactions from the backend and displays transaction details in the transaction history screen using the `transaction_model`.  
 
-👉 All **state management** logic is handled using **flutter_riverpod**.  
+ All **state management** logic is handled using **flutter_riverpod**.  
 
 ---
 
-## 📱 Screenshots & Features
+##  Screenshots & Features
 
-### 🔑 Authentication
+###  Authentication
 - Sign In and Sign Up screens include all required form fields.  
 - All input values are validated before submission.  
 - Authentication tokens are stored securely.
@@ -46,14 +46,14 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 <img src="assets/screenshots/sign_up.png" alt="Sign Up" width="220" height="500"/>
 </p>
 
-### 📊 Dashboard
+###  Dashboard
 - Displayed after login.  
 - Shows the **total amount earned** by the provider since joining.  
 - Includes a **job heatmap** and **average job duration** statistics.
 
 <img src="assets/screenshots/dashboard.png" alt="Dashboard" width="220" height="500"/>
 
-### 🛠 Jobs
+###  Jobs
 - Displays all jobs, with **active jobs pinned at the top**.  
 - Includes a **timer indicator** to show remaining time for active jobs.
 - Accept job screen requires displays the location where the service would be rendered and all job details.
@@ -63,7 +63,7 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 <img src="assets/screenshots/accept_job.png" alt="Jobs" width="220" height="500"/>
 </p>
 
-### 💬 Chat & Messaging
+###  Chat & Messaging
 - Chat screen lists all client conversations with **unread indicators**.  
 - Instant messaging powered by **sockets**.  
 - Integrated with **Firebase Cloud Messaging (FCM)** so providers never miss messages or job updates.  
@@ -73,7 +73,7 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 <img src="assets/screenshots/message.gif" alt="Message" width="220" height="500"/>
 </p>
 
-### 👤 Profile & Settings
+###  Profile & Settings
 - Profile screen previews how the provider’s portfolio appears to clients.  
 - Settings screen provides access to:  
   - Wallet (balance + token withdrawals).  
@@ -86,7 +86,7 @@ The app follows a **Model–View–Controller (MVC)** software architecture:
 </p>
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 - **Frontend:** Flutter  
 - **Backend:** Node.js  
 - **Database:** MongoDB  
