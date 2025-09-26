@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../utils/helpers/helper_function.dart';
 
 class TermsAndConditionsDialog extends StatelessWidget {
@@ -54,8 +53,12 @@ By signing up, you agree to these terms.
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child:  Text('Close',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.red)),
+          child: Text(
+            'Close',
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall!.copyWith(color: Colors.red),
+          ),
         ),
       ],
     );

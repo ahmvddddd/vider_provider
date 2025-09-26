@@ -5,6 +5,7 @@ import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
+import '../../utils/helpers/reponsive_size.dart';
 
 // Riverpod state provider for current index
 final currentIndexProvider = StateProvider<int>((ref) => 0);
@@ -72,7 +73,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final isActive = index == currentIndex;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      margin: EdgeInsets.symmetric(horizontal: responsiveSize(context, 4.0)),
       height: 8.0,
       width: isActive ? 24.0 : 8.0,
       decoration: BoxDecoration(
@@ -125,8 +126,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     ),
                     const SizedBox(height: Sizes.spaceBtwSections),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.spaceBtwItems,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: responsiveSize(context, Sizes.spaceBtwItems),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,7 +156,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: responsiveSize(context, 16), vertical: responsiveSize(context, 16)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -168,7 +169,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 TextButton(
                   onPressed: _nextPage,
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(Sizes.xs),
+                    padding: EdgeInsets.all(responsiveSize(context, Sizes.xs)),
                     backgroundColor: CustomColors.primary,
                   ),
                   child: Text(

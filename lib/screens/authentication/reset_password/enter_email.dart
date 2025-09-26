@@ -8,6 +8,7 @@ import '../../../controllers/verification_controllers/reset_otp_controller.dart'
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
+import '../../../utils/helpers/reponsive_size.dart';
 
 class EnterEmailScreen extends ConsumerWidget {
   const EnterEmailScreen({super.key});
@@ -49,7 +50,7 @@ class EnterEmailScreen extends ConsumerWidget {
                 )
                 : SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.all(Sizes.spaceBtwItems),
+                    padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -59,7 +60,7 @@ class EnterEmailScreen extends ConsumerWidget {
                           description:
                               'Enter your current email registered to this account to recieve OTP',
                         ),
-                        const SizedBox(height: Sizes.spaceBtwItems),
+                        SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(

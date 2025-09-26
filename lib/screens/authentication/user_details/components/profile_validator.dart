@@ -1,5 +1,3 @@
-
-
 // New: Validation class
 class ProfileValidator {
   static String? validate({

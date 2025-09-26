@@ -7,6 +7,7 @@ import '../../../controllers/auth/sign_up_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
+import '../../../utils/helpers/reponsive_size.dart';
 import '../../../utils/validators/validation.dart';
 import 'build_textfield.dart';
 import 'terms_and_conditions.dart';
@@ -44,28 +45,28 @@ class _SignupUserFormState extends ConsumerState<SignUpForm> {
       key: formKey,
       child: Column(
         children: [
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
           BuildTextfield(
             controller: firstnameController,
             icon: Iconsax.user,
             hint: 'Firstname',
             validator: (value) => Validator.validateTextField(value),
           ),
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
           BuildTextfield(
             controller: lastnameController,
             icon: Iconsax.user,
             hint: 'Lastname',
             validator: (value) => Validator.validateTextField(value),
           ),
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
           BuildTextfield(
             controller: usernameController,
             icon: Iconsax.user,
             hint: 'Username',
             validator: (value) => Validator.validateTextField(value),
           ),
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
           BuildTextfield(
             controller: emailController,
             icon: Iconsax.direct,
@@ -73,7 +74,7 @@ class _SignupUserFormState extends ConsumerState<SignUpForm> {
             isEmail: true,
             validator: (value) => Validator.validateEmail(value),
           ),
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
 
           /// Password
           _buildPasswordField(
@@ -83,7 +84,7 @@ class _SignupUserFormState extends ConsumerState<SignUpForm> {
             label: 'Password',
             isDark: isDark,
           ),
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
 
           /// Confirm Password
           _buildPasswordField(
@@ -100,7 +101,7 @@ class _SignupUserFormState extends ConsumerState<SignUpForm> {
             },
           ),
 
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
 
           /// Terms & Conditions Checkbox
           ValueListenableBuilder<bool>(
@@ -145,7 +146,7 @@ class _SignupUserFormState extends ConsumerState<SignUpForm> {
             },
           ),
 
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
 
           /// Sign Up Button
           signupState.isLoading

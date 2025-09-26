@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
+import '../../utils/helpers/reponsive_size.dart';
 import 'widgets/form_divider.dart';
 import 'widgets/sign_in_form.dart';
 
@@ -18,7 +19,7 @@ class SignInScreen extends StatelessWidget {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
             child: Column(
               children: [
                 SizedBox(height: screenHeight * 0.15),
@@ -39,14 +40,14 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: Sizes.spaceBtwItems),
+                SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                 const SignInForm(),
 
-                const SizedBox(height: Sizes.spaceBtwItems),
+                SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                 const FormDivider(dividerText: 'Create an account'),
 
                 //signup button
-                const SizedBox(height: Sizes.spaceBtwItems),
+                SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                 SizedBox(
                   width: double.infinity,
                   child: GestureDetector(

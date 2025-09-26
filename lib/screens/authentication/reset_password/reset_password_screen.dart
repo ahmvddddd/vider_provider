@@ -7,6 +7,7 @@ import '../../../common/widgets/custom_shapes/containers/button_container.dart';
 import '../../../common/widgets/texts/title_and_description.dart';
 import '../../../controllers/verification_controllers/reset_password_controller.dart';
 import '../../../utils/constants/sizes.dart';
+import '../../../utils/helpers/reponsive_size.dart';
 import '../../../utils/validators/validation.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
@@ -107,7 +108,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 )
                 : SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                    padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -120,7 +121,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                             description:
                                 'Check your email for the OTP code we sent you.',
                           ),
-                          const SizedBox(height: Sizes.spaceBtwItems),
+                          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
 
                           /// Styled OTP Boxes
                           Row(
@@ -175,14 +176,14 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                             }),
                           ),
 
-                          const SizedBox(height: Sizes.spaceBtwItems * 2),
+                          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems * 2)),
                           TitleAndDescription(
                             textAlign: TextAlign.left,
                             title: 'Enter new password',
                             description:
                                 'Password must contain at least one uppercase, one lowercase, one special character and at least 6 characters.',
                           ),
-                          const SizedBox(height: Sizes.spaceBtwItems),
+                          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                           ValueListenableBuilder<bool>(
                             valueListenable: hideNewPassword,
                             builder: (context, value, child) {
@@ -206,7 +207,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                             },
                           ),
 
-                          const SizedBox(height: Sizes.spaceBtwItems),
+                          SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                           TitleAndDescription(
                             textAlign: TextAlign.left,
                             title: 'Confirm password',

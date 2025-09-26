@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +10,7 @@ import '../../../controllers/auth/user_bio_controller.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
+import '../../../utils/helpers/reponsive_size.dart';
 import '../../../utils/helpers/token_secure_storage.dart';
 import '../../uploads/upload_profile_image.dart';
 import 'components/profile_validator.dart';
@@ -175,7 +174,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 : occupationsAsync.when(
                   data:
                       (occupations) => SingleChildScrollView(
-                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                        padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
                         child: _buildForm(
                           context,
                           occupations,
@@ -193,7 +192,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                             const Text(
                               'Failed to load categories. Please try again.',
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: responsiveSize(context, 10)),
                             ElevatedButton(
                               onPressed: () => ref.refresh(occupationsProvider),
                               child: const Text('Retry'),
@@ -220,15 +219,15 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           title: 'Date of Birth',
           description: 'Tap the select button to enter your DOB',
         ),
-        const SizedBox(height: Sizes.spaceBtwItems),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
         _buildDOBSection(screenWidth),
-        const SizedBox(height: Sizes.spaceBtwSections),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwSections)),
         const TitleAndDescription(
           textAlign: TextAlign.left,
           title: 'Bio',
           description: 'A brief description about the services you provide',
         ),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: responsiveSize(context, Sizes.sm)),
         TextFieldContainer(
           controller: bioController,
           maxLength: 200,
@@ -236,24 +235,24 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           keyboardType: TextInputType.text,
           hintText: 'Brief description',
         ),
-        const SizedBox(height: Sizes.spaceBtwSections),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwSections)),
         const TitleAndDescription(
           textAlign: TextAlign.left,
           title: 'Service',
           description: 'Select the category and service you would render',
         ),
         Padding(
-          padding: const EdgeInsets.all(Sizes.sm),
+          padding: EdgeInsets.all(responsiveSize(context, Sizes.sm)),
           child: _buildServiceDropdowns(occupations),
         ),
-        const SizedBox(height: Sizes.spaceBtwSections),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwSections)),
         const TitleAndDescription(
           textAlign: TextAlign.left,
           title: 'Skills',
           description:
               'Enter your professional skills and hit enter. Tap to remove.',
         ),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: responsiveSize(context, Sizes.sm)),
         TextFieldContainer(
           controller: skillsController,
           hintText: 'Skills',
@@ -266,13 +265,13 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           onDelete: (index) => setState(() => skills.removeAt(index)),
         ),
 
-        const SizedBox(height: Sizes.spaceBtwSections),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwSections)),
         const TitleAndDescription(
           textAlign: TextAlign.left,
           title: 'Hourly Rate',
           description: 'Enter how much you charge per hour (minimum \$5)',
         ),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: responsiveSize(context, Sizes.sm)),
         TextFieldContainer(
           controller: hourlyRateController,
           hintText: 'Hourly Rate (\$)',
@@ -299,13 +298,13 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               context,
             ).textTheme.labelMedium!.copyWith(color: Colors.red),
           ),
-        const SizedBox(height: Sizes.spaceBtwItems),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                padding: EdgeInsets.all(responsiveSize(context,Sizes.spaceBtwItems)),
                 backgroundColor: CustomColors.primary,
               ),
               onPressed: () => _pickDate(context),
@@ -352,7 +351,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             },
           ),
         ),
-        const SizedBox(height: Sizes.spaceBtwItems),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
         SizedBox(
           width: screenWidth * 0.90,
           child: DropdownButton<String>(

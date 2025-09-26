@@ -36,8 +36,8 @@ class _AppState extends State<App> {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
-      theme: TAppTheme.lightTheme,
-      darkTheme: TAppTheme.darkTheme,
+      theme: TAppTheme.lightTheme(context),
+      darkTheme: TAppTheme.darkTheme(context),
       home: _initialScreen ??  Scaffold( // Show splash/loader while checking
         body: Center(child: CircularProgressIndicator(
           
