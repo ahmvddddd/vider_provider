@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../common/widgets/custom_shapes/containers/rounded_container.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../utils/constants/sizes.dart';
+import '../../../utils/helpers/reponsive_size.dart';
 
 class JobDurationAndStatus extends StatelessWidget {
   final double averageDuration;
@@ -18,7 +19,7 @@ class JobDurationAndStatus extends StatelessWidget {
     return RoundedContainer(
         height: screenHeight * 0.20,
         width: screenWidth * 0.90,
-        padding: const EdgeInsets.all(Sizes.md),
+        padding: EdgeInsets.all(responsiveSize(context, Sizes.md)),
         radius: Sizes.cardRadiusMd,
         backgroundColor: CustomColors.primary,
         child: Column(
@@ -32,7 +33,7 @@ class JobDurationAndStatus extends StatelessWidget {
               'Average Job Duration',
               style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white)
             ),
-        const SizedBox(height: Sizes.spaceBtwItems),
+        SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
         Text(
           '${averageDuration.toStringAsFixed(1)} hrs',
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
@@ -51,7 +52,7 @@ class JobDurationAndStatus extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
     
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: responsiveSize(context, Sizes.sm)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children:  [

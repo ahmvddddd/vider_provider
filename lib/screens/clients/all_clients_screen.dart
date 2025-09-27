@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../common/widgets/appbar/appbar.dart';
 import '../../utils/constants/sizes.dart';
+import '../../utils/helpers/reponsive_size.dart';
 
 class AllClientsScreen extends StatelessWidget {
   final Widget childWidget;
@@ -19,7 +20,7 @@ class AllClientsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+          padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
           child: Column(
             children: [
               childWidget

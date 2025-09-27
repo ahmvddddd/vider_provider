@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../../utils/constants/custom_colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../utils/constants/image_strings.dart';
+import '../../../utils/helpers/reponsive_size.dart';
 
 class TotalEarnings extends StatelessWidget {
   final double totalPay;
@@ -28,7 +29,7 @@ class TotalEarnings extends StatelessWidget {
         // color: dark ? Colors.white.withValues(alpha:0.1) : Colors.black.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(Sizes.cardRadiusSm),
       ),
-      padding: const EdgeInsets.all(Sizes.sm),
+      padding: EdgeInsets.all(responsiveSize(context, Sizes.sm)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,18 +39,18 @@ class TotalEarnings extends StatelessWidget {
               context,
             ).textTheme.labelMedium!.copyWith(color: Colors.white),
           ),
-          const SizedBox(height: Sizes.xs),
+          SizedBox(height: responsiveSize(context, Sizes.xs)),
           Text(
             '\$${NumberFormat('#,##0.00').format(totalPay)}',
             style: Theme.of(
               context,
             ).textTheme.headlineSmall!.copyWith(color: Colors.white),
           ),
-          const SizedBox(height: Sizes.spaceBtwItems),
+          SizedBox(height: responsiveSize(context, Sizes.md)),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(width: Sizes.md),
+              SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
               Container(
                 padding: const EdgeInsets.all(Sizes.sm),
                 decoration: BoxDecoration(

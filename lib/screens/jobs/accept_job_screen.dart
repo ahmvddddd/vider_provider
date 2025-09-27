@@ -23,6 +23,7 @@ import '../../controllers/jobs/accept_job_controller.dart';
 import '../../controllers/jobs/pending_jobs_controller.dart';
 import '../../controllers/notifications/add_notification_controller.dart';
 import '../../models/notification/add_notification_model.dart';
+import '../../utils/helpers/reponsive_size.dart';
 
 class AcceptJobScreen extends ConsumerStatefulWidget {
   final String id;
@@ -286,7 +287,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+            padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -338,7 +339,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                   ),
                 ),
 
-                const SizedBox(height: Sizes.spaceBtwItems),
+                SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
 
                 /// Job details
                 RoundedContainer(
@@ -364,7 +365,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                         maxLines: 3,
                       ),
 
-                      const SizedBox(height: Sizes.xs),
+                      SizedBox(height: responsiveSize(context, Sizes.xs)),
                       Text(
                         DateFormat('dd/MM/yy HH:mm:ss').format(widget.date),
                         style: Theme.of(context).textTheme.labelSmall!.copyWith(
@@ -397,7 +398,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: Sizes.sm),
+                          SizedBox(height: responsiveSize(context, Sizes.sm)),
                           Text(
                             widget.providerName.capitalizeEachWord(),
                             style: Theme.of(context).textTheme.bodySmall!
@@ -405,14 +406,14 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: Sizes.sm),
+                      SizedBox(height: responsiveSize(context, Sizes.sm)),
                       Row(
                         children: [
                           Text(
                             'Service Needed:',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          const SizedBox(width: Sizes.md),
+                          SizedBox(height: responsiveSize(context, Sizes.md)),
                           Text(
                             widget.jobTitle.capitalizeEachWord(),
                             style: Theme.of(
@@ -427,14 +428,14 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: Sizes.xs),
+                      SizedBox(height: responsiveSize(context, Sizes.xs)),
                       Row(
                         children: [
                           Text(
                             'PAY:',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          const SizedBox(width: Sizes.md),
+                          SizedBox(height: responsiveSize(context, Sizes.md)),
                           Text(
                             '\$${widget.pay}',
                             style: Theme.of(
@@ -446,14 +447,14 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: Sizes.xs),
+                      SizedBox(height: responsiveSize(context, Sizes.xs)),
                       Row(
                         children: [
                           Text(
                             'Duration:',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          const SizedBox(width: Sizes.md),
+                          SizedBox(height: responsiveSize(context, Sizes.md)),
                           Text(
                             '${widget.duration} Hour(s)',
                             style: Theme.of(context).textTheme.labelLarge!
@@ -465,7 +466,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                   ),
                 ),
 
-                const SizedBox(height: Sizes.spaceBtwSections),
+               SizedBox(height: responsiveSize(context, Sizes.spaceBtwSections)),
 
                 TitleAndDescription(
                   title: 'Verification Code',
@@ -474,7 +475,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
                   textAlign: TextAlign.left,
                 ),
 
-                const SizedBox(height: Sizes.spaceBtwItems),
+                SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(
@@ -530,7 +531,7 @@ class _JobRequestNotificationState extends ConsumerState<AcceptJobScreen> {
     return SizedBox(
       width: double.infinity,
       child: Container(
-        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+        padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
         color:
             dark
                 ? CustomColors.white.withValues(alpha: 0.1)

@@ -11,6 +11,7 @@ import '../../controllers/user/report_issue_controller.dart';
 import '../../utils/constants/custom_colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
+import '../../utils/helpers/reponsive_size.dart';
 
 class ClientsScreen extends StatelessWidget {
   final String employerName;
@@ -61,7 +62,7 @@ class ClientsScreen extends StatelessWidget {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+          padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
           child: Column(
             children: [
               //avatar and name
@@ -77,17 +78,17 @@ class ClientsScreen extends StatelessWidget {
                   child: Image.network(employerImage, fit: BoxFit.cover),
                 ),
               ),
-              const SizedBox(height: Sizes.spaceBtwItems),
+              SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
               const SectionHeading(
                 title: 'Recent Transactions',
                 showActionButton: false,
               ),
 
-              const SizedBox(height: Sizes.spaceBtwItems),
+              SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
               HomeListView(
                 seperatorBuilder:
-                    (context, index) => const Padding(
-                      padding: EdgeInsets.all(Sizes.spaceBtwItems),
+                    (context, index) => Padding(
+                      padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
                       child: Divider(color: CustomColors.primary),
                     ),
                 scrollDirection: Axis.vertical,

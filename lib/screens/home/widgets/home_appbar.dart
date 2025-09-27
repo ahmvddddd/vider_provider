@@ -6,6 +6,7 @@ import '../../../controllers/user/user_controller.dart';
 import '../../../nav_menu.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_function.dart';
+import '../../../utils/helpers/reponsive_size.dart';
 import '../../notifications/notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -54,7 +55,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                         dark
                             ? Colors.white.withValues(alpha: 0.1)
                             : Colors.black.withValues(alpha: 0.1),
-                    padding: const EdgeInsets.all(Sizes.xs),
+                    padding: EdgeInsets.all(responsiveSize(context, Sizes.xs)),
                     child: Center(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
@@ -69,7 +70,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                   ),
                 ),
 
-                const SizedBox(width: Sizes.sm),
+                SizedBox(width: responsiveSize(context, Sizes.sm)),
                 Text(
                   'Hi, ${user.firstname.capitalizeEachWord()} ${
                     user.lastname.capitalizeEachWord()
@@ -90,7 +91,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
                 );
               },
               child: RoundedContainer(
-                padding: const EdgeInsets.all(Sizes.sm),
+                padding: EdgeInsets.all(responsiveSize(context, Sizes.sm)),
                 radius: 100,
                 backgroundColor:
                     dark
@@ -154,7 +155,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
 
               //notifications
               RoundedContainer(
-                padding: const EdgeInsets.all(Sizes.sm),
+                padding: EdgeInsets.all(responsiveSize(context, Sizes.sm)),
                 radius: 100,
                 backgroundColor:
                     dark
@@ -193,7 +194,7 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
 
               //notifications
               RoundedContainer(
-                padding: const EdgeInsets.all(Sizes.sm),
+                padding: EdgeInsets.all(responsiveSize(context, Sizes.sm)),
                 radius: 100,
                 backgroundColor:
                     dark

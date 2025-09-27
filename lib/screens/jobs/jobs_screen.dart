@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../utils/helpers/reponsive_size.dart';
 import 'components/jobs_screen_shimmer.dart';
 
 class JobsScreen extends ConsumerStatefulWidget {
@@ -87,19 +88,19 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
             }
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+                padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
                 child: Column(
                   children: [
                     if (isRefreshing) Column(children: [JobsScreenShimmer()]),
 
-                    const SizedBox(height: Sizes.spaceBtwItems),
+                    SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                     HomeListView(
                       scrollDirection: Axis.vertical,
                       itemCount: jobs.length,
                       scrollPhysics: const NeverScrollableScrollPhysics(),
                       seperatorBuilder:
                           (context, index) =>
-                              const SizedBox(height: Sizes.spaceBtwItems),
+                              SizedBox(height: responsiveSize(context, Sizes.spaceBtwItems)),
                       itemBuilder: (context, index) {
                         var job = jobs[index];
                         String date = DateFormat(
@@ -107,7 +108,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                         ).format(DateTime.parse(job['startTime']));
 
                         return RoundedContainer(
-                          padding: const EdgeInsets.all(Sizes.sm),
+                          padding: EdgeInsets.all(responsiveSize(context, Sizes.sm)),
                           backgroundColor:
                               dark
                                   ? CustomColors.white.withValues(alpha: 0.1)
@@ -144,10 +145,10 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                     ),
                                   ),
 
-                                  const SizedBox(width: Sizes.sm),
+                                  SizedBox(width: responsiveSize(context, Sizes.sm)),
                                   Row(
                                     children: [
-                                      const SizedBox(width: Sizes.sm),
+                                      SizedBox(width: responsiveSize(context, Sizes.sm)),
                                       Text(
                                         job['employerName'] ?? 'no name',
                                         style:
@@ -185,7 +186,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                 ],
                               ),
 
-                              const SizedBox(height: Sizes.xs),
+                              SizedBox(height: responsiveSize(context, Sizes.xs)),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -208,7 +209,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                 ],
                               ),
 
-                              const SizedBox(height: Sizes.xs),
+                              SizedBox(height: responsiveSize(context, Sizes.xs)),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -228,7 +229,7 @@ class _JobsPageState extends ConsumerState<JobsScreen> {
                                 ],
                               ),
 
-                              const SizedBox(height: Sizes.sm),
+                              SizedBox(height: responsiveSize(context, Sizes.sm)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [

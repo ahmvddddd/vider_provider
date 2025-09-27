@@ -10,6 +10,7 @@ import '../../controllers/transactions/fetch_transactions_controller.dart';
 import '../../repository/user/location_state_storage.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_function.dart';
+import '../../utils/helpers/reponsive_size.dart';
 import '../jobs/components/jobs_dashboard.dart';
 import 'widgets/home_appbar.dart';
 
@@ -80,7 +81,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               expandedHeight: screenHeight * 0.09,
               backgroundColor: dark ? Colors.black : Colors.white,
               flexibleSpace: Padding(
-                padding: const EdgeInsets.all(Sizes.sm),
+                padding: EdgeInsets.all(responsiveSize(context, Sizes.sm)),
                 child: ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -99,7 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           },
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(Sizes.spaceBtwItems),
+              padding: EdgeInsets.all(responsiveSize(context, Sizes.spaceBtwItems)),
               child: Column(
                 children: [
                   ProviderDashboardScreen(),
